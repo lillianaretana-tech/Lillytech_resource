@@ -1,1627 +1,255 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LillyTech Resource Builder</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg:       #05101f;
-  --bg2:      #081a2e;
-  --card:     #0c2038;
-  --card2:    #0f2848;
-  --border:   rgba(0,190,240,.1);
-  --border2:  rgba(0,190,240,.22);
-  --cyan:     #00c8f0;
-  --cyan-d:   rgba(0,200,240,.12);
-  --cyan-g:   rgba(0,200,240,.22);
-  --violet:   #7c3aed;
-  --violet-d: rgba(124,58,237,.15);
-  --green:    #10b981;
-  --green-d:  rgba(16,185,129,.14);
-  --amber:    #f59e0b;
-  --amber-d:  rgba(245,158,11,.14);
-  --pink:     #e879f9;
-  --pink-d:   rgba(232,121,249,.14);
-  --red:      #ef4444;
-  --text:     #d8eeff;
-  --text2:    #6ea5c8;
-  --muted:    #3a607e;
-  --r:        12px;
-  --rsm:      8px;
-  --side:     244px;
-  --t:        .2s ease;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
-
-/* NOISE */
-.noise{position:fixed;inset:0;pointer-events:none;z-index:9999;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
-  opacity:.45}
-
-/* LAYOUT */
-.app-shell{display:flex;min-height:100vh}
-
-/* SIDEBAR */
-.sidebar{width:var(--side);background:var(--bg2);border-right:1px solid var(--border);
-  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;
-  transition:transform var(--t);overflow-y:auto}
-.brand{display:flex;align-items:center;gap:12px;padding:18px 16px;border-bottom:1px solid var(--border)}
-.brand-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--cyan),var(--violet));
-  border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.brand-mark span{width:14px;height:14px;background:var(--bg);border-radius:50%;display:block}
-.brand h1{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;line-height:1}
-.brand p{font-size:10px;color:var(--text2);margin-top:2px}
-.nav{display:flex;flex-direction:column;padding:10px 0;flex:1;gap:1px}
-.nav-link{display:flex;align-items:center;gap:10px;padding:9px 16px;border:none;background:none;
-  color:var(--text2);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;
-  text-align:left;width:100%;position:relative;transition:all var(--t)}
-.nav-link:hover{color:var(--text);background:var(--cyan-d)}
-.nav-link.active{color:var(--cyan);background:var(--cyan-d)}
-.nav-link.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:var(--cyan);border-radius:0 2px 2px 0}
-.nav-icon{width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;
-  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
-.sidebar-foot{padding:12px;margin:8px 12px 12px;border-radius:var(--rsm);
-  background:var(--card);border:1px solid var(--border)}
-.pulse-dot{width:7px;height:7px;background:var(--green);border-radius:50%;
-  display:inline-block;margin-right:6px;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{box-shadow:0 0 0 4px rgba(16,185,129,0)}}
-.sidebar-foot small{font-size:10px;color:var(--muted);display:block;margin-bottom:1px}
-.sidebar-foot strong{font-size:12px;color:var(--text);display:block}
-.sidebar-foot span{font-size:10px;color:var(--text2)}
-
-/* WORKSPACE */
-.workspace{margin-left:var(--side);flex:1;display:flex;flex-direction:column;min-height:100vh}
-.topbar{position:sticky;top:0;background:rgba(5,16,31,.88);backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
-  padding:0 24px;height:58px;display:flex;align-items:center;gap:14px;z-index:50}
-.menu-toggle{display:none;background:none;border:none;color:var(--text);cursor:pointer;font-size:18px;padding:4px}
-.title-area{flex:1}
-.eyebrow{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:1px}
-.topbar h2{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600}
-.top-actions{display:flex;align-items:center;gap:10px}
-.date-chip{padding:4px 12px;background:var(--card);border:1px solid var(--border);
-  border-radius:20px;font-size:11px;color:var(--text2);white-space:nowrap}
-
-/* BUTTONS */
-.primary-btn{padding:8px 16px;background:linear-gradient(135deg,#0095bb,#005f9e);border:none;
-  color:#fff;border-radius:var(--rsm);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
-  cursor:pointer;transition:all var(--t);white-space:nowrap}
-.primary-btn:hover{background:linear-gradient(135deg,#00aed5,#0070b8);transform:translateY(-1px);
-  box-shadow:0 4px 16px rgba(0,150,200,.3)}
-.primary-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.ghost-btn{padding:8px 16px;background:none;border:1px solid var(--border2);color:var(--text2);
-  border-radius:var(--rsm);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;transition:all var(--t)}
-.ghost-btn:hover{border-color:var(--cyan);color:var(--cyan)}
-.text-btn{background:none;border:none;color:var(--cyan);font-size:12px;cursor:pointer;
-  padding:4px;transition:opacity var(--t)}
-.text-btn:hover{opacity:.7}
-.icon-btn{background:none;border:1px solid var(--border);color:var(--text2);
-  border-radius:var(--rsm);font-size:12px;padding:5px 10px;cursor:pointer;
-  transition:all var(--t);display:flex;align-items:center;gap:5px;white-space:nowrap}
-.icon-btn:hover{border-color:var(--cyan);color:var(--cyan)}
-.icon-btn.green:hover{border-color:var(--green);color:var(--green)}
-.icon-btn.amber:hover{border-color:var(--amber);color:var(--amber)}
-
-/* VIEWS */
-.view{display:none;padding:24px;animation:fadeIn .3s ease}
-.view.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-
-/* CARDS */
-.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px}
-.panel-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px}
-.panel-head h3{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600}
-.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
-.badge.cyan{background:var(--cyan-d);color:var(--cyan);border:1px solid var(--cyan-g)}
-.badge.green{background:var(--green-d);color:var(--green)}
-.badge.amber{background:var(--amber-d);color:var(--amber)}
-.badge.violet{background:var(--violet-d);color:#a78bfa}
-.badge.pink{background:var(--pink-d);color:var(--pink)}
-
-/* DASHBOARD */
-.hero.card{margin-bottom:20px;background:linear-gradient(135deg,var(--card) 0%,#0d2840 100%);
-  border-color:var(--border2);position:relative;overflow:hidden;padding:28px 28px}
-.hero.card::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;
-  background:radial-gradient(circle,rgba(0,170,230,.09) 0%,transparent 70%);border-radius:50%;pointer-events:none}
-.hero.card::after{content:'';position:absolute;bottom:-40px;left:60px;width:180px;height:180px;
-  background:radial-gradient(circle,rgba(124,58,237,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none}
-.hero-content h3{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;
-  margin:6px 0;background:linear-gradient(135deg,var(--text),var(--cyan));-webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;background-clip:text}
-.hero-content > p{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:0}
-.hero-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
-.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
-.metric-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
-  padding:16px 18px;display:flex;align-items:center;gap:14px;transition:all var(--t)}
-.metric-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-.metric-icon{width:42px;height:42px;border-radius:var(--rsm);display:flex;align-items:center;
-  justify-content:center;font-size:20px;flex-shrink:0}
-.mi-cyan{background:var(--cyan-d)} .mi-violet{background:var(--violet-d)}
-.mi-green{background:var(--green-d)} .mi-amber{background:var(--amber-d)}
-.metric-num{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;line-height:1}
-.metric-label{font-size:12px;color:var(--text2);margin-top:2px}
-.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-
-/* MODULE HEAD */
-.module-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:16px}
-.module-head h3{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin:4px 0}
-.module-head .muted{font-size:13px;color:var(--text2);line-height:1.5}
-
-/* FORMS */
-label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:600;
-  color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
-input,select,textarea{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);
-  color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:9px 12px;
-  transition:border-color var(--t);width:100%;outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,200,240,.07)}
-textarea{resize:vertical;min-height:72px;line-height:1.6}
-select{appearance:none;cursor:pointer}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.gap-top{margin-top:12px}
-.form-section{display:none}
-.form-section.on{display:block}
-.form-actions{display:flex;gap:10px;margin-top:14px}
-
-/* BUILDER */
-.builder-layout{display:grid;grid-template-columns:380px 1fr;grid-template-rows:1fr auto;
-  gap:16px;align-items:start}
-.builder-form{grid-row:1/3}
-.output-panel{min-height:520px;display:flex;flex-direction:column;overflow:hidden}
-
-/* TYPE SELECTOR */
-.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.type-btn{padding:10px 6px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);
-  color:var(--text2);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;
-  text-align:center;transition:all var(--t);line-height:1.3}
-.type-btn:hover{border-color:var(--border2);color:var(--text)}
-.type-btn.active{background:var(--cyan-d);border-color:var(--cyan);color:var(--cyan)}
-.type-icon{display:block;font-size:20px;margin-bottom:5px}
-
-/* OUTPUT */
-.output-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;gap:10px;padding:40px;color:var(--text2)}
-.output-empty .big-icon{font-size:52px;margin-bottom:6px}
-.output-empty h3{font-family:'Space Grotesk',sans-serif;font-size:18px;color:var(--text)}
-.output-empty p{font-size:13px;line-height:1.6;max-width:280px}
-.output-header{display:flex;align-items:center;justify-content:space-between;gap:12px;
-  margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);flex-wrap:wrap}
-.output-header h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
-  color:var(--text);flex:1;min-width:0}
-.output-actions{display:flex;gap:6px;flex-wrap:wrap}
-.output-body{flex:1;overflow-y:auto;max-height:calc(100vh - 240px);font-size:13px;line-height:1.75;color:var(--text)}
-.output-body h2{font-family:'Space Grotesk',sans-serif;color:var(--cyan);font-size:15px;
-  font-weight:700;margin:22px 0 8px;padding-bottom:7px;border-bottom:1px solid var(--border)}
-.output-body h3{font-family:'Space Grotesk',sans-serif;color:var(--text);font-size:13px;
-  font-weight:700;margin:14px 0 6px}
-.output-body h4{font-size:12px;font-weight:700;color:var(--text2);margin:10px 0 4px;
-  text-transform:uppercase;letter-spacing:.05em}
-.output-body p{margin:6px 0}
-.output-body ul,
-.output-body ol{padding-left:18px;margin:6px 0}
-.output-body li{margin:4px 0}
-.output-body strong{color:var(--text)}
-.output-body em{color:var(--text2)}
-.output-body code{background:rgba(0,200,240,.08);padding:1px 7px;border-radius:4px;
-  font-family:monospace;font-size:12px;color:var(--cyan);border:1px solid var(--border)}
-.output-body hr{border:none;border-top:1px solid var(--border);margin:16px 0}
-.output-body .prompt-block{background:var(--bg2);border:1px solid var(--border2);
-  border-left:3px solid var(--cyan);border-radius:var(--rsm);padding:12px 14px;
-  margin:10px 0;font-family:monospace;font-size:12px;color:var(--text);line-height:1.6}
-
-/* LOADING */
-.loading-state{flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;padding:60px 40px;gap:16px;text-align:center}
-.spinner{width:38px;height:38px;border:3px solid var(--border);border-top-color:var(--cyan);
-  border-radius:50%;animation:spin .75s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-label{color:var(--text2);font-size:13px;animation:blink 1.4s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.45}}
-.cursor{display:inline-block;width:2px;height:14px;background:var(--cyan);
-  margin-left:2px;vertical-align:text-bottom;animation:blink 1s infinite}
-
-/* SAVED */
-.saved-list{display:flex;flex-direction:column;gap:7px;max-height:300px;overflow-y:auto}
-.saved-item{padding:10px 12px;background:var(--bg2);border:1px solid var(--border);
-  border-radius:var(--rsm);display:flex;align-items:center;gap:10px;
-  cursor:pointer;transition:all var(--t)}
-.saved-item:hover{border-color:var(--border2)}
-.s-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.s-info{flex:1;min-width:0}
-.s-topic{font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.s-meta{font-size:10px;color:var(--text2);margin-top:1px}
-.s-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;
-  padding:2px 4px;transition:color var(--t);line-height:1}
-.s-del:hover{color:var(--red)}
-.empty-msg{text-align:center;padding:28px;color:var(--muted);font-size:13px;line-height:1.5}
-
-/* TEMPLATES */
-.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
-.tmpl-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
-  padding:18px;cursor:pointer;transition:all var(--t);position:relative;overflow:hidden}
-.tmpl-card:hover{border-color:var(--border2);transform:translateY(-3px);
-  box-shadow:0 8px 28px rgba(0,0,0,.35)}
-.tmpl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.tc-clase::before{background:linear-gradient(90deg,var(--cyan),transparent)}
-.tc-ruta::before{background:linear-gradient(90deg,var(--violet),transparent)}
-.tc-contenido::before{background:linear-gradient(90deg,var(--green),transparent)}
-.tc-auto::before{background:linear-gradient(90deg,var(--amber),transparent)}
-.tc-propuesta::before{background:linear-gradient(90deg,var(--pink),transparent)}
-.tmpl-icon{font-size:30px;margin-bottom:10px}
-.tmpl-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
-.tc-clase .tmpl-type{color:var(--cyan)} .tc-ruta .tmpl-type{color:#a78bfa}
-.tc-contenido .tmpl-type{color:var(--green)} .tc-auto .tmpl-type{color:var(--amber)}
-.tc-propuesta .tmpl-type{color:var(--pink)}
-.tmpl-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
-  color:var(--text);margin-bottom:6px}
-.tmpl-desc{font-size:12px;color:var(--text2);line-height:1.5}
-.tmpl-foot{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
-.tmpl-foot span{color:var(--cyan);font-weight:600;font-size:11px}
-
-/* KANBAN */
-.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.kanban-col{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px}
-.col-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.col-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
-.col-count{width:18px;height:18px;border-radius:50%;background:var(--border);
-  font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--text2)}
-.content-card{background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);
-  padding:10px;margin-bottom:8px;cursor:pointer;transition:border-color var(--t)}
-.content-card:hover{border-color:var(--border2)}
-.cc-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:5px;line-height:1.4}
-.cc-ch{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;
-  background:var(--cyan-d);color:var(--cyan)}
-.cc-date{font-size:10px;color:var(--muted);margin-top:5px}
-.cc-del{float:right;background:none;border:none;color:var(--muted);cursor:pointer;
-  font-size:13px;padding:0;line-height:1;transition:color var(--t)}
-.cc-del:hover{color:var(--red)}
-.content-form-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
-  padding:20px;margin-bottom:20px;display:none}
-.content-form-wrap.on{display:block}
-.inline-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-
-/* CLASSES */
-.class-layout{display:grid;grid-template-columns:290px 1fr;gap:16px}
-.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:8px}
-.cal-dname{font-size:10px;font-weight:600;text-align:center;color:var(--muted);padding:4px 2px}
-.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;
-  border-radius:6px;font-size:12px;color:var(--text2);cursor:pointer;transition:all var(--t)}
-.cal-day:hover{background:var(--cyan-d);color:var(--cyan)}
-.cal-day.today{background:var(--cyan);color:var(--bg);font-weight:700}
-.cal-day.has-c{background:var(--cyan-d);color:var(--cyan);font-weight:600}
-.cal-day.empty{cursor:default;pointer-events:none}
-.timeline{display:flex;flex-direction:column;gap:10px}
-.tl-item{display:flex;gap:12px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm)}
-.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:4px}
-.tl-topic{font-size:13px;font-weight:500;color:var(--text)}
-.tl-meta{font-size:11px;color:var(--text2);margin-top:2px}
-.tl-actions{margin-top:7px;display:flex;gap:6px}
-
-/* PROJECTS */
-.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
-.proj-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px}
-.pc-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
-.pc-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--text)}
-.pc-type{font-size:11px;color:var(--text2);margin-top:1px}
-.prog-bar{height:5px;background:var(--bg2);border-radius:3px;margin-bottom:7px}
-.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--cyan),#0066cc);transition:width .5s}
-.pc-stats{display:flex;justify-content:space-between;font-size:11px;color:var(--text2)}
-
-/* CLIENTS */
-.client-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px}
-.cli-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.cli-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--text)}
-.cli-needs{font-size:12px;color:var(--text2);margin:6px 0;line-height:1.5}
-.cli-action{font-size:11px;color:var(--cyan)}
-
-/* SOLUTIONS */
-.solution-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-.sol-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
-  padding:18px;position:relative;overflow:hidden;transition:all var(--t)}
-.sol-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-.sol-icon{font-size:26px;margin-bottom:10px}
-.sol-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px}
-.sol-desc{font-size:12px;color:var(--text2);line-height:1.5}
-.sol-st{position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;
-  text-transform:uppercase;padding:2px 8px;border-radius:10px;letter-spacing:.05em}
-.st-active{background:var(--green-d);color:var(--green)}
-.st-dev{background:var(--amber-d);color:var(--amber)}
-.st-idea{background:var(--violet-d);color:#a78bfa}
-
-/* INLINE EDITOR */
-.inline-editor{margin-bottom:20px;display:none}
-.inline-editor.on{display:block}
-.form-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.form-title h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600}
-.close-x{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;
-  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
-  border-radius:6px;transition:all var(--t);line-height:1}
-.close-x:hover{background:var(--card2);color:var(--text)}
-
-/* TOAST */
-.toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;background:var(--card);
-  border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-size:13px;
-  font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.45);transform:translateY(80px);
-  opacity:0;transition:all .3s ease;z-index:1000;max-width:320px}
-.toast.show{transform:translateY(0);opacity:1}
-.toast.ok{border-color:rgba(16,185,129,.4)}
-.toast.err{border-color:rgba(239,68,68,.4)}
-
-/* SCROLLBAR */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:var(--bg)}
-::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--text2)}
-
-/* RESPONSIVE */
-@media(max-width:1200px){
-  .metrics-grid{grid-template-columns:repeat(2,1fr)}
-  .builder-layout{grid-template-columns:1fr}
-  .builder-form{grid-row:auto}
-  .dashboard-grid{grid-template-columns:1fr}
-}
-@media(max-width:900px){
-  .kanban{grid-template-columns:repeat(2,1fr)}
-  .class-layout{grid-template-columns:1fr}
-  .inline-grid3{grid-template-columns:1fr 1fr}
-}
-@media(max-width:768px){
-  .sidebar{transform:translateX(-100%)}
-  .sidebar.open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,.55)}
-  .workspace{margin-left:0}
-  .menu-toggle{display:block}
-  .metrics-grid{grid-template-columns:1fr 1fr}
-  .type-grid{grid-template-columns:repeat(2,1fr)}
-  .kanban{grid-template-columns:1fr}
-  .field-row,.inline-grid3{grid-template-columns:1fr}
-}
-</style>
-</head>
-<body>
-<div class="noise" aria-hidden="true"></div>
-<div class="app-shell">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="brand-mark"><span></span></div>
-      <div><h1>LillyTech</h1><p>Resource Builder</p></div>
-    </div>
-    <nav class="nav" aria-label="Módulos">
-      <button class="nav-link active" data-view="dashboard">
-        <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard
-      </button>
-      <button class="nav-link" data-view="propuestas">
-        <svg class="nav-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Resource Builder
-      </button>
-      <button class="nav-link" data-view="plantillas">
-        <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="5" rx="1"/><rect x="3" y="11" width="11" height="10" rx="1"/><rect x="17" y="11" width="4" height="4" rx="1"/><rect x="17" y="18" width="4" height="3" rx="1"/></svg>Plantillas
-      </button>
-      <button class="nav-link" data-view="contenido">
-        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Contenido
-      </button>
-      <button class="nav-link" data-view="clases">
-        <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Clases
-      </button>
-      <button class="nav-link" data-view="proyectos">
-        <svg class="nav-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Proyectos
-      </button>
-      <button class="nav-link" data-view="clientes">
-        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Clientes
-      </button>
-      <button class="nav-link" data-view="soluciones">
-        <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Soluciones
-      </button>
-    </nav>
-    <div class="sidebar-foot">
-      <span class="pulse-dot"></span><small>Sistema activo</small>
-      <strong>LocalStorage</strong>
-      <span>Listo para Supabase</span>
-    </div>
-  </aside>
-
-  <!-- WORKSPACE -->
-  <main class="workspace">
-    <header class="topbar">
-      <button class="menu-toggle" id="menuToggle" aria-label="Menú">☰</button>
-      <div class="title-area">
-        <p class="eyebrow">Asistente estratégica personal</p>
-        <h2 id="viewTitle">Panel de recursos</h2>
-      </div>
-      <div class="top-actions">
-        <div class="date-chip" id="todayLabel"></div>
-        <button class="primary-btn jump-btn" data-view="propuestas">⚡ Generar recurso</button>
-      </div>
-    </header>
-
-    <!-- ====== DASHBOARD ====== -->
-    <section class="view active" id="dashboard" data-title="Panel de recursos">
-      <article class="hero card">
-        <div class="hero-content">
-          <p class="eyebrow">LillyTech Resource Builder</p>
-          <h3>Prepara. Enseña. Automatiza.</h3>
-          <p>Tu asistente estratégica para crear clases, rutas, contenido, automatizaciones y propuestas con IA.</p>
-          <div class="hero-actions">
-            <button class="primary-btn jump-btn" data-view="propuestas">✨ Crear recurso</button>
-            <button class="ghost-btn jump-btn" data-view="plantillas">📚 Usar plantilla</button>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LillyTech Resource Builder</title>
+    <meta name="theme-color" content="#07101f">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="brand-mark"><span></span></div>
+          <div>
+            <h1>LillyTech</h1>
+            <p>Resource Builder</p>
           </div>
         </div>
-      </article>
-      <div class="metrics-grid" id="metricsGrid"></div>
-      <div class="dashboard-grid">
-        <article class="card panel">
-          <div class="panel-head">
-            <div><p class="eyebrow">Biblioteca personal</p><h3>Recursos recientes</h3></div>
-            <span class="badge cyan" id="totalBadge">0</span>
-          </div>
-          <div id="recentResources"></div>
-        </article>
-        <article class="card panel">
-          <div class="panel-head">
-            <div><p class="eyebrow">Generados por tipo</p><h3>Distribución</h3></div>
-          </div>
-          <div id="typeStats"></div>
-        </article>
-        <article class="card panel">
-          <div class="panel-head">
-            <div><p class="eyebrow">Publicación</p><h3>Próximos contenidos</h3></div>
-            <button class="text-btn jump-btn" data-view="contenido">Ver todos →</button>
-          </div>
-          <div id="upcomingContent"></div>
-        </article>
-        <article class="card panel">
-          <div class="panel-head">
-            <div><p class="eyebrow">Acceso rápido</p><h3>Plantillas populares</h3></div>
-            <button class="text-btn jump-btn" data-view="plantillas">Ver todas →</button>
-          </div>
-          <div id="quickTemplates"></div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ====== RESOURCE BUILDER ====== -->
-    <section class="view" id="propuestas" data-title="Resource Builder">
-      <div class="module-head">
-        <div>
-          <p class="eyebrow">Generador de recursos con IA</p>
-          <h3>Resource Builder</h3>
-          <p class="muted">Clases completas, rutas, contenido, automatizaciones y propuestas listas para usar.</p>
+        <nav class="nav" aria-label="Módulos principales">
+          <button class="nav-link active" data-view="dashboard"><i data-icon="grid"></i>Dashboard</button>
+          <button class="nav-link" data-view="propuestas"><i data-icon="spark"></i>Resource Builder</button>
+          <button class="nav-link" data-view="plantillas"><i data-icon="layers"></i>Plantillas</button>
+          <button class="nav-link" data-view="contenido"><i data-icon="content"></i>Contenido</button>
+          <button class="nav-link" data-view="clases"><i data-icon="calendar"></i>Clases</button>
+          <button class="nav-link" data-view="clientes"><i data-icon="users"></i>Clientes</button>
+          <button class="nav-link" data-view="proyectos"><i data-icon="layers"></i>Proyectos</button>
+          <button class="nav-link" data-view="soluciones"><i data-icon="tool"></i>Soluciones</button>
+        </nav>
+        <div class="sidebar-status card">
+          <div class="pulse"></div>
+          <small>Sistema operativo</small>
+          <strong>LocalStorage activo</strong>
+          <span>Preparado para Supabase</span>
         </div>
-      </div>
-      <div class="builder-layout">
-        <!-- FORM -->
-        <div class="card builder-form">
-          <p class="eyebrow" style="margin-bottom:10px">Tipo de recurso</p>
-          <div class="type-grid" id="typeGrid">
-            <button class="type-btn active" data-type="clase"><span class="type-icon">🎓</span>Clase completa</button>
-            <button class="type-btn" data-type="ruta"><span class="type-icon">🗺️</span>Ruta de aprendizaje</button>
-            <button class="type-btn" data-type="contenido"><span class="type-icon">📱</span>Contenido y video</button>
-            <button class="type-btn" data-type="automatizacion"><span class="type-icon">⚙️</span>Automatización</button>
-            <button class="type-btn" data-type="propuesta"><span class="type-icon">📄</span>Propuesta</button>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="menu-toggle" id="menuToggle" aria-label="Abrir navegación">☰</button>
+          <div class="title-area">
+            <p class="eyebrow">Asistente estratégica personal</p>
+            <h2 id="viewTitle">Panel de recursos</h2>
           </div>
-          <hr style="border:none;border-top:1px solid var(--border);margin:2px 0 14px">
-          <label>Tema o necesidad principal *<input type="text" id="fTopic" placeholder="Ej: Enseñar IA a supervisores que no saben nada"></label>
-          <label class="gap-top">Contexto o descripción del problema *<textarea id="fBrief" rows="3" placeholder="Describe qué necesitas lograr, el caso real, el público o el problema específico"></textarea></label>
-          <div class="form-section on gap-top" id="fs-audience">
-            <label>Público objetivo *<input type="text" id="fAudience" placeholder="Ej: Supervisores de limpieza sin experiencia en IA"></label>
+          <div class="top-actions">
+            <div class="date-chip" id="todayLabel"></div>
+            <button class="primary-btn" id="quickAction">+ Acción rápida</button>
           </div>
-          <div class="form-section on gap-top" id="fs-level">
-            <div class="field-row">
-              <label>Nivel de conocimiento<select id="fLevel"><option>Sin experiencia</option><option>Básico</option><option>Intermedio</option><option>Avanzado</option></select></label>
-              <label>Duración / horizonte<input type="text" id="fDuration" placeholder="90 min / 2 semanas"></label>
+        </header>
+
+        <section class="view active" id="dashboard" data-title="Panel de recursos">
+          <article class="hero card">
+            <img src="assets/command-center-hero.png" alt="" aria-hidden="true">
+            <div class="hero-content">
+              <p class="eyebrow">LillyTech Resource Builder</p>
+              <h3>Prepara. Enseña. Automatiza.</h3>
+              <p>Tu asistente estratégica para crear clases, asesorías, contenido y soluciones prácticas con IA.</p>
+              <div class="hero-actions">
+                <button class="primary-btn jump-btn" data-view="propuestas">Crear recurso</button>
+                <button class="ghost-btn jump-btn" data-view="plantillas">Usar plantilla</button>
+              </div>
+            </div>
+            <div class="focus-card" id="focusCard"></div>
+          </article>
+          <div class="metrics-grid" id="metricsGrid"></div>
+          <div class="dashboard-grid">
+            <article class="card panel priority-panel">
+              <div class="panel-head">
+                <div><p class="eyebrow">Biblioteca personal</p><h3>Recursos recientes</h3></div>
+                <span class="badge cyan">Guardados</span>
+              </div>
+              <div id="dailyRadar" class="radar-list"></div>
+            </article>
+            <article class="card panel">
+              <div class="panel-head">
+                <div><p class="eyebrow">Formación</p><h3>Clases generadas</h3></div>
+              </div>
+              <div id="projectPulse" class="progress-stack"></div>
+            </article>
+            <article class="card panel">
+              <div class="panel-head">
+                <div><p class="eyebrow">Publicación</p><h3>Próximos contenidos</h3></div>
+                <button class="text-btn jump-btn" data-view="contenido">Ver todos</button>
+              </div>
+              <div id="upcomingClasses" class="compact-list"></div>
+            </article>
+            <article class="card panel">
+              <div class="panel-head">
+                <div><p class="eyebrow">Generadores</p><h3>Recursos por tipo</h3></div>
+              </div>
+              <div id="clientPipeline" class="pipeline"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="clientes" data-title="CRM de clientes">
+          <div class="module-head">
+            <div><p class="eyebrow">CRM operativo</p><h3>Clientes y oportunidades</h3><p class="muted">Seguimiento comercial, necesidades y próximas acciones en una sola vista.</p></div>
+            <button class="primary-btn form-toggle" data-form="clientForm">+ Nuevo cliente</button>
+          </div>
+          <div class="split-layout">
+            <form class="card editor hidden" id="clientForm" autocomplete="off">
+              <div class="form-title"><h3>Ficha del cliente</h3><button type="button" class="close-form" data-form="clientForm">×</button></div>
+              <input type="hidden" name="id">
+              <label>Cliente / marca<input name="name" required placeholder="Nombre del cliente"></label>
+              <div class="field-row">
+                <label>Estado<select name="status"><option>Prospecto</option><option>Contactado</option><option>Cotizado</option><option>En proceso</option><option>Finalizado</option></select></label>
+                <label>Tipo de negocio<input name="business" required placeholder="Consultoría"></label>
+              </div>
+              <label>Necesidades<textarea name="needs" required placeholder="Automatización, dashboard, IA..."></textarea></label>
+              <label>Seguimiento<textarea name="followup" placeholder="Último contacto y acuerdos"></textarea></label>
+              <label>Próxima acción<input name="nextAction" required placeholder="Enviar propuesta"></label>
+              <label>Fecha de próxima acción<input type="date" name="dueDate" required></label>
+              <label>Notas rápidas<textarea name="notes" placeholder="Contexto clave"></textarea></label>
+              <div class="form-actions"><button class="primary-btn" type="submit">Guardar cliente</button><button type="reset" class="ghost-btn cancel-edit">Cancelar</button></div>
+            </form>
+            <div class="card data-panel">
+              <div class="filter-bar">
+                <input id="clientSearch" type="search" placeholder="Buscar cliente o necesidad">
+                <select id="clientFilter"><option value="">Todos los estados</option><option>Prospecto</option><option>Contactado</option><option>Cotizado</option><option>En proceso</option><option>Finalizado</option></select>
+              </div>
+              <div id="clientList" class="record-grid"></div>
             </div>
           </div>
-          <div class="form-section on gap-top" id="fs-objective">
-            <label>Objetivo principal<input type="text" id="fObjective" placeholder="Ej: Que puedan usar ChatGPT en sus reportes"></label>
+        </section>
+
+        <section class="view" id="propuestas" data-title="Resource Builder">
+          <div class="module-head">
+            <div><p class="eyebrow">Asistente estratégica</p><h3>Generador de recursos</h3><p class="muted">Describe lo que necesitas preparar y obtén un recurso completo listo para aplicar o compartir.</p></div>
+            <button class="ghost-btn jump-btn" data-view="plantillas">Explorar plantillas</button>
           </div>
-          <div class="form-section on gap-top" id="fs-tools">
-            <label id="fToolsLabel">Herramientas a enseñar<input type="text" id="fTools" placeholder="ChatGPT, Excel, Make.com, Canva…"></label>
+          <div class="proposal-layout">
+            <form class="card editor proposal-form" id="proposalForm">
+              <input type="hidden" name="templateId">
+              <label>Tipo de recurso<select name="resourceType"><option>Clase completa</option><option>Ruta de aprendizaje</option><option>Programa de capacitación</option><option>Contenido y video</option><option>Automatización práctica</option><option>Propuesta profesional</option></select></label>
+              <label>Tema o necesidad<input name="topic" required placeholder="Ej.: Necesito enseñar IA a supervisores que no saben nada"></label>
+              <label>Contexto / problema<textarea name="brief" required placeholder="Describe qué necesitas lograr, el caso real o el problema operativo"></textarea></label>
+              <div class="field-row">
+                <label>Público objetivo<input name="audience" required placeholder="Ej.: supervisores de operación"></label>
+                <label>Nivel de conocimiento<select name="level"><option>Sin experiencia</option><option>Básico</option><option>Intermedio</option><option>Avanzado</option></select></label>
+              </div>
+              <div class="field-row">
+                <label>Duración / horizonte<input name="duration" required placeholder="Ej.: 90 minutos / 2 semanas"></label>
+                <label>Tono deseado<select name="tone"><option>Sencillo y motivador</option><option>Profesional y ejecutivo</option><option>Práctico y cercano</option><option>Dinámico para redes</option></select></label>
+              </div>
+              <label>Objetivo del recurso<input name="objective" required placeholder="Ej.: que puedan usar ChatGPT para preparar reportes"></label>
+              <label>Herramientas a enseñar o utilizar<input name="tools" placeholder="Ej.: ChatGPT, Excel, Canva, Make"></label>
+              <button class="primary-btn" type="submit">Generar recurso completo</button>
+            </form>
+            <article class="card generated-output" id="proposalOutput">
+              <div class="empty-state">
+                <i data-icon="spark"></i>
+                <h3>Lista para construir contigo</h3>
+                <p>Genera clases completas, rutas, guiones, automatizaciones o propuestas listas para usar.</p>
+              </div>
+            </article>
+            <article class="card strategy-history">
+              <div class="panel-head"><div><p class="eyebrow">Tus entregables</p><h3>Recursos guardados</h3></div></div>
+              <div id="strategyHistory" class="strategy-history-grid"></div>
+            </article>
           </div>
-          <div class="form-section on gap-top" id="fs-tone">
-            <label>Tono deseado<select id="fTone"><option>Sencillo y motivador</option><option>Profesional y ejecutivo</option><option>Práctico y cercano</option><option>Dinámico para redes</option></select></label>
+        </section>
+
+        <section class="view" id="plantillas" data-title="Biblioteca de plantillas">
+          <div class="module-head">
+            <div><p class="eyebrow">Puntos de partida</p><h3>Biblioteca de plantillas</h3><p class="muted">Selecciona una base y deja que la asistente prepare el recurso completo.</p></div>
+            <button class="primary-btn jump-btn" data-view="propuestas">Crear desde cero</button>
           </div>
-          <button class="primary-btn" id="generateBtn" style="margin-top:18px;width:100%;padding:12px;font-size:14px">⚡ Generar recurso completo</button>
-        </div>
-        <!-- OUTPUT -->
-        <article class="card output-panel" id="proposalOutput">
-          <div class="output-empty" id="outputEmpty">
-            <div class="big-icon">✨</div>
-            <h3>Lista para construir contigo</h3>
-            <p>Selecciona el tipo, completa el formulario y genera recursos completos listos para usar.</p>
+          <div class="template-grid" id="templateGrid"></div>
+        </section>
+
+        <section class="view" id="contenido" data-title="Planificador de contenido">
+          <div class="module-head">
+            <div><p class="eyebrow">Autoridad y aprendizaje</p><h3>Contenido estratégico</h3><p class="muted">Ideas para LinkedIn, YouTube, TikTok, clases y automatizaciones.</p></div>
+            <button class="primary-btn form-toggle" data-form="contentForm">+ Nueva idea</button>
           </div>
-        </article>
-        <!-- SAVED -->
-        <article class="card" id="savedPanel">
-          <div class="panel-head">
-            <div><p class="eyebrow">Tu biblioteca personal</p><h3>Recursos guardados</h3></div>
-            <span class="badge cyan" id="savedCount">0</span>
+          <form class="card editor inline-editor hidden" id="contentForm">
+            <input type="hidden" name="id">
+            <label>Idea<input name="idea" required placeholder="Título o gancho del contenido"></label>
+            <label>Canal<select name="channel"><option>LinkedIn</option><option>YouTube</option><option>TikTok</option><option>Clases</option><option>Automatizaciones</option></select></label>
+            <label>Categoría<input name="category" required placeholder="IA aplicada"></label>
+            <label>Estado<select name="status"><option>Idea</option><option>Planificado</option><option>En creación</option><option>Publicado</option></select></label>
+            <label>Prioridad<select name="priority"><option>Alta</option><option>Media</option><option>Baja</option></select></label>
+            <label>Fecha<input type="date" name="date" required></label>
+            <label>Inspiración<input name="inspiration" placeholder="Pregunta recurrente, caso, tendencia"></label>
+            <label>Notas<textarea name="notes" placeholder="CTA, recursos, guion"></textarea></label>
+            <div class="form-actions"><button class="primary-btn" type="submit">Guardar idea</button><button type="reset" class="ghost-btn close-form" data-form="contentForm">Cancelar</button></div>
+          </form>
+          <div class="kanban" id="contentBoard"></div>
+        </section>
+
+        <section class="view" id="clases" data-title="Clases y asesorías">
+          <div class="module-head">
+            <div><p class="eyebrow">Academia LillyTech</p><h3>Clases y asesorías</h3><p class="muted">Agenda, materiales, ejercicios y evidencia de aprendizaje.</p></div>
+            <button class="primary-btn form-toggle" data-form="classForm">+ Programar clase</button>
           </div>
-          <div class="saved-list" id="savedList"><p class="empty-msg">Aún no has guardado recursos.<br>¡Genera el primero!</p></div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ====== TEMPLATES ====== -->
-    <section class="view" id="plantillas" data-title="Biblioteca de plantillas">
-      <div class="module-head">
-        <div><p class="eyebrow">Puntos de partida predefinidos</p><h3>Biblioteca de plantillas</h3><p class="muted">Selecciona una plantilla y genera el recurso completo con un clic.</p></div>
-        <button class="primary-btn jump-btn" data-view="propuestas">+ Crear desde cero</button>
-      </div>
-      <div class="template-grid" id="templateGrid"></div>
-    </section>
-
-    <!-- ====== CONTENT ====== -->
-    <section class="view" id="contenido" data-title="Planificador de contenido">
-      <div class="module-head">
-        <div><p class="eyebrow">Autoridad y alcance</p><h3>Contenido estratégico</h3><p class="muted">Ideas para LinkedIn, YouTube, TikTok, clases y más.</p></div>
-        <button class="primary-btn" id="newContentBtn">+ Nueva idea</button>
-      </div>
-      <div class="content-form-wrap" id="contentFormWrap">
-        <div class="form-title"><h3>Nueva idea de contenido</h3><button class="close-x" id="closeContentForm">×</button></div>
-        <div class="inline-grid3">
-          <label>Idea / título<input type="text" id="cfIdea" placeholder="Gancho o título del contenido"></label>
-          <label>Canal<select id="cfChannel"><option>LinkedIn</option><option>YouTube</option><option>TikTok</option><option>Instagram</option><option>Clases</option><option>WhatsApp</option></select></label>
-          <label>Estado<select id="cfStatus"><option>Idea</option><option>Planificado</option><option>En creación</option><option>Publicado</option></select></label>
-          <label>Categoría<input type="text" id="cfCategory" placeholder="IA aplicada…"></label>
-          <label>Fecha<input type="date" id="cfDate"></label>
-          <label>Prioridad<select id="cfPriority"><option>Alta</option><option>Media</option><option>Baja</option></select></label>
-        </div>
-        <label class="gap-top">Notas<textarea id="cfNotes" rows="2" placeholder="CTA, recursos, inspiración, guion…"></textarea></label>
-        <div class="form-actions"><button class="primary-btn" id="saveContentBtn">Guardar idea</button><button class="ghost-btn" id="cancelContentBtn">Cancelar</button></div>
-      </div>
-      <div class="kanban" id="contentBoard"></div>
-    </section>
-
-    <!-- ====== CLASSES ====== -->
-    <section class="view" id="clases" data-title="Clases y asesorías">
-      <div class="module-head">
-        <div><p class="eyebrow">Academia LillyTech</p><h3>Clases y asesorías</h3><p class="muted">Agenda y seguimiento de clases, asesorías y capacitaciones.</p></div>
-        <button class="primary-btn" id="newClassBtn">+ Programar clase</button>
-      </div>
-      <div class="card inline-editor" id="classFormWrap">
-        <div class="form-title"><h3>Programar clase</h3><button class="close-x" id="closeClassForm">×</button></div>
-        <div class="field-row">
-          <label>Tema *<input type="text" id="clTopic" placeholder="Automatiza reportes con IA"></label>
-          <label>Fecha *<input type="date" id="clDate"></label>
-        </div>
-        <div class="field-row gap-top">
-          <label>Duración<input type="text" id="clDuration" placeholder="90 min"></label>
-          <label>Nivel<select id="clLevel"><option>Inicial</option><option>Intermedio</option><option>Avanzado</option></select></label>
-        </div>
-        <label class="gap-top">Materiales<textarea id="clMaterials" rows="2" placeholder="Slides, prompts, plantillas…"></textarea></label>
-        <label class="gap-top">Notas<textarea id="clNotes" rows="2" placeholder="Observaciones y seguimiento"></textarea></label>
-        <div class="form-actions"><button class="primary-btn" id="saveClassBtn">Guardar</button><button class="ghost-btn" id="cancelClassBtn">Cancelar</button></div>
-      </div>
-      <div class="class-layout">
-        <article class="card panel">
-          <div class="panel-head"><div><p class="eyebrow">Calendario</p><h3 id="calMonth"></h3></div></div>
-          <div class="calendar" id="calendar"></div>
-        </article>
-        <article class="card panel">
-          <div class="panel-head"><div><p class="eyebrow">Registro</p><h3>Historial de clases</h3></div></div>
-          <div class="timeline" id="classHistory"></div>
-        </article>
-      </div>
-    </section>
-
-    <!-- ====== PROJECTS ====== -->
-    <section class="view" id="proyectos" data-title="Portafolio de proyectos">
-      <div class="module-head">
-        <div><p class="eyebrow">Studio LillyTech</p><h3>Proyectos en ejecución</h3><p class="muted">Automatizaciones, apps, dashboards e iniciativas digitales.</p></div>
-        <button class="primary-btn" id="newProjectBtn">+ Nuevo proyecto</button>
-      </div>
-      <div class="card inline-editor" id="projectFormWrap">
-        <div class="form-title"><h3>Nuevo proyecto</h3><button class="close-x" id="closeProjectForm">×</button></div>
-        <div class="field-row">
-          <label>Proyecto *<input type="text" id="prjName" placeholder="Nombre del proyecto"></label>
-          <label>Tipo<select id="prjType"><option>Automatización</option><option>App HTML</option><option>Dashboard</option><option>Herramienta IA</option><option>Proyecto cliente</option></select></label>
-        </div>
-        <div class="field-row gap-top">
-          <label>Avance (%)<input type="number" id="prjProgress" min="0" max="100" value="10"></label>
-          <label>Estado<select id="prjStatus"><option>Planificado</option><option>En proceso</option><option>En revisión</option><option>Completado</option></select></label>
-        </div>
-        <label class="gap-top">Pendientes<textarea id="prjPending" rows="2" placeholder="Próximos pasos"></textarea></label>
-        <div class="form-actions"><button class="primary-btn" id="saveProjectBtn">Guardar</button><button class="ghost-btn" id="cancelProjectBtn">Cancelar</button></div>
-      </div>
-      <div class="project-grid" id="projectGrid"></div>
-    </section>
-
-    <!-- ====== CLIENTS ====== -->
-    <section class="view" id="clientes" data-title="CRM de clientes">
-      <div class="module-head">
-        <div><p class="eyebrow">CRM operativo</p><h3>Clientes y oportunidades</h3><p class="muted">Seguimiento de clientes, necesidades y próximas acciones.</p></div>
-        <button class="primary-btn" id="newClientBtn">+ Nuevo cliente</button>
-      </div>
-      <div class="card inline-editor" id="clientFormWrap">
-        <div class="form-title"><h3>Ficha del cliente</h3><button class="close-x" id="closeClientForm">×</button></div>
-        <div class="field-row">
-          <label>Cliente / marca *<input type="text" id="cliName" placeholder="Nombre del cliente"></label>
-          <label>Estado<select id="cliStatus"><option>Prospecto</option><option>Contactado</option><option>Cotizado</option><option>En proceso</option><option>Finalizado</option></select></label>
-        </div>
-        <label class="gap-top">Necesidades<textarea id="cliNeeds" rows="2" placeholder="Automatización, IA, formación…"></textarea></label>
-        <label class="gap-top">Próxima acción<input type="text" id="cliNext" placeholder="Enviar propuesta el viernes"></label>
-        <div class="form-actions"><button class="primary-btn" id="saveClientBtn">Guardar</button><button class="ghost-btn" id="cancelClientBtn">Cancelar</button></div>
-      </div>
-      <div class="project-grid" id="clientGrid"></div>
-    </section>
-
-    <!-- ====== SOLUTIONS ====== -->
-    <section class="view" id="soluciones" data-title="Ecosistema LillyTech">
-      <div class="module-head">
-        <div><p class="eyebrow">Ecosistema de herramientas</p><h3>Soluciones LillyTech</h3><p class="muted">Productos y herramientas del ecosistema digital.</p></div>
-      </div>
-      <div class="solution-grid" id="solutionGrid"></div>
-    </section>
-
-  </main>
-</div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script>
-/* ============================================================
-   LILLYTECH RESOURCE BUILDER — app.js embebido
-   ============================================================ */
-
-// ── CONSTANTS ──────────────────────────────────────────────
-const SYSTEM_PROMPT = `Eres LillyTech IA, la asistente estratégica de Lilliana Retana, consultora costarricense de IA y automatización para pymes con más de 35 años de experiencia tecnológica. Tu especialidad es crear recursos educativos y de consultoría de alto impacto, listos para usar.
-
-Genera recursos COMPLETOS, prácticos y detallados. Usa español latinoamericano cercano y profesional. Incluye ejemplos concretos del mundo real latinoamericano, especialmente del sector servicios, operaciones y pymes. Estructura con secciones claras usando ## para títulos principales y ### para subsecciones. Usa emojis estratégicamente al inicio de cada sección principal. Los recursos deben ser suficientemente completos para usarlos directamente sin necesidad de modificarlos.`;
-
-const TYPE_COLORS = { clase:'#00c8f0', ruta:'#7c3aed', contenido:'#10b981', automatizacion:'#f59e0b', propuesta:'#e879f9' };
-const TYPE_LABELS = { clase:'Clase', ruta:'Ruta', contenido:'Contenido', automatizacion:'Automatización', propuesta:'Propuesta' };
-
-// Fields visible per type: audience, level, objective, tools, tone
-const TYPE_FIELDS = {
-  clase:        { audience:1, level:1, objective:1, tools:1, tone:1, toolsLabel:'Herramientas a enseñar' },
-  ruta:         { audience:1, level:1, objective:1, tools:1, tone:0, toolsLabel:'Herramientas a incluir' },
-  contenido:    { audience:1, level:0, objective:1, tools:1, tone:1, toolsLabel:'Canales / plataformas' },
-  automatizacion:{ audience:0, level:0, objective:1, tools:1, tone:0, toolsLabel:'Herramientas actuales o disponibles' },
-  propuesta:    { audience:1, level:0, objective:1, tools:1, tone:1, toolsLabel:'Entregables / herramientas' }
-};
-
-const TEMPLATES = [
-  { id:'t1', cat:'clase', icon:'🤖', name:'Introducción a ChatGPT', desc:'Primera clase para personas sin experiencia en IA', dur:'90 minutos',
-    type:'clase', topic:'Introducción práctica a ChatGPT: qué es, para qué sirve y cómo usarlo en el trabajo',
-    audience:'Empleados administrativos y operativos sin experiencia en IA',
-    level:'Sin experiencia', duration:'90 minutos',
-    objective:'Que puedan hacer sus primeras consultas en ChatGPT y entender cómo ayuda en tareas cotidianas',
-    tools:'ChatGPT (GPT-4o gratuito)', tone:'Sencillo y motivador',
-    brief:'Clase introductoria para personas que nunca han usado IA, con demostraciones en vivo y ejercicios prácticos. Ambiente sin presión.' },
-  { id:'t2', cat:'clase', icon:'👔', name:'IA para supervisores', desc:'Aplicaciones prácticas de IA en liderazgo operativo', dur:'2 horas',
-    type:'clase', topic:'IA aplicada a la supervisión: reportes, comunicación y toma de decisiones',
-    audience:'Supervisores y jefes de área sin experiencia en IA',
-    level:'Básico', duration:'2 horas',
-    objective:'Que puedan usar IA para preparar reportes, redactar comunicados y analizar incidencias de su área',
-    tools:'ChatGPT, Claude, Google Gemini', tone:'Profesional y ejecutivo',
-    brief:'Clase práctica enfocada en casos reales de supervisión: partes diarios, reportes de incidencias, comunicados al equipo, análisis de datos.' },
-  { id:'t3', cat:'clase', icon:'📊', name:'IA aplicada a Excel', desc:'Combina Excel con IA para análisis y automatización', dur:'2 horas',
-    type:'clase', topic:'Cómo usar IA para trabajar mejor en Excel: fórmulas, análisis y reportes automáticos',
-    audience:'Administrativos y analistas con manejo básico de Excel',
-    level:'Básico', duration:'2 horas',
-    objective:'Que puedan usar IA para crear fórmulas, limpiar datos y generar reportes más rápido',
-    tools:'ChatGPT, Microsoft Copilot, Excel', tone:'Práctico y cercano',
-    brief:'Taller práctico con ejercicios en Excel real. Los participantes traen sus propios archivos para trabajar en vivo con IA como asistente.' },
-  { id:'t4', cat:'ruta', icon:'🏭', name:'Automatización para pymes', desc:'Ruta de 4 semanas para digitalizar procesos clave', dur:'4 semanas',
-    type:'ruta', topic:'De cero a automatización: cómo digitalizar los procesos más importantes de una pyme',
-    audience:'Dueños de pymes y gerentes operativos sin experiencia técnica',
-    level:'Sin experiencia', duration:'4 semanas (1-2 horas por día)',
-    objective:'Tener al menos 2 procesos clave automatizados al finalizar la ruta',
-    tools:'Make.com, Google Workspace, WhatsApp Business', tone:'Práctico y cercano',
-    brief:'Ruta diseñada para dueños de pequeñas empresas que quieren empezar a automatizar sin saber programar, con pasos muy concretos.' },
-  { id:'t5', cat:'clase', icon:'⚙️', name:'IA en operaciones', desc:'Taller intensivo para equipos operativos', dur:'3 horas',
-    type:'clase', topic:'IA aplicada a operaciones: registros, reportes, comunicación y seguimiento de incidencias',
-    audience:'Equipos de operaciones, supervisores de servicios y limpieza',
-    level:'Básico', duration:'3 horas',
-    objective:'Que el equipo pueda usar IA para agilizar reportes diarios, comunicaciones y registro de incidencias',
-    tools:'ChatGPT, Google Forms, Google Sheets', tone:'Práctico y cercano',
-    brief:'Taller con casos reales del sector operativo y servicios. Incluye práctica en vivo con los registros y reportes que el equipo usa a diario.' },
-  { id:'t6', cat:'contenido', icon:'🎬', name:'IA sin miedo', desc:'Serie de contenido para desmitificar la IA', dur:'1 video + 3 posts',
-    type:'contenido', topic:'IA sin miedo: cómo la inteligencia artificial te ayuda sin reemplazarte',
-    audience:'Profesionales de 35+ años que temen ser desplazados por la IA',
-    level:'Sin experiencia', duration:'1 video corto + 3 posts LinkedIn',
-    objective:'Inspirar a profesionales a explorar la IA con confianza y curiosidad, no con miedo',
-    tools:'LinkedIn, YouTube Shorts, TikTok', tone:'Sencillo y motivador',
-    brief:'Contenido empático que valida el miedo al cambio y transforma la narrativa. La IA como herramienta de potenciación, no de reemplazo.' },
-  { id:'t7', cat:'contenido', icon:'💼', name:'IA en el trabajo diario', desc:'Post viral sobre IA práctica para cualquier profesional', dur:'Post + carrusel',
-    type:'contenido', topic:'5 formas concretas en que la IA puede ayudarte en tu trabajo hoy mismo',
-    audience:'Profesionales de cualquier área, edad 28-50',
-    level:'Sin experiencia', duration:'1 post de alto impacto + carrusel Canva',
-    objective:'Conseguir alcance y engagement mostrando aplicaciones reales y accesibles de IA',
-    tools:'LinkedIn, Canva', tone:'Dinámico para redes',
-    brief:'Contenido de valor que muestra ejemplos concretos y alcanzables. Sin jerga técnica. Que la gente sienta que puede empezar hoy.' },
-  { id:'t8', cat:'auto', icon:'🔍', name:'Diagnóstico de procesos manuales', desc:'Analiza un proceso y propone automatización', dur:'Asesoría 1h',
-    type:'automatizacion', topic:'Diagnóstico de procesos manuales repetitivos en empresa de servicios',
-    audience:'Empresa con 10-50 empleados y procesos manuales que consumen tiempo',
-    level:'Sin experiencia', duration:'1 hora de consultoría + plan de acción',
-    objective:'Identificar los 3 procesos con mayor potencial de automatización y proponer plan de acción concreto',
-    tools:'Google Apps Script, Make.com, WhatsApp Business API', tone:'Profesional y ejecutivo',
-    brief:'Asesoría de diagnóstico para empresa que sabe que pierde tiempo en procesos manuales (reportes, aprobaciones, seguimiento) pero no sabe por dónde empezar.' },
-  { id:'t9', cat:'propuesta', icon:'📋', name:'Propuesta de capacitación IA', desc:'Propuesta para capacitar a un equipo en IA', dur:'Variable',
-    type:'propuesta', topic:'Propuesta de capacitación en Inteligencia Artificial para equipos operativos y administrativos',
-    audience:'Empresa mediana con 20-100 colaboradores, sector servicios',
-    level:'Sin experiencia', duration:'3-5 sesiones de 90 min cada una',
-    objective:'Que el equipo adopte herramientas de IA básicas en sus procesos cotidianos con confianza',
-    tools:'Talleres presenciales/virtuales, materiales digitales, seguimiento por WhatsApp', tone:'Profesional y ejecutivo',
-    brief:'Propuesta integral de capacitación que incluye diagnóstico inicial, plan personalizado, talleres prácticos y seguimiento post-capacitación.' }
-];
-
-const SOLUTIONS = [
-  { icon:'🤖', name:'Bruno WhatsApp Bot', desc:'Tutor de inglés por WhatsApp para personas mayores. Make.com + Twilio + OpenAI.', status:'dev' },
-  { icon:'🏗️', name:'3Rs Cotizador', desc:'Sistema de cotización para construcción y remodelación con AppSheet + Google Sheets.', status:'active' },
-  { icon:'🚿', name:'Control Baños QR', desc:'Sistema de inspección de baños con QR, Google Sheets y alertas automáticas.', status:'active' },
-  { icon:'📊', name:'Dashboard CBRE-DXC', desc:'Reportes mensuales HTML con galería de fotos, autosave y optimización de impresión.', status:'active' },
-  { icon:'⏰', name:'Control de Tiempo', desc:'Sistema de tiempo de empleados con Supabase: ausencias, coberturas y exportación Excel.', status:'active' },
-  { icon:'📚', name:'Gestión Capacitaciones', desc:'Sistema de seguimiento de capacitaciones con HTML + Supabase. Reemplaza registros en papel.', status:'active' },
-  { icon:'🎓', name:'De Cero a Experto en IA', desc:'Curso de 4 sesiones para profesionales y emprendedores costarricenses.', status:'idea' },
-  { icon:'🔧', name:'Soluciones Automatizadas', desc:'Landing page de consultora de automatización para pymes. Netlify.', status:'active' }
-];
-
-// ── STATE ───────────────────────────────────────────────────
-let activeType = 'clase';
-let currentOutput = '';
-let isGenerating = false;
-
-// ── STORAGE ─────────────────────────────────────────────────
-const SK = { resources:'ll_resources', content:'ll_content', classes:'ll_classes', projects:'ll_projects', clients:'ll_clients' };
-const db = {
-  get: k => JSON.parse(localStorage.getItem(k) || '[]'),
-  set: (k,v) => localStorage.setItem(k, JSON.stringify(v)),
-  add: (k,item) => { const a = db.get(k); a.unshift(item); db.set(k,a); },
-  del: (k,id) => db.set(k, db.get(k).filter(i=>i.id!==id))
-};
-const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2);
-
-// ── NAVIGATION ───────────────────────────────────────────────
-function showView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  const view = document.getElementById(name);
-  const link = document.querySelector(`.nav-link[data-view="${name}"]`);
-  if (view) view.classList.add('active');
-  if (link) link.classList.add('active');
-  const title = view?.dataset.title || name;
-  document.getElementById('viewTitle').textContent = title;
-  // Close sidebar on mobile
-  if (window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
-  refreshView(name);
-}
-
-function refreshView(name) {
-  if (name === 'dashboard')   renderDashboard();
-  if (name === 'propuestas')  renderSaved();
-  if (name === 'plantillas')  renderTemplates();
-  if (name === 'contenido')   renderKanban();
-  if (name === 'clases')      { renderClasses(); renderCalendar(); }
-  if (name === 'proyectos')   renderProjects();
-  if (name === 'clientes')    renderClients();
-  if (name === 'soluciones')  renderSolutions();
-}
-
-// ── TYPE SELECTOR ────────────────────────────────────────────
-function selectType(type) {
-  activeType = type;
-  document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b.dataset.type === type));
-  const f = TYPE_FIELDS[type];
-  const toggle = (id, on) => { const el = document.getElementById(id); if (el) el.classList.toggle('on', !!on); };
-  toggle('fs-audience',  f.audience);
-  toggle('fs-level',     f.level);
-  toggle('fs-objective', f.objective);
-  toggle('fs-tools',     f.tools);
-  toggle('fs-tone',      f.tone);
-  // Update tools label
-  const lbl = document.getElementById('fToolsLabel');
-  if (lbl) lbl.childNodes[0].textContent = f.toolsLabel;
-  // Update placeholders by type
-  const ph = {
-    clase:         { topic:'Ej: Enseñar IA a supervisores que no saben nada', brief:'Describe el contexto del grupo, su área de trabajo y qué quieres que logren' },
-    ruta:          { topic:'Ej: Aprender a automatizar procesos en 4 semanas', brief:'Describe el nivel inicial del grupo y qué deberían poder hacer al finalizar' },
-    contenido:     { topic:'Ej: Cómo usar IA en el trabajo diario', brief:'Describe el mensaje clave, el problema del público y el tono que quieres transmitir' },
-    automatizacion:{ topic:'Ej: Digitalizamos los reportes de limpieza en papel', brief:'Describe el proceso manual, cuántas personas lo hacen, cuánto tiempo consume y qué problemas genera' },
-    propuesta:     { topic:'Ej: Capacitación en IA para equipo operativo de 30 personas', brief:'Describe la empresa, su necesidad, el alcance del trabajo y el presupuesto estimado' }
-  };
-  if (ph[type]) {
-    document.getElementById('fTopic').placeholder = ph[type].topic;
-    document.getElementById('fBrief').placeholder  = ph[type].brief;
-  }
-}
-
-// ── PROMPT BUILDER ───────────────────────────────────────────
-function buildPrompt(type, d) {
-  const { topic, brief, audience, level, duration, objective, tools, tone } = d;
-  switch (type) {
-    case 'clase': return `Genera una CLASE COMPLETA, detallada y lista para impartir con los siguientes datos:
-- Tema: ${topic}
-- Público: ${audience || 'no especificado'}
-- Nivel: ${level || 'Sin experiencia'}
-- Duración: ${duration || '90 minutos'}
-- Objetivo: ${objective || 'aprender los conceptos básicos'}
-- Herramientas: ${tools || 'IA en general'}
-- Tono: ${tone || 'Práctico y cercano'}
-- Contexto adicional: ${brief}
-
-Genera la clase con estas secciones COMPLETAS (sé muy detallada en cada una):
-
-## 🎯 FICHA DE LA CLASE
-[Tabla con: tema, público, nivel, duración, objetivo, herramientas]
-
-## 📋 ESTRUCTURA Y CRONOGRAMA
-[Timeline detallado con tiempos específicos para cada parte de la clase]
-
-## 🚀 INTRODUCCIÓN Y APERTURA
-[Gancho poderoso para los primeros 5 minutos: pregunta provocadora, dato sorprendente o historia corta. Incluye qué decir exactamente para arrancar la clase]
-
-## 📖 DESARROLLO PASO A PASO
-[Mínimo 5 pasos numerados, con lenguaje simple, sin jerga. Cada paso con lo que se explica y cómo explicarlo]
-
-## 💡 EJEMPLOS PRÁCTICOS REALES
-[3-5 ejemplos concretos del contexto laboral de este público, con casos específicos del trabajo diario]
-
-## ⚡ DINÁMICA DE CAPTURA DE ATENCIÓN
-[Una actividad de 5-10 minutos para romper la monotonía o captar energía. Que sea divertida y relevante]
-
-## 🛠️ EJERCICIOS EN VIVO
-[2-3 ejercicios prácticos paso a paso que se hacen durante la clase. Incluye instrucciones exactas]
-
-## 📝 TAREA FINAL
-[Entregable concreto, alcanzable en 30 minutos, que puedan hacer en casa o trabajo. Muy específico]
-
-## 📦 MATERIALES Y RECURSOS NECESARIOS
-[Lista completa: slides necesarios, plantillas, links, herramientas, qué preparar antes]
-
-## 🤖 PROMPTS LISTOS PARA USAR
-[4-6 prompts de ChatGPT listos para copiar y pegar, relevantes para este público y tema]
-
-## 🏁 CIERRE MOTIVADOR
-[Reflexión final de 3-5 minutos + call to action inspirador que los deje con energía y ganas de seguir]`;
-
-    case 'ruta': return `Genera una RUTA DE APRENDIZAJE completa y detallada con estos datos:
-- Tema: ${topic}
-- Público: ${audience || 'profesionales en general'}
-- Nivel inicial: ${level || 'Sin experiencia'}
-- Horizonte de tiempo: ${duration || '4 semanas'}
-- Objetivo final: ${objective || 'dominar los conceptos básicos'}
-- Herramientas a incluir: ${tools || 'IA en general'}
-- Contexto: ${brief}
-
-Genera la ruta con estas secciones COMPLETAS:
-
-## 🗺️ DESCRIPCIÓN DE LA RUTA
-[Qué es esta ruta, para quién es ideal, qué los diferenciará al terminar]
-
-## 🎯 OBJETIVOS POR ETAPA
-[Lista los objetivos medibles de cada semana o fase]
-
-## 📅 PLAN DETALLADO
-[Para cada día o semana: título del módulo, actividad principal (30-60 min), herramienta o recurso a usar, resultado esperado al terminar. Sé muy específica con qué hace la persona cada día]
-
-## ✅ CÓMO SABER QUE ESTÁS PROGRESANDO
-[Indicadores concretos de avance: qué puedes hacer en semana 1 vs semana 4]
-
-## 📊 SISTEMA DE EVALUACIÓN
-[Cómo evaluar el aprendizaje: autoevaluación, ejercicios, mini-proyectos]
-
-## 📦 RECURSOS RECOMENDADOS
-[Lista de videos, artículos, herramientas gratuitas y cursos de apoyo]
-
-## 🏆 PROYECTO FINAL
-[Descripción del proyecto integrador que demuestra que completaste la ruta]`;
-
-    case 'contenido': return `Genera RECURSOS DE CONTENIDO COMPLETOS para:
-- Tema: ${topic}
-- Público objetivo: ${audience || 'profesionales latinoamericanos'}
-- Canales: ${tools || 'LinkedIn principalmente'}
-- Tono: ${tone || 'Práctico y cercano'}
-- Objetivo del contenido: ${objective || 'generar alcance y engagement'}
-- Contexto: ${brief}
-
-Genera TODOS estos formatos completos:
-
-## 📱 POST #1 PARA LINKEDIN (formato storytelling)
-[Gancho + historia personal o caso real + insight + CTA. Mínimo 1200 caracteres]
-
-## 📱 POST #2 PARA LINKEDIN (formato lista)
-[Gancho numérico + lista con desarrollo de cada punto + CTA. Mínimo 1000 caracteres]
-
-## 📱 POST #3 PARA LINKEDIN (formato pregunta/debate)
-[Pregunta provocadora + tu posición + puntos de vista + CTA que invite a comentar]
-
-## 🎬 GUION CORTO (Reels/TikTok/Shorts - 60-90 seg)
-[Gancho primeros 3 seg + desarrollo + conclusión + CTA. Con notas de presentación y texto en pantalla]
-
-## 📹 GUION LARGO (YouTube/Clase - 7-10 min)
-[Introducción completa + desarrollo por secciones con transiciones + cierre con CTA. Con timestamps sugeridos]
-
-## 🎨 CARRUSEL PARA CANVA (10 diapositivas)
-[Diapositiva 1 (portada) hasta diapositiva 10 (CTA final). Título + contenido de cada diapo]
-
-## 📢 7 LLAMADAS A LA ACCIÓN LISTAS PARA USAR
-[Variadas: para seguir, para comentar, para guardar, para compartir, para comprar]
-
-## 🏷️ 10 TÍTULOS ALTERNATIVOS PARA EL MISMO CONTENIDO`;
-
-    case 'automatizacion': return `Genera un DIAGNÓSTICO Y PLAN DE AUTOMATIZACIÓN completo para:
-- Proceso a automatizar: ${topic}
-- Contexto de la empresa: ${brief}
-- Herramientas actuales disponibles: ${tools || 'no especificadas'}
-- Objetivo de la automatización: ${objective || 'ahorrar tiempo y reducir errores'}
-
-Genera el diagnóstico con estas secciones COMPLETAS:
-
-## 🔍 DIAGNÓSTICO DEL PROBLEMA
-[Análisis del proceso actual: pasos manuales, personas involucradas, tiempo que consume, errores frecuentes y costo aproximado en horas/semana]
-
-## ✅ SOLUCIÓN RECOMENDADA
-[Descripción clara de cómo debería funcionar el proceso automatizado. Qué cambia vs hoy]
-
-## 🛠️ HERRAMIENTAS RECOMENDADAS
-[Para cada herramienta: nombre, para qué sirve en este caso específico, costo estimado, facilidad de implementación]
-
-## 📊 FLUJO AUTOMATIZADO PASO A PASO
-[Diagrama en texto del nuevo proceso: Trigger → Acción 1 → Condición → Acción 2 → etc. Muy detallado]
-
-## 🤖 QUÉ SE PUEDE AUTOMATIZAR (priorizado)
-[Lista priorizada por impacto: Alta/Media/Baja prioridad, con tiempo estimado de implementación]
-
-## ⚠️ QUÉ NO CONVIENE AUTOMATIZAR
-[Tareas que deben seguir siendo manuales, con justificación honesta de por qué]
-
-## 🚀 PRIMER PROTOTIPO SUGERIDO (MVP en 2-4 semanas)
-[Plan de implementación mínimo viable: qué automatizar primero, pasos concretos semana a semana, quién lo implementa]
-
-## 📈 ROI Y BENEFICIOS ESPERADOS
-[Horas ahorradas por semana/mes, errores reducidos, impacto en el equipo, tiempo estimado de retorno de inversión]`;
-
-    case 'propuesta': return `Genera MATERIALES DE PROPUESTA COMPLETOS para:
-- Servicio a proponer: ${topic}
-- Cliente / contexto: ${audience || 'empresa costarricense'}
-- Necesidad identificada: ${brief}
-- Duración estimada del proyecto: ${duration || 'a definir'}
-- Objetivo del proyecto: ${objective || 'transformar digitalmente sus procesos'}
-- Entregables / herramientas: ${tools || 'a definir'}
-- Tono: ${tone || 'Profesional y ejecutivo'}
-
-Genera TODOS estos materiales COMPLETOS:
-
-## 💬 MENSAJE WHATSAPP
-[Máx 150 palabras. Con emoji estratégico, nombre del cliente, identificación del dolor principal, propuesta de valor, y CTA claro. Que suene natural, no corporativo]
-
-## 📧 CORREO PROFESIONAL COMPLETO
-Asunto: [3 opciones de asunto]
-Cuerpo: [Email completo con saludo personalizado, presentación del problema, propuesta de valor, beneficios concretos, próximos pasos y despedida profesional]
-
-## 📄 PROPUESTA CORTA (1 página)
-[Resumen ejecutivo: Situación actual → Solución propuesta → Beneficios principales → Inversión referencial → Cómo empezar]
-
-## 📋 PROPUESTA FORMAL COMPLETA
-[Documento completo con: Antecedentes, Diagnóstico, Solución propuesta, Metodología de trabajo, Entregables detallados, Cronograma, Inversión y condiciones, Sobre LillyTech]
-
-## ⏱️ CRONOGRAMA SUGERIDO
-[Semana a semana: qué se hace, quién lo hace, qué se entrega]
-
-## 💰 ESTRUCTURA DE PRECIO SUGERIDA
-[Opciones de paquetes o fases con rangos de precio para el mercado costarricense]`;
-
-    default: return `Genera un recurso detallado sobre: ${topic}\nContexto: ${brief}`;
-  }
-}
-
-// ── API CALL WITH STREAMING ──────────────────────────────────
-async function generateResource() {
-  if (isGenerating) return;
-  const topic = document.getElementById('fTopic').value.trim();
-  const brief = document.getElementById('fBrief').value.trim();
-  if (!topic || !brief) { showToast('Completa al menos el tema y el contexto ✏️', 'err'); return; }
-
-  const formData = {
-    topic, brief,
-    audience:  document.getElementById('fAudience')?.value || '',
-    level:     document.getElementById('fLevel')?.value || '',
-    duration:  document.getElementById('fDuration')?.value || '',
-    objective: document.getElementById('fObjective')?.value || '',
-    tools:     document.getElementById('fTools')?.value || '',
-    tone:      document.getElementById('fTone')?.value || ''
-  };
-
-  isGenerating = true;
-  currentOutput = '';
-  const btn = document.getElementById('generateBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ Generando...';
-
-  const panel = document.getElementById('proposalOutput');
-  panel.innerHTML = `
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <div class="loading-label">Preparando tu ${TYPE_LABELS[activeType].toLowerCase()}...</div>
-    </div>`;
-
-  try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 4096,
-        stream: true,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: buildPrompt(activeType, formData) }]
-      })
-    });
-
-    if (!response.ok) {
-      const e = await response.json().catch(()=>({}));
-      throw new Error(e.error?.message || `Error HTTP ${response.status}`);
-    }
-
-    // Setup output area
-    panel.innerHTML = `
-      <div class="output-header">
-        <h4 id="outTitle">${TYPE_LABELS[activeType]}: ${topic}</h4>
-        <div class="output-actions" id="outActions" style="display:none">
-          <button class="icon-btn" onclick="copyOutput()">📋 Copiar todo</button>
-          <button class="icon-btn green" onclick="saveOutput('${activeType}','${topic.replace(/'/g,"\\'")}')">💾 Guardar</button>
-          <button class="icon-btn amber" onclick="exportOutput('${topic.replace(/'/g,"\\'")}')">📥 Exportar .txt</button>
-        </div>
-      </div>
-      <div class="output-body" id="outBody"></div>`;
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    const bodyEl = document.getElementById('outBody');
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const raw = line.slice(6).trim();
-        if (!raw || raw === '[DONE]') continue;
-        try {
-          const parsed = JSON.parse(raw);
-          if (parsed.type === 'content_block_delta' && parsed.delta?.type === 'text_delta') {
-            currentOutput += parsed.delta.text;
-            bodyEl.innerHTML = mdToHtml(currentOutput) + '<span class="cursor"></span>';
-            // Auto-scroll
-            panel.scrollTop = panel.scrollHeight;
-          }
-        } catch {}
-      }
-    }
-
-    // Final render without cursor
-    bodyEl.innerHTML = mdToHtml(currentOutput);
-    document.getElementById('outActions').style.display = 'flex';
-    showToast(`✅ ${TYPE_LABELS[activeType]} generada con éxito`, 'ok');
-
-  } catch (err) {
-    panel.innerHTML = `
-      <div class="output-empty">
-        <div class="big-icon">⚠️</div>
-        <h3>Error al generar</h3>
-        <p>${err.message}</p>
-        <button class="ghost-btn" onclick="generateResource()" style="margin-top:12px">Reintentar</button>
-      </div>`;
-    showToast('Error: ' + err.message, 'err');
-  } finally {
-    isGenerating = false;
-    btn.disabled = false;
-    btn.textContent = '⚡ Generar recurso completo';
-  }
-}
-
-// ── MARKDOWN TO HTML ─────────────────────────────────────────
-function mdToHtml(text) {
-  if (!text) return '';
-  const lines = text.split('\n');
-  const out = [];
-  let inUl = false, inOl = false;
-  const close = () => { if (inUl) { out.push('</ul>'); inUl=false; } if (inOl) { out.push('</ol>'); inOl=false; } };
-  const inl = s => s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`([^`]+)`/g,'<code>$1</code>');
-  for (let l of lines) {
-    const t = l.trim();
-    if (t.startsWith('## '))      { close(); out.push(`<h2>${inl(t.slice(3))}</h2>`); }
-    else if (t.startsWith('### ')){ close(); out.push(`<h3>${inl(t.slice(4))}</h3>`); }
-    else if (t.startsWith('#### ')){ close(); out.push(`<h4>${inl(t.slice(5))}</h4>`); }
-    else if (/^[-*] /.test(t))   { if (inOl){out.push('</ol>');inOl=false;} if (!inUl){out.push('<ul>');inUl=true;} out.push(`<li>${inl(t.slice(2))}</li>`); }
-    else if (/^\d+\. /.test(t))  { if (inUl){out.push('</ul>');inUl=false;} if (!inOl){out.push('<ol>');inOl=true;} out.push(`<li>${inl(t.replace(/^\d+\. /,''))}</li>`); }
-    else if (t === '---' || t === '***') { close(); out.push('<hr>'); }
-    else if (t === '')            { close(); }
-    else                          { close(); out.push(`<p>${inl(t)}</p>`); }
-  }
-  close();
-  return out.join('\n');
-}
-
-// ── OUTPUT ACTIONS ───────────────────────────────────────────
-function copyOutput() {
-  if (!currentOutput) return;
-  navigator.clipboard.writeText(currentOutput).then(
-    () => showToast('📋 Copiado al portapapeles', 'ok'),
-    () => { const ta = Object.assign(document.createElement('textarea'),{value:currentOutput}); document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast('📋 Copiado', 'ok'); }
-  );
-}
-
-function saveOutput(type, topic) {
-  if (!currentOutput) return;
-  const item = { id: uid(), type, topic, content: currentOutput, date: new Date().toISOString() };
-  db.add(SK.resources, item);
-  renderSaved();
-  renderDashboard();
-  showToast('💾 Guardado en tu biblioteca', 'ok');
-}
-
-function exportOutput(topic) {
-  if (!currentOutput) return;
-  const blob = new Blob([currentOutput], { type: 'text/plain;charset=utf-8' });
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(blob),
-    download: `LillyTech_${topic.slice(0,30).replace(/[^a-zA-Z0-9áéíóúñ ]/g,'').replace(/ /g,'_')}_${Date.now()}.txt`
-  });
-  a.click(); URL.revokeObjectURL(a.href);
-  showToast('📥 Exportado como .txt', 'ok');
-}
-
-function loadSaved(id) {
-  const item = db.get(SK.resources).find(i => i.id === id);
-  if (!item) return;
-  currentOutput = item.content;
-  showView('propuestas');
-  // Populate form
-  selectType(item.type || 'clase');
-  document.getElementById('fTopic').value = item.topic || '';
-  // Render output
-  const panel = document.getElementById('proposalOutput');
-  panel.innerHTML = `
-    <div class="output-header">
-      <h4>${TYPE_LABELS[item.type] || 'Recurso'}: ${item.topic}</h4>
-      <div class="output-actions">
-        <button class="icon-btn" onclick="copyOutput()">📋 Copiar todo</button>
-        <button class="icon-btn amber" onclick="exportOutput('${(item.topic||'recurso').replace(/'/g,"\\'")}')">📥 Exportar .txt</button>
-      </div>
+          <form class="card editor inline-editor hidden" id="classForm">
+            <input type="hidden" name="id">
+            <label>Tema<input name="topic" required placeholder="Automatiza reportes con IA"></label>
+            <label>Fecha<input type="date" name="date" required></label>
+            <label>Duración<input name="duration" required placeholder="90 min"></label>
+            <label>Nivel<select name="level"><option>Inicial</option><option>Intermedio</option><option>Avanzado</option></select></label>
+            <label>Materiales<textarea name="materials" required placeholder="Slides, prompts, plantilla"></textarea></label>
+            <label>Ejercicios<textarea name="exercises" placeholder="Práctica en vivo"></textarea></label>
+            <label>Tareas<textarea name="homework" placeholder="Entregable posterior"></textarea></label>
+            <label>Observaciones<textarea name="observations" placeholder="Notas para seguimiento"></textarea></label>
+            <div class="form-actions"><button class="primary-btn" type="submit">Guardar clase</button><button type="reset" class="ghost-btn close-form" data-form="classForm">Cancelar</button></div>
+          </form>
+          <div class="class-layout">
+            <article class="card panel">
+              <div class="panel-head"><div><p class="eyebrow">Calendario</p><h3 id="calendarMonth"></h3></div></div>
+              <div class="calendar" id="calendar"></div>
+            </article>
+            <article class="card panel">
+              <div class="panel-head"><div><p class="eyebrow">Registro</p><h3>Historial de clases</h3></div></div>
+              <div id="classHistory" class="timeline"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="proyectos" data-title="Portafolio de proyectos">
+          <div class="module-head">
+            <div><p class="eyebrow">Delivery studio</p><h3>Proyectos en ejecución</h3><p class="muted">Automatizaciones, apps, dashboards e iniciativas con IA bajo control.</p></div>
+            <button class="primary-btn form-toggle" data-form="projectForm">+ Nuevo proyecto</button>
+          </div>
+          <form class="card editor inline-editor hidden" id="projectForm">
+            <input type="hidden" name="id">
+            <label>Proyecto<input name="name" required placeholder="Nombre del proyecto"></label>
+            <label>Tipo<select name="type"><option>Automatización</option><option>App HTML</option><option>Dashboard</option><option>Herramienta IA</option><option>Proyecto cliente</option></select></label>
+            <label>Avance (%)<input name="progress" type="number" min="0" max="100" required value="10"></label>
+            <label>Prioridad<select name="priority"><option>Alta</option><option>Media</option><option>Baja</option></select></label>
+            <label>Estado<select name="status"><option>Planificado</option><option>En proceso</option><option>En revisión</option><option>Completado</option></select></label>
+            <label>Fecha límite<input name="deadline" type="date" required></label>
+            <label>Pendientes<textarea name="pending" required placeholder="Próximos pasos"></textarea></label>
+            <div class="form-actions"><button class="primary-btn" type="submit">Guardar proyecto</button><button type="reset" class="ghost-btn close-form" data-form="projectForm">Cancelar</button></div>
+          </form>
+          <div class="project-grid" id="projectGrid"></div>
+        </section>
+
+        <section class="view" id="soluciones" data-title="Biblioteca LillyTech">
+          <div class="module-head">
+            <div><p class="eyebrow">Ecosistema de herramientas</p><h3>Soluciones LillyTech</h3><p class="muted">Productos y conceptos digitales listos para evolucionar.</p></div>
+          </div>
+          <div class="solution-grid" id="solutionGrid"></div>
+        </section>
+      </main>
     </div>
-    <div class="output-body">${mdToHtml(item.content)}</div>`;
-}
-
-// ── RENDER SAVED ─────────────────────────────────────────────
-function renderSaved() {
-  const list = db.get(SK.resources);
-  const el = document.getElementById('savedList');
-  const ct = document.getElementById('savedCount');
-  if (ct) ct.textContent = list.length;
-  if (!el) return;
-  if (!list.length) { el.innerHTML = '<p class="empty-msg">Aún no has guardado recursos.<br>¡Genera el primero!</p>'; return; }
-  el.innerHTML = list.map(i => {
-    const color = TYPE_COLORS[i.type] || '#888';
-    const date = new Date(i.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
-    return `<div class="saved-item" onclick="loadSaved('${i.id}')">
-      <span class="s-dot" style="background:${color}"></span>
-      <div class="s-info">
-        <div class="s-topic">${i.topic}</div>
-        <div class="s-meta">${TYPE_LABELS[i.type]||''} · ${date}</div>
-      </div>
-      <button class="s-del" onclick="event.stopPropagation();delResource('${i.id}')" title="Eliminar">×</button>
-    </div>`;
-  }).join('');
-}
-
-function delResource(id) {
-  db.del(SK.resources, id);
-  renderSaved();
-  renderDashboard();
-  showToast('🗑️ Recurso eliminado', 'ok');
-}
-
-// ── DASHBOARD ────────────────────────────────────────────────
-function renderDashboard() {
-  const resources = db.get(SK.resources);
-  const content   = db.get(SK.content);
-  const classes   = db.get(SK.classes);
-  const projects  = db.get(SK.projects);
-
-  // Metrics
-  const mg = document.getElementById('metricsGrid');
-  if (mg) mg.innerHTML = [
-    { icon:'🎓', label:'Recursos generados', num: resources.length, cls:'mi-cyan' },
-    { icon:'📱', label:'Ideas de contenido',  num: content.length,   cls:'mi-violet' },
-    { icon:'📅', label:'Clases registradas',  num: classes.length,   cls:'mi-green' },
-    { icon:'🚀', label:'Proyectos activos',   num: projects.filter(p=>p.status!=='Completado').length, cls:'mi-amber' }
-  ].map(m => `
-    <div class="metric-card">
-      <div class="metric-icon ${m.cls}">${m.icon}</div>
-      <div><div class="metric-num">${m.num}</div><div class="metric-label">${m.label}</div></div>
-    </div>`).join('');
-
-  // Badge
-  const tb = document.getElementById('totalBadge');
-  if (tb) tb.textContent = resources.length;
-
-  // Recent resources
-  const rr = document.getElementById('recentResources');
-  if (rr) {
-    if (!resources.length) { rr.innerHTML = '<p class="empty-msg">Genera tu primer recurso para verlo aquí.</p>'; }
-    else rr.innerHTML = '<div class="saved-list">' + resources.slice(0,5).map(i => {
-      const color = TYPE_COLORS[i.type] || '#888';
-      const date = new Date(i.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
-      return `<div class="saved-item" onclick="loadSaved('${i.id}')">
-        <span class="s-dot" style="background:${color}"></span>
-        <div class="s-info"><div class="s-topic">${i.topic}</div><div class="s-meta">${TYPE_LABELS[i.type]||''} · ${date}</div></div>
-      </div>`;
-    }).join('') + '</div>';
-  }
-
-  // Type distribution
-  const ts = document.getElementById('typeStats');
-  if (ts) {
-    const counts = {};
-    resources.forEach(r => counts[r.type] = (counts[r.type]||0) + 1);
-    const total = resources.length || 1;
-    if (!resources.length) { ts.innerHTML = '<p class="empty-msg">Genera recursos para ver la distribución.</p>'; }
-    else ts.innerHTML = Object.entries(TYPE_COLORS).map(([type, color]) => {
-      const n = counts[type] || 0;
-      const pct = Math.round((n/total)*100);
-      return `<div style="margin-bottom:10px">
-        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
-          <span style="color:var(--text2)">${TYPE_LABELS[type]}</span>
-          <span style="color:var(--text);font-weight:600">${n}</span>
-        </div>
-        <div style="height:5px;background:var(--bg2);border-radius:3px">
-          <div style="height:100%;width:${pct}%;background:${color};border-radius:3px;transition:width .5s"></div>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  // Upcoming content
-  const uc = document.getElementById('upcomingContent');
-  if (uc) {
-    const pending = content.filter(c => c.status !== 'Publicado').slice(0,4);
-    if (!pending.length) { uc.innerHTML = '<p class="empty-msg">Agrega ideas de contenido para verlas aquí.</p>'; }
-    else uc.innerHTML = pending.map(c => `
-      <div class="saved-item" style="cursor:default">
-        <span class="s-dot" style="background:var(--cyan)"></span>
-        <div class="s-info"><div class="s-topic">${c.idea}</div><div class="s-meta">${c.channel} · ${c.status}</div></div>
-      </div>`).join('');
-  }
-
-  // Quick templates
-  const qt = document.getElementById('quickTemplates');
-  if (qt) qt.innerHTML = TEMPLATES.slice(0,4).map(t => `
-    <div class="saved-item" onclick="useTemplate('${t.id}')">
-      <span style="font-size:16px;flex-shrink:0">${t.icon}</span>
-      <div class="s-info"><div class="s-topic">${t.name}</div><div class="s-meta">${t.desc}</div></div>
-    </div>`).join('');
-}
-
-// ── TEMPLATES ────────────────────────────────────────────────
-function renderTemplates() {
-  const catClass = { clase:'tc-clase', ruta:'tc-ruta', contenido:'tc-contenido', auto:'tc-auto', propuesta:'tc-propuesta' };
-  const typeLabel = { clase:'Clase', ruta:'Ruta de aprendizaje', contenido:'Contenido', auto:'Automatización', propuesta:'Propuesta' };
-  document.getElementById('templateGrid').innerHTML = TEMPLATES.map(t => `
-    <div class="tmpl-card ${catClass[t.cat]||'tc-clase'}" onclick="useTemplate('${t.id}')">
-      <div class="tmpl-icon">${t.icon}</div>
-      <div class="tmpl-type">${typeLabel[t.cat]||t.cat}</div>
-      <div class="tmpl-name">${t.name}</div>
-      <div class="tmpl-desc">${t.desc}</div>
-      <div class="tmpl-foot"><span>⚡ Usar plantilla</span><span>${t.dur}</span></div>
-    </div>`).join('');
-}
-
-function useTemplate(id) {
-  const t = TEMPLATES.find(x => x.id === id);
-  if (!t) return;
-  showView('propuestas');
-  selectType(t.type);
-  document.getElementById('fTopic').value     = t.topic     || '';
-  document.getElementById('fBrief').value     = t.brief     || '';
-  document.getElementById('fAudience').value  = t.audience  || '';
-  document.getElementById('fObjective').value = t.objective || '';
-  document.getElementById('fTools').value     = t.tools     || '';
-  document.getElementById('fDuration').value  = t.duration  || '';
-  const lvl = document.getElementById('fLevel');
-  if (lvl && t.level) { Array.from(lvl.options).forEach(o => { if(o.value===t.level||o.text===t.level) o.selected=true; }); }
-  const tone = document.getElementById('fTone');
-  if (tone && t.tone) { Array.from(tone.options).forEach(o => { if(o.value===t.tone||o.text===t.tone) o.selected=true; }); }
-  showToast(`📋 Plantilla "${t.name}" cargada`, 'ok');
-}
-
-// ── CONTENT KANBAN ───────────────────────────────────────────
-function renderKanban() {
-  const items = db.get(SK.content);
-  const cols = ['Idea','Planificado','En creación','Publicado'];
-  const board = document.getElementById('contentBoard');
-  if (!board) return;
-  board.innerHTML = cols.map(col => {
-    const cards = items.filter(i => i.status === col);
-    return `
-      <div class="kanban-col">
-        <div class="col-head">
-          <span class="col-title">${col}</span>
-          <span class="col-count">${cards.length}</span>
-        </div>
-        ${cards.map(c => `
-          <div class="content-card">
-            <button class="cc-del" onclick="delContent('${c.id}')">×</button>
-            <div class="cc-title">${c.idea}</div>
-            <span class="cc-ch">${c.channel}</span>
-            ${c.date ? `<div class="cc-date">${new Date(c.date+'T00:00:00').toLocaleDateString('es-CR',{day:'2-digit',month:'short'})}</div>` : ''}
-          </div>`).join('')}
-      </div>`;
-  }).join('');
-}
-
-function saveContent() {
-  const idea = document.getElementById('cfIdea').value.trim();
-  if (!idea) { showToast('Ingresa una idea de contenido', 'err'); return; }
-  db.add(SK.content, {
-    id: uid(), idea,
-    channel:  document.getElementById('cfChannel').value,
-    status:   document.getElementById('cfStatus').value,
-    category: document.getElementById('cfCategory').value,
-    date:     document.getElementById('cfDate').value,
-    priority: document.getElementById('cfPriority').value,
-    notes:    document.getElementById('cfNotes').value
-  });
-  document.getElementById('cfIdea').value = '';
-  document.getElementById('cfNotes').value = '';
-  document.getElementById('contentFormWrap').classList.remove('on');
-  renderKanban();
-  renderDashboard();
-  showToast('💡 Idea guardada', 'ok');
-}
-
-function delContent(id) { db.del(SK.content,id); renderKanban(); renderDashboard(); }
-
-// ── CLASSES ──────────────────────────────────────────────────
-function renderCalendar() {
-  const now = new Date();
-  const month = now.getMonth(), year = now.getFullYear();
-  const classes = db.get(SK.classes);
-  const classDates = new Set(classes.map(c => c.date));
-  const monthNames = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-  const calEl = document.getElementById('calendar');
-  const mEl = document.getElementById('calMonth');
-  if (mEl) mEl.textContent = `${monthNames[month]} ${year}`;
-  if (!calEl) return;
-  const days = ['L','M','X','J','V','S','D'];
-  let html = days.map(d => `<div class="cal-dname">${d}</div>`).join('');
-  const first = new Date(year, month, 1).getDay();
-  const offset = first === 0 ? 6 : first - 1;
-  for (let i=0; i<offset; i++) html += `<div class="cal-day empty"></div>`;
-  const total = new Date(year, month+1, 0).getDate();
-  const todayNum = now.getDate();
-  for (let d=1; d<=total; d++) {
-    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const cls = d===todayNum ? 'today' : classDates.has(dateStr) ? 'has-c' : '';
-    html += `<div class="cal-day ${cls}">${d}</div>`;
-  }
-  calEl.innerHTML = html;
-}
-
-function renderClasses() {
-  const classes = db.get(SK.classes);
-  const el = document.getElementById('classHistory');
-  if (!el) return;
-  if (!classes.length) { el.innerHTML = '<p class="empty-msg">Agenda tu primera clase.</p>'; return; }
-  el.innerHTML = classes.map(c => {
-    const d = c.date ? new Date(c.date+'T00:00:00').toLocaleDateString('es-CR',{weekday:'short',day:'2-digit',month:'short'}) : '';
-    return `<div class="tl-item">
-      <div class="tl-dot"></div>
-      <div>
-        <div class="tl-topic">${c.topic}</div>
-        <div class="tl-meta">${d}${c.duration?' · '+c.duration:''}${c.level?' · '+c.level:''}</div>
-        ${c.materials?`<div class="tl-meta" style="margin-top:4px">📦 ${c.materials}</div>`:''}
-        <div class="tl-actions">
-          <button class="icon-btn" style="font-size:11px" onclick="delClass('${c.id}')">🗑️ Eliminar</button>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function saveClass() {
-  const topic = document.getElementById('clTopic').value.trim();
-  if (!topic) { showToast('Ingresa el tema de la clase', 'err'); return; }
-  db.add(SK.classes, {
-    id: uid(), topic,
-    date:      document.getElementById('clDate').value,
-    duration:  document.getElementById('clDuration').value,
-    level:     document.getElementById('clLevel').value,
-    materials: document.getElementById('clMaterials').value,
-    notes:     document.getElementById('clNotes').value
-  });
-  document.getElementById('clTopic').value = '';
-  document.getElementById('clMaterials').value = '';
-  document.getElementById('clNotes').value = '';
-  document.getElementById('classFormWrap').classList.remove('on');
-  renderClasses(); renderCalendar(); renderDashboard();
-  showToast('📅 Clase registrada', 'ok');
-}
-
-function delClass(id) { db.del(SK.classes,id); renderClasses(); renderCalendar(); renderDashboard(); }
-
-// ── PROJECTS ─────────────────────────────────────────────────
-function renderProjects() {
-  const items = db.get(SK.projects);
-  const el = document.getElementById('projectGrid');
-  if (!el) return;
-  if (!items.length) { el.innerHTML = '<p class="empty-msg">Agrega tu primer proyecto.</p>'; return; }
-  const statusColors = { 'Planificado':'#6ea5c8','En proceso':'#f59e0b','En revisión':'#e879f9','Completado':'#10b981' };
-  el.innerHTML = items.map(p => `
-    <div class="proj-card">
-      <div class="pc-head">
-        <div><div class="pc-name">${p.name}</div><div class="pc-type">${p.type}</div></div>
-        <span class="badge" style="background:${statusColors[p.status]||'#888'}22;color:${statusColors[p.status]||'#888'};border:1px solid ${statusColors[p.status]||'#888'}33">${p.status}</span>
-      </div>
-      <div class="prog-bar"><div class="prog-fill" style="width:${p.progress||0}%"></div></div>
-      <div class="pc-stats">
-        <span>${p.progress||0}% completado</span>
-        <button class="s-del" onclick="delProject('${p.id}')">×</button>
-      </div>
-      ${p.pending?`<div style="font-size:11px;color:var(--text2);margin-top:8px;line-height:1.5">📌 ${p.pending}</div>`:''}
-    </div>`).join('');
-}
-
-function saveProject() {
-  const name = document.getElementById('prjName').value.trim();
-  if (!name) { showToast('Ingresa el nombre del proyecto', 'err'); return; }
-  db.add(SK.projects, {
-    id: uid(), name,
-    type:     document.getElementById('prjType').value,
-    progress: document.getElementById('prjProgress').value,
-    status:   document.getElementById('prjStatus').value,
-    pending:  document.getElementById('prjPending').value
-  });
-  document.getElementById('prjName').value = '';
-  document.getElementById('prjPending').value = '';
-  document.getElementById('prjProgress').value = '10';
-  document.getElementById('projectFormWrap').classList.remove('on');
-  renderProjects(); renderDashboard();
-  showToast('🚀 Proyecto guardado', 'ok');
-}
-
-function delProject(id) { db.del(SK.projects,id); renderProjects(); renderDashboard(); }
-
-// ── CLIENTS ──────────────────────────────────────────────────
-function renderClients() {
-  const items = db.get(SK.clients);
-  const el = document.getElementById('clientGrid');
-  if (!el) return;
-  if (!items.length) { el.innerHTML = '<p class="empty-msg">Agrega tu primer cliente.</p>'; return; }
-  const statusColors = { Prospecto:'#6ea5c8', Contactado:'#7c3aed', Cotizado:'#f59e0b', 'En proceso':'#00c8f0', Finalizado:'#10b981' };
-  el.innerHTML = items.map(c => `
-    <div class="client-card">
-      <div class="cli-head">
-        <div class="cli-name">${c.name}</div>
-        <span class="badge" style="background:${statusColors[c.status]||'#888'}22;color:${statusColors[c.status]||'#888'}">${c.status}</span>
-      </div>
-      ${c.needs?`<div class="cli-needs">📋 ${c.needs}</div>`:''}
-      ${c.next?`<div class="cli-action">→ ${c.next}</div>`:''}
-      <div style="margin-top:8px"><button class="s-del" onclick="delClient('${c.id}')">× Eliminar</button></div>
-    </div>`).join('');
-}
-
-function saveClient() {
-  const name = document.getElementById('cliName').value.trim();
-  if (!name) { showToast('Ingresa el nombre del cliente', 'err'); return; }
-  db.add(SK.clients, {
-    id: uid(), name,
-    status: document.getElementById('cliStatus').value,
-    needs:  document.getElementById('cliNeeds').value,
-    next:   document.getElementById('cliNext').value
-  });
-  document.getElementById('cliName').value = '';
-  document.getElementById('cliNeeds').value = '';
-  document.getElementById('cliNext').value = '';
-  document.getElementById('clientFormWrap').classList.remove('on');
-  renderClients();
-  showToast('👤 Cliente guardado', 'ok');
-}
-
-function delClient(id) { db.del(SK.clients,id); renderClients(); }
-
-// ── SOLUTIONS ────────────────────────────────────────────────
-function renderSolutions() {
-  document.getElementById('solutionGrid').innerHTML = SOLUTIONS.map(s => `
-    <div class="sol-card">
-      <span class="sol-st st-${s.status}">${s.status === 'active' ? 'Activo' : s.status === 'dev' ? 'En desarrollo' : 'Idea'}</span>
-      <div class="sol-icon">${s.icon}</div>
-      <div class="sol-name">${s.name}</div>
-      <div class="sol-desc">${s.desc}</div>
-    </div>`).join('');
-}
-
-// ── TOAST ────────────────────────────────────────────────────
-let toastTimeout;
-function showToast(msg, type = 'ok') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = `toast ${type} show`;
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => t.classList.remove('show'), 3200);
-}
-
-// ── DATE ─────────────────────────────────────────────────────
-function initDate() {
-  const d = new Date();
-  const opts = { weekday:'long', day:'2-digit', month:'long' };
-  const str = d.toLocaleDateString('es-CR', opts);
-  const label = document.getElementById('todayLabel');
-  if (label) label.textContent = str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-// ── TOGGLE HELPERS ───────────────────────────────────────────
-function toggleForm(id) { document.getElementById(id)?.classList.toggle('on'); }
-function openForm(id)   { document.getElementById(id)?.classList.add('on'); }
-function closeForm(id)  { document.getElementById(id)?.classList.remove('on'); }
-
-// ── EVENT LISTENERS ──────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-  initDate();
-  renderDashboard();
-  renderTemplates();
-  renderSolutions();
-
-  // Navigation
-  document.querySelectorAll('[data-view]').forEach(el => {
-    el.addEventListener('click', () => showView(el.dataset.view));
-  });
-
-  // Sidebar toggle (mobile)
-  document.getElementById('menuToggle')?.addEventListener('click', () => {
-    document.getElementById('sidebar').classList.toggle('open');
-  });
-
-  // Type selector
-  document.getElementById('typeGrid')?.addEventListener('click', e => {
-    const btn = e.target.closest('[data-type]');
-    if (btn) selectType(btn.dataset.type);
-  });
-
-  // Generate button
-  document.getElementById('generateBtn')?.addEventListener('click', generateResource);
-
-  // CONTENT form
-  document.getElementById('newContentBtn')?.addEventListener('click', () => openForm('contentFormWrap'));
-  document.getElementById('closeContentForm')?.addEventListener('click', () => closeForm('contentFormWrap'));
-  document.getElementById('cancelContentBtn')?.addEventListener('click', () => closeForm('contentFormWrap'));
-  document.getElementById('saveContentBtn')?.addEventListener('click', saveContent);
-
-  // CLASSES form
-  document.getElementById('newClassBtn')?.addEventListener('click', () => toggleForm('classFormWrap'));
-  document.getElementById('closeClassForm')?.addEventListener('click', () => closeForm('classFormWrap'));
-  document.getElementById('cancelClassBtn')?.addEventListener('click', () => closeForm('classFormWrap'));
-  document.getElementById('saveClassBtn')?.addEventListener('click', saveClass);
-
-  // PROJECTS form
-  document.getElementById('newProjectBtn')?.addEventListener('click', () => toggleForm('projectFormWrap'));
-  document.getElementById('closeProjectForm')?.addEventListener('click', () => closeForm('projectFormWrap'));
-  document.getElementById('cancelProjectBtn')?.addEventListener('click', () => closeForm('projectFormWrap'));
-  document.getElementById('saveProjectBtn')?.addEventListener('click', saveProject);
-
-  // CLIENTS form
-  document.getElementById('newClientBtn')?.addEventListener('click', () => toggleForm('clientFormWrap'));
-  document.getElementById('closeClientForm')?.addEventListener('click', () => closeForm('clientFormWrap'));
-  document.getElementById('cancelClientBtn')?.addEventListener('click', () => closeForm('clientFormWrap'));
-  document.getElementById('saveClientBtn')?.addEventListener('click', saveClient);
-
-  // Enter key in forms
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      ['contentFormWrap','classFormWrap','projectFormWrap','clientFormWrap'].forEach(id => closeForm(id));
-    }
-  });
-});
-</script>
-</body>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
 </html>
