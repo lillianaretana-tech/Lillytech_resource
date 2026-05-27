@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LillyTech — Tu asistente estratégica con IA</title>
+  <title>LillyTech — Asistente Estratégica IA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -40,7 +40,7 @@ html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
 /* NOISE */
-.noise{position:fixed;inset:0;pointer-events:none;z-index:200;
+.noise{position:fixed;inset:0;pointer-events:none;z-index:9999;
   background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
   opacity:.45}
 
@@ -67,8 +67,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   background:var(--cyan);border-radius:0 2px 2px 0}
 .nav-icon{width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;
   stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
-.nav-group-label{font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted);
-  padding:12px 16px 4px;text-transform:uppercase}
 .sidebar-foot{padding:12px;margin:8px 12px 12px;border-radius:var(--rsm);
   background:var(--card);border:1px solid var(--border)}
 .pulse-dot{width:7px;height:7px;background:var(--green);border-radius:50%;
@@ -138,10 +136,6 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   margin:6px 0;background:linear-gradient(135deg,var(--text),var(--cyan));-webkit-background-clip:text;
   -webkit-text-fill-color:transparent;background-clip:text}
 .hero-content > p{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:0}
-.hero-stats{display:flex;gap:24px;margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}
-.hero-stat{display:flex;flex-direction:column;gap:2px}
-.hero-stat span{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--cyan)}
-.hero-stat small{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em}
 .hero-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
 .metric-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
@@ -244,10 +238,6 @@ select{appearance:none;cursor:pointer}
 .s-meta{font-size:10px;color:var(--text2);margin-top:1px}
 .s-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;
   padding:2px 4px;transition:color var(--t);line-height:1}
-.s-del:hover{color:var(--red)}
-.s-fav{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 3px;transition:color var(--t);line-height:1}
-.s-fav:hover{color:var(--amber)}
-.resource-tag{display:inline-block;padding:1px 6px;background:var(--cyan-d);color:var(--cyan);border-radius:10px;font-size:9px;font-weight:600;margin-left:3px}
 .s-del:hover{color:var(--red)}
 .empty-msg{text-align:center;padding:28px;color:var(--muted);font-size:13px;line-height:1.5}
 
@@ -393,436 +383,69 @@ select{appearance:none;cursor:pointer}
   .field-row,.inline-grid3{grid-template-columns:1fr}
 }
 
-/* PRINT / PDF */
-@media print {
-  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
-  .output-actions, .module-head button, .toast, .noise { display:none!important; }
-  .workspace { margin-left:0!important; }
-  .view { display:block!important; padding:0!important; }
-  .builder-layout { display:block!important; }
-  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
-  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
-  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
-  .output-body h3 { color:#333!important; margin:14px 0 6px; }
-  .output-body ul, .output-body ol { padding-left:20px; }
-  .output-body strong { color:#000!important; }
-  .output-body code { background:#f0f0f0!important; color:#333!important; }
-  @page { margin:2cm; size:A4; }
-}
-
-
-      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
-      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
-      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
-      h3{color:#333;margin:18px 0 6px;font-size:15px}
-      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
-      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
-      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
-      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
-      @media print{body{padding:20px}}
-    
-
-      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
-      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
-      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
-      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
-      ul, ol { padding-left: 22px; margin: 8px 0; }
-      li { margin-bottom: 4px; }
-      strong { color: #000; }
-      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
-      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
-      .logo { font-size:18px; font-weight:700; color:#005f9e; }
-      .date { font-size:12px; color:#666; }
-      @media print { body { padding: 20px; } }
-    
-/* PRINT / PDF */
-@media print {
-  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
-  .output-actions, .module-head button, .toast, .noise { display:none!important; }
-  .workspace { margin-left:0!important; }
-  .view { display:block!important; padding:0!important; }
-  .builder-layout { display:block!important; }
-  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
-  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
-  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
-  .output-body h3 { color:#333!important; margin:14px 0 6px; }
-  .output-body ul, .output-body ol { padding-left:20px; }
-  .output-body strong { color:#000!important; }
-  .output-body code { background:#f0f0f0!important; color:#333!important; }
-  @page { margin:2cm; size:A4; }
-}
-
-
-      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
-      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
-      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
-      h3{color:#333;margin:18px 0 6px;font-size:15px}
-      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
-      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
-      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
-      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
-      @media print{body{padding:20px}}
-    
-
-      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
-      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
-      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
-      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
-      ul, ol { padding-left: 22px; margin: 8px 0; }
-      li { margin-bottom: 4px; }
-      strong { color: #000; }
-      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
-      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
-      .logo { font-size:18px; font-weight:700; color:#005f9e; }
-      .date { font-size:12px; color:#666; }
-      @media print { body { padding: 20px; } }
-    
-/* PRINT / PDF */
-@media print {
-  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
-  .output-actions, .module-head button, .toast, .noise { display:none!important; }
-  .workspace { margin-left:0!important; }
-  .view { display:block!important; padding:0!important; }
-  .builder-layout { display:block!important; }
-  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
-  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
-  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
-  .output-body h3 { color:#333!important; margin:14px 0 6px; }
-  .output-body ul, .output-body ol { padding-left:20px; }
-  .output-body strong { color:#000!important; }
-  .output-body code { background:#f0f0f0!important; color:#333!important; }
-  @page { margin:2cm; size:A4; }
-}
-
-
-      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
-      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
-      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
-      h3{color:#333;margin:18px 0 6px;font-size:15px}
-      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
-      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
-      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
-      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
-      @media print{body{padding:20px}}
-    
-
-      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
-      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
-      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
-      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
-      ul, ol { padding-left: 22px; margin: 8px 0; }
-      li { margin-bottom: 4px; }
-      strong { color: #000; }
-      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
-      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
-      .logo { font-size:18px; font-weight:700; color:#005f9e; }
-      .date { font-size:12px; color:#666; }
-      @media print { body { padding: 20px; } }
-    
-/* PRINT / PDF */
-@media print {
-  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
-  .output-actions, .module-head button, .toast, .noise { display:none!important; }
-  .workspace { margin-left:0!important; }
-  .view { display:block!important; padding:0!important; }
-  .builder-layout { display:block!important; }
-  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
-  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
-  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
-  .output-body h3 { color:#333!important; margin:14px 0 6px; }
-  .output-body ul, .output-body ol { padding-left:20px; }
-  .output-body strong { color:#000!important; }
-  .output-body code { background:#f0f0f0!important; color:#333!important; }
-  @page { margin:2cm; size:A4; }
-}
-
-
-      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
-      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
-      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
-      h3{color:#333;margin:18px 0 6px;font-size:15px}
-      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
-      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
-      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
-      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
-      @media print{body{padding:20px}}
-    
-
-      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
-      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
-      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
-      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
-      ul, ol { padding-left: 22px; margin: 8px 0; }
-      li { margin-bottom: 4px; }
-      strong { color: #000; }
-      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
-      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
-      .logo { font-size:18px; font-weight:700; color:#005f9e; }
-      .date { font-size:12px; color:#666; }
-      @media print { body { padding: 20px; } }
-    
-/* PRINT / PDF */
-@media print {
-  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
-  .output-actions, .module-head button, .toast, .noise { display:none!important; }
-  .workspace { margin-left:0!important; }
-  .view { display:block!important; padding:0!important; }
-  .builder-layout { display:block!important; }
-  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
-  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
-  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
-  .output-body h3 { color:#333!important; margin:14px 0 6px; }
-  .output-body ul, .output-body ol { padding-left:20px; }
-  .output-body strong { color:#000!important; }
-  .output-body code { background:#f0f0f0!important; color:#333!important; }
-  @page { margin:2cm; size:A4; }
-}
-
-
-      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
-      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
-      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
-      h3{color:#333;margin:18px 0 6px;font-size:15px}
-      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
-      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
-      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
-      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
-      @media print{body{padding:20px}}
-    
-
-      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
-      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
-      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
-      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
-      ul, ol { padding-left: 22px; margin: 8px 0; }
-      li { margin-bottom: 4px; }
-      strong { color: #000; }
-      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
-      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
-      .logo { font-size:18px; font-weight:700; color:#005f9e; }
-      .date { font-size:12px; color:#666; }
-      @media print { body { padding: 20px; } }
-    
-/* PRINT / PDF */
-@media print {
-  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
-  .output-actions, .module-head button, .toast, .noise { display:none!important; }
-  .workspace { margin-left:0!important; }
-  .view { display:block!important; padding:0!important; }
-  .builder-layout { display:block!important; }
-  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
-  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
-  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
-  .output-body h3 { color:#333!important; margin:14px 0 6px; }
-  .output-body ul, .output-body ol { padding-left:20px; }
-  .output-body strong { color:#000!important; }
-  .output-body code { background:#f0f0f0!important; color:#333!important; }
-  @page { margin:2cm; size:A4; }
-}
-
-
-      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
-      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
-      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
-      h3{color:#333;margin:18px 0 6px;font-size:15px}
-      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
-      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
-      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
-      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
-      @media print{body{padding:20px}}
-    
-
-      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
-      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
-      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
-      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
-      ul, ol { padding-left: 22px; margin: 8px 0; }
-      li { margin-bottom: 4px; }
-      strong { color: #000; }
-      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
-      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
-      .logo { font-size:18px; font-weight:700; color:#005f9e; }
-      .date { font-size:12px; color:#666; }
-      @media print { body { padding: 20px; } }
-    
-/* PRINT / PDF */
-@media print {
-  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
-  .output-actions, .module-head button, .toast, .noise { display:none!important; }
-  .workspace { margin-left:0!important; }
-  .view { display:block!important; padding:0!important; }
-  .builder-layout { display:block!important; }
-  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
-  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
-  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
-  .output-body h3 { color:#333!important; margin:14px 0 6px; }
-  .output-body ul, .output-body ol { padding-left:20px; }
-  .output-body strong { color:#000!important; }
-  .output-body code { background:#f0f0f0!important; color:#333!important; }
-  @page { margin:2cm; size:A4; }
-}
-
-
-      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
-      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
-      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
-      h3{color:#333;margin:18px 0 6px;font-size:15px}
-      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
-      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
-      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
-      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
-      @media print{body{padding:20px}}
-    
-
-      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
-      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
-      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
-      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
-      ul, ol { padding-left: 22px; margin: 8px 0; }
-      li { margin-bottom: 4px; }
-      strong { color: #000; }
-      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
-      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
-      .logo { font-size:18px; font-weight:700; color:#005f9e; }
-      .date { font-size:12px; color:#666; }
-      @media print { body { padding: 20px; } }
-    
-/* PRINT / PDF */
-@media print {
-  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
-  .output-actions, .module-head button, .toast, .noise { display:none!important; }
-  .workspace { margin-left:0!important; }
-  .view { display:block!important; padding:0!important; }
-  .builder-layout { display:block!important; }
-  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
-  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
-  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
-  .output-body h3 { color:#333!important; margin:14px 0 6px; }
-  .output-body ul, .output-body ol { padding-left:20px; }
-  .output-body strong { color:#000!important; }
-  .output-body code { background:#f0f0f0!important; color:#333!important; }
-  @page { margin:2cm; size:A4; }
-}
-
-
-      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
-      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
-      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
-      h3{color:#333;margin:18px 0 6px;font-size:15px}
-      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
-      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
-      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
-      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
-      @media print{body{padding:20px}}
-    
-
-      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
-      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
-      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
-      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
-      ul, ol { padding-left: 22px; margin: 8px 0; }
-      li { margin-bottom: 4px; }
-      strong { color: #000; }
-      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
-      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
-      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
-      .logo { font-size:18px; font-weight:700; color:#005f9e; }
-      .date { font-size:12px; color:#666; }
-      @media print { body { padding: 20px; } }
-    
-/* GLOBAL SEARCH */
-.search-overlay{position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;background:rgba(5,16,31,.85);z-index:2147483646;
-  display:flex;align-items:flex-start;justify-content:center;padding:80px 20px 20px;
-  animation:fadeIn .2s ease}
-.search-box{background:var(--card);border:1px solid var(--border2);border-radius:14px;
-  width:100%;max-width:600px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5)}
-.search-input-wrap{display:flex;align-items:center;gap:12px;padding:16px 20px;
-  border-bottom:1px solid var(--border)}
-.search-icon{color:var(--text2);font-size:16px;flex-shrink:0}
-.search-input{flex:1;background:none;border:none;outline:none;font-size:16px;
-  color:var(--text);font-family:'Inter',sans-serif}
+.icon-btn.violet{color:var(--violet);border-color:var(--violet-d)}
+.icon-btn.violet:hover{background:var(--violet-d)}
+.icon-btn.pink{color:var(--pink);border-color:var(--pink-d)}
+.icon-btn.pink:hover{background:var(--pink-d)}
+.s-fav{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 3px;transition:color var(--t);line-height:1}
+.s-fav:hover{color:var(--amber)}
+.resource-tag{display:inline-block;padding:1px 6px;background:var(--cyan-d);color:var(--cyan);border-radius:10px;font-size:9px;font-weight:600;margin-left:3px}
+/* SEARCH MODAL */
+.search-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(5,16,31,.92);z-index:2147483646;display:flex;align-items:flex-start;justify-content:center;padding:80px 20px 20px}
+.search-box{background:var(--card);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:580px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.search-input-row{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.search-input{flex:1;background:none;border:none;outline:none;font-size:15px;color:var(--text)}
 .search-input::placeholder{color:var(--muted)}
-.search-kbd{padding:2px 6px;background:var(--bg2);border:1px solid var(--border);
-  border-radius:4px;font-size:10px;color:var(--text2)}
-.search-results{max-height:400px;overflow-y:auto;padding:8px}
-.search-section-label{font-size:10px;color:var(--muted);text-transform:uppercase;
-  letter-spacing:.1em;padding:10px 12px 4px;font-weight:700}
-.search-result-item{display:flex;align-items:center;gap:10px;padding:10px 12px;
-  border-radius:8px;cursor:pointer;transition:background .15s}
-.search-result-item:hover{background:var(--cyan-d)}
-.search-result-icon{font-size:16px;flex-shrink:0;width:24px;text-align:center}
-.search-result-title{font-size:13px;color:var(--text);font-weight:500}
-.search-result-meta{font-size:11px;color:var(--text2);margin-top:1px}
-.search-empty{text-align:center;padding:40px 20px;color:var(--text2);font-size:13px}
-.search-footer{padding:10px 16px;border-top:1px solid var(--border);
-  display:flex;gap:16px;font-size:11px;color:var(--muted)}
-
-/* CLIENT DETAIL MODAL */
-.client-modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;width:100vw;height:100vh;background:rgba(5,16,31,.88);z-index:2147483645;
-  display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
-.client-modal{background:var(--card);border:1px solid var(--border2);border-radius:14px;
-  width:100%;max-width:640px;max-height:85vh;overflow-y:auto}
-.client-modal-head{padding:24px 24px 16px;border-bottom:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:flex-start}
-.client-modal-name{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700}
-.client-modal-body{padding:20px 24px}
-.client-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
-.client-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
-  padding:14px;text-align:center}
-.client-stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;color:var(--cyan);display:block}
-.client-stat small{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em}
-.client-section-title{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;
-  letter-spacing:.1em;margin:16px 0 8px}
-.client-resource-list{display:grid;gap:6px}
-.client-resource-item{display:flex;align-items:center;gap:10px;padding:8px 10px;
-  background:var(--bg2);border-radius:8px;cursor:pointer;transition:background .15s}
-.client-resource-item:hover{background:var(--cyan-d)}
-
+.search-results{max-height:380px;overflow-y:auto;padding:6px}
+.search-grp{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:8px 12px 3px;font-weight:700}
+.search-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;transition:background .15s}
+.search-item:hover,.search-item.sel{background:var(--cyan-d)}
+.search-item-title{font-size:13px;color:var(--text);font-weight:500}
+.search-item-meta{font-size:11px;color:var(--text2)}
+.search-empty{text-align:center;padding:36px 20px;color:var(--text2);font-size:13px}
+.search-footer{padding:8px 16px;border-top:1px solid var(--border);display:flex;gap:14px;font-size:10px;color:var(--muted)}
 /* ONBOARDING DIALOG */
-#onboardingDialog{border:none;border-radius:16px;padding:0;background:var(--card);
-  color:var(--text);max-width:500px;width:calc(100vw - 40px);
-  box-shadow:0 32px 80px rgba(0,0,0,.7)}
-#onboardingDialog::backdrop{background:rgba(5,16,31,.93)}
-.ob-box{padding:32px}
-.ob-logo{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;color:var(--cyan);margin-bottom:4px}
+#obDialog{border:none;border-radius:16px;padding:0;background:var(--card);color:var(--text);max-width:500px;width:calc(100vw - 40px);box-shadow:0 32px 80px rgba(0,0,0,.7)}
+#obDialog::backdrop{background:rgba(5,16,31,.94)}
+.ob-box{padding:30px}
+.ob-logo{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--cyan)}
 .ob-logo small{display:block;font-size:11px;color:var(--text2);font-weight:400;margin-top:2px}
-.ob-title{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;margin:18px 0 8px}
-.ob-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px}
-.ob-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px}
+.ob-h{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;margin:18px 0 8px}
+.ob-p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:18px}
+.ob-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
 .ob-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
-.ob-card .ob-icon{font-size:22px;margin-bottom:4px}
-.ob-card .ob-name{font-size:12px;font-weight:600;color:var(--text)}
-.ob-card .ob-desc2{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.4}
-.ob-steps{display:grid;gap:10px;margin-bottom:20px}
-.ob-step-row{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px}
-.ob-step-num{font-size:18px;flex-shrink:0}
-.ob-step-title{font-size:13px;font-weight:600;color:var(--text);display:block;margin-bottom:2px}
-.ob-step-desc{font-size:11px;color:var(--text2)}
-.ob-shortcuts{display:grid;gap:8px;margin-bottom:20px}
-.ob-shortcut{display:flex;gap:10px;align-items:center;padding:10px 12px;
-  background:var(--bg2);border:1px solid var(--border);border-radius:10px;
-  cursor:pointer;transition:border-color .2s;text-align:left;width:100%;color:var(--text)}
-.ob-shortcut:hover{border-color:var(--cyan)}
-.ob-shortcut .ob-sh-icon{font-size:20px;flex-shrink:0}
-.ob-shortcut strong{font-size:13px;display:block}
-.ob-shortcut span{font-size:11px;color:var(--text2)}
-.ob-nav{display:flex;justify-content:space-between;align-items:center;margin-top:4px;padding-top:16px;border-top:1px solid var(--border)}
+.ob-icon{font-size:22px;margin-bottom:4px}
+.ob-name{font-size:12px;font-weight:600}
+.ob-desc2{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.4}
+.ob-steps{display:grid;gap:8px;margin-bottom:18px}
+.ob-step{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
+.ob-step strong{font-size:13px;display:block;margin-bottom:2px}
+.ob-step span{font-size:11px;color:var(--text2)}
+.ob-actions{display:grid;gap:8px;margin-bottom:18px}
+.ob-action{display:flex;gap:12px;align-items:center;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s;width:100%}
+.ob-action:hover{border-color:var(--cyan)}
+.ob-action strong{font-size:13px;display:block}
+.ob-action span{font-size:11px;color:var(--text2)}
+.ob-nav{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border)}
 .ob-dots{display:flex;gap:5px}
 .ob-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);transition:background .2s}
-.ob-dot.active{background:var(--cyan);width:18px;border-radius:3px}
-.ob-btns{display:flex;gap:8px;align-items:center}
+.ob-dot.on{background:var(--cyan);width:18px;border-radius:3px}
 .ob-skip{background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:4px 8px}
 .ob-skip:hover{color:var(--text2)}
+/* CLIENT DETAIL MODAL */
+.cli-modal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(5,16,31,.9);z-index:2147483645;display:flex;align-items:center;justify-content:center;padding:20px}
+.cli-modal{background:var(--card);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:620px;max-height:85vh;overflow-y:auto}
+.cli-modal-head{padding:22px 24px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start}
+.cli-modal-name{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700}
+.cli-modal-body{padding:18px 24px}
+.cli-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.cli-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.cli-stat strong{font-family:'Space Grotesk',sans-serif;font-size:20px;color:var(--cyan);display:block}
+.cli-stat small{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em}
+.cli-sec{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin:14px 0 7px}
+.cli-res-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg2);border-radius:8px;cursor:pointer;transition:background .15s;margin-bottom:5px}
+.cli-res-item:hover{background:var(--cyan-d)}
 </style>
-
 </head>
 <body>
 <div class="noise" aria-hidden="true"></div>
@@ -838,8 +461,7 @@ select{appearance:none;cursor:pointer}
       <button class="nav-link active" data-view="dashboard">
         <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard
       </button>
-
-      <div class="nav-group-label">CREAR</div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted);padding:12px 16px 4px;text-transform:uppercase">CREAR</div>
       <button class="nav-link" data-view="propuestas">
         <svg class="nav-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Generador IA
       </button>
@@ -849,8 +471,7 @@ select{appearance:none;cursor:pointer}
       <button class="nav-link" data-view="plantillas">
         <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="5" rx="1"/><rect x="3" y="11" width="11" height="10" rx="1"/><rect x="17" y="11" width="4" height="4" rx="1"/><rect x="17" y="18" width="4" height="3" rx="1"/></svg>Plantillas
       </button>
-
-      <div class="nav-group-label">OPERAR</div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted);padding:12px 16px 4px;text-transform:uppercase">OPERAR</div>
       <button class="nav-link" data-view="contenido">
         <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Contenido
       </button>
@@ -863,18 +484,13 @@ select{appearance:none;cursor:pointer}
       <button class="nav-link" data-view="clientes">
         <svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Clientes
       </button>
-
-      <div class="nav-group-label">SISTEMA</div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted);padding:12px 16px 4px;text-transform:uppercase">SISTEMA</div>
       <button class="nav-link" data-view="soluciones">
         <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Soluciones
       </button>
     </nav>
     <div class="sidebar-foot">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-        <span class="pulse-dot"></span><small style="color:var(--green)">Sistema activo</small>
-      </div>
-      <strong style="font-size:11px">LillyTech v1.0</strong>
-      <span style="font-size:10px;color:var(--muted);margin-top:2px;display:block">GPT-4o · Cloudflare Proxy</span>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span class="pulse-dot"></span><small style="color:var(--green)">Sistema activo</small></div><strong style="font-size:11px">LillyTech v2.0</strong><span style="font-size:10px;color:var(--muted);display:block;margin-top:2px">GPT-4o · Cloudflare Proxy</span>
     </div>
   </aside>
 
@@ -883,17 +499,12 @@ select{appearance:none;cursor:pointer}
     <header class="topbar">
       <button class="menu-toggle" id="menuToggle" aria-label="Menú">☰</button>
       <div class="title-area">
-        <p class="eyebrow">LillyTech · Asistente IA</p>
+        <p class="eyebrow">Asistente estratégica personal</p>
         <h2 id="viewTitle">Panel de recursos</h2>
       </div>
       <div class="top-actions">
-        <button class="ghost-btn" id="searchTrigger" onclick="openSearch()" 
-          style="display:flex;align-items:center;gap:6px;font-size:12px;padding:6px 12px">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
-          Buscar
-          <span class="search-kbd">Ctrl+K</span>
+        <button class="ghost-btn" onclick="openSearch()" style="display:flex;align-items:center;gap:6px;font-size:12px;padding:6px 12px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Buscar<span class="search-kbd" style="padding:2px 6px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;font-size:10px;color:var(--text2)">Ctrl+K</span>
         </button>
         <div class="date-chip" id="todayLabel"></div>
         <button class="primary-btn jump-btn" data-view="propuestas">⚡ Crear con IA</button>
@@ -904,19 +515,13 @@ select{appearance:none;cursor:pointer}
     <section class="view active" id="dashboard" data-title="Panel de recursos">
       <article class="hero card">
         <div class="hero-content">
-          <p class="eyebrow">Tu sistema operativo con inteligencia artificial</p>
-          <h3>Lo que sabes, convertido en lo que necesitas.</h3>
-          <p>Clases completas, planes de negocio, contenido, automatizaciones y propuestas — generadas con IA en minutos, no en días. Diseñado para profesionales latinoamericanos que operan solos pero piensan en grande.</p>
+          <p class="eyebrow">LillyTech Resource Builder</p>
+          <h3>Prepara. Enseña. Automatiza.</h3>
+          <p>Tu asistente estratégica para crear clases, rutas, contenido, automatizaciones y propuestas con IA.</p>
           <div class="hero-actions">
-            <button class="primary-btn jump-btn" data-view="propuestas">⚡ Crear con IA</button>
-            <button class="ghost-btn jump-btn" data-view="asesor">💼 Asesor de negocios</button>
-            <button class="ghost-btn jump-btn" data-view="plantillas">📚 Plantillas</button>
+            <button class="primary-btn jump-btn" data-view="propuestas">✨ Crear recurso</button>
+            <button class="ghost-btn jump-btn" data-view="plantillas">📚 Usar plantilla</button>
           </div>
-        </div>
-        <div class="hero-stats">
-          <div class="hero-stat"><span id="heroTotal">0</span><small>recursos generados</small></div>
-          <div class="hero-stat"><span id="heroModules">7</span><small>módulos activos</small></div>
-          <div class="hero-stat"><span id="heroClients">0</span><small>clientes</small></div>
         </div>
       </article>
       <div class="metrics-grid" id="metricsGrid"></div>
@@ -956,8 +561,8 @@ select{appearance:none;cursor:pointer}
       <div class="module-head">
         <div>
           <p class="eyebrow">Generador de recursos con IA</p>
-          <h3>Generador IA</h3>
-          <p class="muted">Clases, rutas, contenido, automatizaciones y propuestas — generadas completas en minutos. Todo se guarda automáticamente.</p>
+          <h3>Resource Builder</h3>
+          <p class="muted">Clases completas, rutas, contenido, automatizaciones y propuestas listas para usar.</p>
         </div>
       </div>
       <div class="builder-layout">
@@ -992,41 +597,23 @@ select{appearance:none;cursor:pointer}
           <div class="form-section on gap-top" id="fs-tone">
             <label>Tono deseado<select id="fTone"><option>Sencillo y motivador</option><option>Profesional y ejecutivo</option><option>Práctico y cercano</option><option>Dinámico para redes</option></select></label>
           </div>
-          <div style="margin-top:14px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm)">
+          <div style="margin-top:12px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm)">
             <label style="margin:0;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:8px;cursor:pointer">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-              Vincular a cliente (opcional)
+              👤 Vincular a cliente (opcional)
               <select id="fClientLink" style="flex:1;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 6px;font-size:11px">
                 <option value="">— Sin cliente —</option>
               </select>
             </label>
           </div>
-          <button class="primary-btn" id="generateBtn" style="margin-top:14px;width:100%;padding:12px;font-size:14px">⚡ Generar recurso completo</button>
-          <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:8px">El resultado se guarda automáticamente en tu biblioteca</p>
+          <button class="primary-btn" id="generateBtn" style="margin-top:12px;width:100%;padding:12px;font-size:14px">⚡ Generar recurso completo</button>
+          <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:6px">Se guarda automáticamente en tu biblioteca</p>
         </div>
         <!-- OUTPUT -->
         <article class="card output-panel" id="proposalOutput">
           <div class="output-empty" id="outputEmpty">
-            <div class="big-icon">⚡</div>
-            <h3>Tu recurso aparecerá aquí</h3>
-            <p style="margin-bottom:16px">Selecciona el tipo de recurso, completa los campos y presiona <strong>Generar</strong>. La IA construye el contenido completo en tiempo real.</p>
-            <div style="display:grid;gap:8px;text-align:left;max-width:280px;margin:0 auto">
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="color:var(--cyan);font-size:16px">🎓</span> Clases listas para impartir
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="color:var(--violet);font-size:16px">🗺️</span> Rutas de aprendizaje paso a paso
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="color:var(--green);font-size:16px">📱</span> Contenido para redes y video
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="color:var(--amber);font-size:16px">⚙️</span> Diagnósticos de automatización
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="color:var(--pink);font-size:16px">📄</span> Propuestas y materiales de venta
-              </div>
-            </div>
+            <div class="big-icon">✨</div>
+            <h3>Lista para construir contigo</h3>
+            <p>Selecciona el tipo, completa el formulario y genera recursos completos listos para usar.</p>
           </div>
         </article>
         <!-- SAVED -->
@@ -1035,12 +622,7 @@ select{appearance:none;cursor:pointer}
             <div><p class="eyebrow">Tu biblioteca personal</p><h3>Recursos guardados</h3></div>
             <span class="badge cyan" id="savedCount">0</span>
           </div>
-          <div style="padding:0 0 8px">
-            <input type="text" id="savedSearch" placeholder="🔍 Buscar en recursos guardados…" 
-              style="width:100%;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);color:var(--text);font-size:12px"
-              oninput="filterSaved(this.value)">
-          </div>
-          <div class="saved-list" id="savedList"><p class="empty-msg">Genera tu primer recurso — se guardará automáticamente.</p></div>
+          <div class="saved-list" id="savedList"><p class="empty-msg">Aún no has guardado recursos.<br>¡Genera el primero!</p></div>
         </article>
       </div>
     </section>
@@ -1158,85 +740,38 @@ select{appearance:none;cursor:pointer}
     </section>
 
 
-    <!-- ====== ASESOR DE NEGOCIOS ====== -->
+    <!-- ASESOR DE NEGOCIOS -->
     <section class="view" id="asesor" data-title="Asesor de Negocios">
-      <div class="module-head">
-        <div>
-          <p class="eyebrow">Tu consejero estratégico personal</p>
-          <h3>Asesor de Negocios con IA</h3>
-          <p class="muted">Dime qué tienes y te digo qué negocio crear, cómo arrancarlo y cómo hacerlo crecer.</p>
-        </div>
-      </div>
+      <div class="module-head"><div>
+        <p class="eyebrow">Tu consejero estratégico personal</p>
+        <h3>Asesor de Negocios con IA</h3>
+        <p class="muted">Dime qué tienes y te diseño el negocio más viable, con estrategia y plan de acción.</p>
+      </div></div>
       <div class="builder-layout">
-        <!-- FORM -->
         <div class="card builder-form">
           <p class="eyebrow" style="margin-bottom:10px">¿Qué tienes disponible?</p>
-
-          <label>💰 Capital o presupuesto inicial
-            <input type="text" id="aCash" placeholder="Ej: $500, $2000, sin capital inicial…">
-          </label>
-
-          <label class="gap-top">⏰ Tiempo disponible
-            <input type="text" id="aTime" placeholder="Ej: 2 horas al día, fines de semana, tiempo completo…">
-          </label>
-
-          <label class="gap-top">🧠 Habilidades o conocimientos que tienes
-            <textarea id="aSkills" rows="3" placeholder="Ej: sé de IA, manejo Excel avanzado, tengo experiencia en limpieza comercial, sé diseñar en Canva…"></textarea>
-          </label>
-
-          <label class="gap-top">🛠️ Herramientas o recursos que ya tienes
-            <input type="text" id="aTools" placeholder="Ej: laptop, carro, cuenta de Make.com, suscripción ChatGPT, contactos en empresas…">
-          </label>
-
-          <label class="gap-top">👥 Red de contactos o acceso a mercado
-            <input type="text" id="aNetwork" placeholder="Ej: conozco dueños de pymes, tengo 500 seguidores en LinkedIn, trabajo en RRHH…">
-          </label>
-
-          <label class="gap-top">📍 País / ciudad / zona
-            <input type="text" id="aLocation" placeholder="Ej: San José, Costa Rica / Colombia / México…">
-          </label>
-
-          <label class="gap-top">🎯 ¿Tienes alguna idea o preferencia de negocio?
-            <input type="text" id="aIdea" placeholder="Ej: quiero algo digital, prefiero no atender público, me gustan los servicios B2B… (opcional)">
-          </label>
-
-          <label class="gap-top">⚠️ Restricciones o limitaciones importantes
-            <textarea id="aLimits" rows="2" placeholder="Ej: no puedo invertir tiempo en fines de semana, no quiero dejar mi trabajo actual todavía…"></textarea>
-          </label>
-
+          <label>💰 Capital inicial<input type="text" id="aCash" placeholder="Ej: $500, $2000, sin capital…"></label>
+          <label class="gap-top">⏰ Tiempo disponible<input type="text" id="aTime" placeholder="Ej: 2h/día, fines de semana, tiempo completo…"></label>
+          <label class="gap-top">🧠 Habilidades o conocimientos<textarea id="aSkills" rows="3" placeholder="Ej: sé de IA, Excel avanzado, experiencia en limpieza comercial…"></textarea></label>
+          <label class="gap-top">🛠️ Herramientas o recursos que ya tienes<input type="text" id="aTools" placeholder="Ej: laptop, carro, Make.com, ChatGPT, contactos empresariales…"></label>
+          <label class="gap-top">👥 Red de contactos<input type="text" id="aNetwork" placeholder="Ej: conozco dueños de pymes, seguidores en LinkedIn…"></label>
+          <label class="gap-top">📍 País / ciudad<input type="text" id="aLocation" placeholder="Ej: San José, Costa Rica"></label>
+          <label class="gap-top">🎯 Idea o preferencia (opcional)<input type="text" id="aIdea" placeholder="Ej: algo digital, servicios B2B, sin atender público..."></label>
+          <label class="gap-top">⚠️ Restricciones<textarea id="aLimits" rows="2" placeholder="Ej: no puedo dejar mi trabajo actual aún…"></textarea></label>
           <button class="primary-btn" id="asesorBtn" style="margin-top:18px;width:100%;padding:12px;font-size:14px">🚀 Generar plan de negocio</button>
         </div>
-
-        <!-- OUTPUT -->
         <article class="card output-panel" id="asesorOutput">
-          <div class="output-empty" id="asesorEmpty">
+          <div class="output-empty">
             <div class="big-icon">💼</div>
             <h3>Tu plan de negocio personalizado</h3>
-            <p style="margin-bottom:16px">Cuéntame qué tienes — tiempo, dinero, habilidades, herramientas — y te diseño el negocio más viable y rentable para tu perfil real.</p>
-            <div style="display:grid;gap:8px;text-align:left;max-width:280px;margin:0 auto">
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="font-size:16px">🏆</span> Top 3 ideas de negocio para ti
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="font-size:16px">📊</span> Modelo de negocio y proyección de ingresos
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="font-size:16px">🎯</span> Estrategia de marketing para primeros clientes
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
-                <span style="font-size:16px">📅</span> Plan de acción semana a semana (30 días)
-              </div>
+            <p style="margin-bottom:14px">Cuéntame qué tienes — tiempo, dinero, habilidades — y te diseño el negocio más viable para ti.</p>
+            <div style="display:grid;gap:7px;text-align:left;max-width:260px;margin:0 auto">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>🏆</span> Top 3 ideas de negocio para tu perfil</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>📊</span> Modelo de negocio y proyección de ingresos</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>🎯</span> Estrategia de marketing para primeros clientes</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>📅</span> Plan de acción semana a semana (30 días)</div>
             </div>
           </div>
-        </article>
-
-        <!-- SAVED -->
-        <article class="card" id="asesorSavedPanel">
-          <div class="panel-head">
-            <div><p class="eyebrow">Planes guardados</p><h3>Mis planes de negocio</h3></div>
-            <span class="badge cyan" id="asesorSavedCount">0</span>
-          </div>
-          <div class="saved-list" id="asesorSavedList"><p class="empty-msg">Aún no has guardado planes.</p></div>
         </article>
       </div>
     </section>
@@ -1376,7 +911,8 @@ function showView(name) {
 
 function refreshView(name) {
   if (name === 'dashboard')   renderDashboard();
-  if (name === 'propuestas')  { renderSaved(); populateClientSelector(); }
+  if (name === 'propuestas')  { renderSaved(); fillClientSelector(); }
+  if (name === 'asesor')       return;
   if (name === 'plantillas')  renderTemplates();
   if (name === 'contenido')   renderKanban();
   if (name === 'clases')      { renderClasses(); renderCalendar(); }
@@ -1593,371 +1129,6 @@ Cuerpo: [Email completo con saludo personalizado, presentación del problema, pr
   }
 }
 
-
-// ── CLIENT CONTEXT ───────────────────────────────────────────
-function populateClientSelector() {
-  const sel = document.getElementById('fClientLink');
-  if (!sel) return;
-  const clients = db.get(SK.clients);
-  const current = sel.value;
-  sel.innerHTML = '<option value="">— Sin cliente —</option>' + 
-    clients.map(c => `<option value="${c.name}" ${c.name===current?'selected':''}>${c.name} · ${c.status||''}</option>`).join('');
-}
-
-// ── CONNECT MODULES ──────────────────────────────────────────
-function renderConnectButtons(type, topic) {
-  const el = document.getElementById('connectBtns');
-  if (!el) return;
-  const map = {
-    clase: [
-      { label:'📱 Crear contenido', view:'propuestas', prefill:{ type:'contenido', topic:'Contenido para promover: '+topic, brief:'Tengo una clase sobre "'+topic+'" y necesito crear contenido para redes sociales.' } },
-      { label:'📄 Crear propuesta', view:'propuestas', prefill:{ type:'propuesta', topic:'Propuesta: '+topic, brief:'Quiero vender/ofrecer una capacitación sobre "'+topic+'".' } }
-    ],
-    ruta: [
-      { label:'📱 Crear contenido', view:'propuestas', prefill:{ type:'contenido', topic:'Contenido para: '+topic, brief:'Ruta de aprendizaje sobre "'+topic+'". Crear contenido para promoverla.' } }
-    ],
-    automatizacion: [
-      { label:'📄 Crear propuesta', view:'propuestas', prefill:{ type:'propuesta', topic:'Propuesta de automatización: '+topic, brief:'Diagnóstico y propuesta de automatización para "'+topic+'".' } }
-    ],
-    contenido: [
-      { label:'🎓 Crear clase', view:'propuestas', prefill:{ type:'clase', topic:'Clase sobre: '+topic, brief:'Basado en el contenido sobre "'+topic+'", crear una clase completa.' } }
-    ]
-  };
-  const btns = map[type] || [];
-  el.innerHTML = btns.map(b => 
-    `<button class="icon-btn violet" onclick='prefillAndGo(${JSON.stringify(b.prefill)})'>${b.label}</button>`
-  ).join('');
-}
-
-function prefillAndGo(data) {
-  showView('propuestas');
-  selectType(data.type);
-  setTimeout(() => {
-    if (data.topic) document.getElementById('fTopic').value = data.topic;
-    if (data.brief) document.getElementById('fBrief').value = data.brief;
-    showToast('Formulario prellenado — revisa y genera ⚡', 'ok');
-  }, 100);
-}
-
-// ── AUTO-SAVE ────────────────────────────────────────────────
-function autoSaveResource(type, topic) {
-  const resources = db.get(SK.resources);
-  // Avoid duplicate if same topic+type was just saved
-  const recent = resources[0];
-  if (recent && recent.type === type && recent.topic === topic && 
-      (Date.now() - recent.date) < 5000) return;
-  const clientLink = document.getElementById('fClientLink')?.value || '';
-  db.add(SK.resources, { id: uid(), type, topic, content: currentOutput, date: new Date().toISOString(), fav: false, tags: [], client: clientLink });
-  renderDashboard();
-}
-
-// ── ASESOR DE NEGOCIOS ───────────────────────────────────────
-const ASESOR_SYSTEM = `Eres un asesor experto en creación de negocios, con especialización en marketing digital, modelos de negocio viables y estrategia para emprendedores latinoamericanos. Tu misión es analizar los recursos reales que tiene una persona y diseñarle el plan de negocio más viable, práctico y rentable posible. Eres honesto, directo y práctico. No vendes sueños — das pasos concretos. Usas español latinoamericano profesional pero cercano. Incluyes ejemplos y cifras reales del mercado costarricense y latinoamericano cuando es posible.`;
-
-function buildAsesorPrompt(d) {
-  return `Analiza los recursos de esta persona y diseña su plan de negocio óptimo:
-
-RECURSOS DISPONIBLES:
-- Capital: ${d.cash || 'No especificado'}
-- Tiempo: ${d.time || 'No especificado'}
-- Habilidades: ${d.skills || 'No especificado'}
-- Herramientas: ${d.tools || 'No especificado'}
-- Red de contactos: ${d.network || 'No especificado'}
-- Ubicación: ${d.location || 'Costa Rica'}
-- Idea o preferencia: ${d.idea || 'Abierto a sugerencias'}
-- Restricciones: ${d.limits || 'Ninguna especificada'}
-
-Genera un PLAN DE NEGOCIO COMPLETO con estas secciones:
-
-## 🏆 TOP 3 IDEAS DE NEGOCIO VIABLES
-Para cada idea: nombre del negocio, descripción en 2 líneas, por qué es viable con los recursos de esta persona, potencial de ingresos mensual estimado, nivel de dificultad (Bajo/Medio/Alto), tiempo para ver primeros ingresos.
-
-## ⭐ PLAN DETALLADO: OPCIÓN RECOMENDADA #1
-[La más viable según sus recursos específicos]
-
-### ¿Qué es exactamente este negocio?
-[Descripción clara: qué vendes, a quién, cómo]
-
-### Modelo de negocio
-[Cómo genera dinero: precio, frecuencia, ticket promedio, cuántos clientes necesita para vivir de esto]
-
-### Tu cliente ideal
-[Perfil detallado: quién es, qué problema tiene, dónde encontrarlo, qué lo convence]
-
-### Estrategia de marketing para los primeros 90 días
-[Canales específicos, mensajes clave, cómo conseguir los primeros 5-10 clientes con 0 presupuesto o bajo presupuesto]
-
-### Estructura de costos y proyección de ingresos
-[Inversión inicial, costos mensuales, ingresos estimados mes 1, mes 3, mes 6]
-
-### Plan de acción: Primeros 30 días
-[Semana 1, 2, 3, 4: acciones concretas, tareas específicas, metas medibles]
-
-### Primeros 5 clientes: ¿Cómo conseguirlos?
-[Estrategia específica para conseguir los primeros clientes, qué decirles, por dónde empezar]
-
-### Herramientas que necesitas
-[Lista con nombre, para qué, si es gratis o de pago, alternativa gratuita]
-
-### Riesgos principales y cómo mitigarlos
-[Top 3 riesgos reales + solución práctica para cada uno]
-
-### Señales de que vas por buen camino
-[Métricas concretas para saber si el negocio va bien en mes 1, 3 y 6]`;
-}
-
-let asesorOutput = '';
-let asesorGenerating = false;
-
-async function generateAsesor() {
-  if (asesorGenerating) return;
-
-  const cash     = document.getElementById('aCash')?.value.trim();
-  const skills   = document.getElementById('aSkills')?.value.trim();
-
-  if (!cash && !skills) {
-    showToast('Completa al menos el capital y tus habilidades ✏️', 'err');
-    return;
-  }
-
-  const d = {
-    cash,
-    time:     document.getElementById('aTime')?.value.trim(),
-    skills,
-    tools:    document.getElementById('aTools')?.value.trim(),
-    network:  document.getElementById('aNetwork')?.value.trim(),
-    location: document.getElementById('aLocation')?.value.trim(),
-    idea:     document.getElementById('aIdea')?.value.trim(),
-    limits:   document.getElementById('aLimits')?.value.trim(),
-  };
-
-  asesorGenerating = true;
-  asesorOutput = '';
-  const btn = document.getElementById('asesorBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ Analizando tu perfil...';
-
-  const panel = document.getElementById('asesorOutput');
-  panel.innerHTML = `<div class="loading-state"><div class="spinner"></div><div class="loading-label">Diseñando tu plan de negocio personalizado...</div></div>`;
-
-  try {
-    const response = await fetch('https://lillytech-proxy.lilliana-retana.workers.dev', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'gpt-4o',
-        max_tokens: 4096,
-        stream: true,
-        messages: [
-          { role: 'system', content: ASESOR_SYSTEM },
-          { role: 'user',   content: buildAsesorPrompt(d) }
-        ]
-      })
-    });
-
-    if (!response.ok) {
-      const e = await response.json().catch(()=>({}));
-      throw new Error(e.error?.message || `Error HTTP ${response.status}`);
-    }
-
-    panel.innerHTML = `
-      <div class="output-header">
-        <h4 id="asesorTitle">Plan de Negocio Personalizado</h4>
-        <div class="output-actions" id="asesorActions" style="display:none">
-          <button class="icon-btn" onclick="copyAsesor()">📋 Copiar</button>
-          <button class="icon-btn amber" onclick="exportAsesor()">📥 .txt</button>
-          <button class="icon-btn pink" onclick="exportAsesorPDF()">📄 PDF</button>
-        </div>
-      </div>
-      <div class="output-body" id="asesorBody"></div>`;
-
-    const reader  = response.body.getReader();
-    const decoder = new TextDecoder();
-    const bodyEl  = document.getElementById('asesorBody');
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue;
-        const raw = line.slice(6).trim();
-        if (!raw || raw === '[DONE]') continue;
-        try {
-          const parsed = JSON.parse(raw);
-          const text = parsed.choices?.[0]?.delta?.content;
-          if (text) {
-            asesorOutput += text;
-            bodyEl.innerHTML = mdToHtml(asesorOutput) + '<span class="cursor"></span>';
-            panel.scrollTop = panel.scrollHeight;
-          }
-        } catch {}
-      }
-    }
-
-    bodyEl.innerHTML = mdToHtml(asesorOutput);
-    document.getElementById('asesorActions').style.display = 'flex';
-    showToast('✅ Plan de negocio listo', 'ok');
-
-  } catch (err) {
-    panel.innerHTML = `<div class="output-empty"><div class="big-icon">⚠️</div><h3>Error al generar</h3><p>${err.message}</p></div>`;
-    showToast('Error: ' + err.message, 'err');
-  } finally {
-    asesorGenerating = false;
-    btn.disabled = false;
-    btn.textContent = '🚀 Generar plan de negocio';
-  }
-}
-
-function copyAsesor() {
-  navigator.clipboard.writeText(asesorOutput).then(() => showToast('Copiado al portapapeles 📋', 'ok'));
-}
-
-function saveAsesor() {
-  const saved = JSON.parse(localStorage.getItem('ll_asesor') || '[]');
-  saved.unshift({ id: Date.now(), content: asesorOutput, date: new Date().toLocaleDateString('es-CR') });
-  localStorage.setItem('ll_asesor', JSON.stringify(saved));
-  renderAsesorSaved();
-  showToast('Plan guardado 💾', 'ok');
-}
-
-function exportAsesor() {
-  const blob = new Blob([asesorOutput], { type: 'text/plain' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'plan-de-negocio.txt';
-  a.click();
-}
-
-function exportAsesorPDF() {
-  if (!asesorOutput) return;
-  const win = window.open('', '_blank');
-  const html = mdToHtml(asesorOutput);
-  win.document.write(`<!DOCTYPE html><html lang="es"><head>
-    <meta charset="UTF-8">
-    <title>LillyTech — Plan de Negocio</title>
-    
-  </head><body>
-    <div class="header"><div class="logo">💼 LillyTech · Plan de Negocio</div>
-    <div class="date">${new Date().toLocaleDateString('es-CR',{year:'numeric',month:'long',day:'numeric'})}</div></div>
-    ${html}
-    <script>window.onload=()=>{window.print();window.onafterprint=()=>window.close();}<\/script>
-  
-
-
-
-<!-- ONBOARDING -->
-<dialog id="onboardingDialog">
-  <div class="ob-box">
-
-    <!-- STEP 1 -->
-    <div id="obs1">
-      <div class="ob-logo">⚡ LillyTech<small>Tu asistente estratégica con IA</small></div>
-      <div class="ob-title">Bienvenida a tu sistema operativo personal</div>
-      <div class="ob-desc">LillyTech convierte lo que sabes en recursos listos para usar — con IA, en minutos.</div>
-      <div class="ob-grid">
-        <div class="ob-card"><div class="ob-icon">⚡</div><div class="ob-name">Generador IA</div><div class="ob-desc2">Clases, rutas, contenido, automatizaciones y propuestas</div></div>
-        <div class="ob-card"><div class="ob-icon">💼</div><div class="ob-name">Asesor de Negocios</div><div class="ob-desc2">Tu plan de negocio basado en lo que tienes</div></div>
-        <div class="ob-card"><div class="ob-icon">👤</div><div class="ob-name">CRM de Clientes</div><div class="ob-desc2">Seguimiento vinculado a tus recursos</div></div>
-        <div class="ob-card"><div class="ob-icon">🔍</div><div class="ob-name">Búsqueda Global</div><div class="ob-desc2">Ctrl+K para buscar en todo</div></div>
-      </div>
-      <div class="ob-nav">
-        <div class="ob-dots"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
-        <div class="ob-btns">
-          <button class="ob-skip" onclick="closeOb()">Saltar</button>
-          <button class="primary-btn" onclick="obGo(2)">Siguiente →</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 2 -->
-    <div id="obs2" style="display:none">
-      <div class="ob-logo">⚡ LillyTech</div>
-      <div class="ob-title">¿Cómo funciona?</div>
-      <div class="ob-desc">Tres pasos. Eso es todo lo que necesitas.</div>
-      <div class="ob-steps">
-        <div class="ob-step-row"><span class="ob-step-num">1️⃣</span><div><span class="ob-step-title">Elige el tipo de recurso</span><span class="ob-step-desc">Clase, ruta, contenido, automatización, propuesta o plan de negocio</span></div></div>
-        <div class="ob-step-row"><span class="ob-step-num">2️⃣</span><div><span class="ob-step-title">Describe tu contexto real</span><span class="ob-step-desc">Cuanto más específico seas, mejor es el resultado de la IA</span></div></div>
-        <div class="ob-step-row"><span class="ob-step-num">3️⃣</span><div><span class="ob-step-title">Genera, copia o exporta</span><span class="ob-step-desc">Se guarda automáticamente. Exporta a .txt o PDF, o úsalo para crear algo más</span></div></div>
-      </div>
-      <div class="ob-nav">
-        <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot active"></div><div class="ob-dot"></div></div>
-        <div class="ob-btns">
-          <button class="ob-skip" onclick="obGo(1)">← Atrás</button>
-          <button class="primary-btn" onclick="obGo(3)">Siguiente →</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 3 -->
-    <div id="obs3" style="display:none">
-      <div class="ob-logo">⚡ LillyTech</div>
-      <div class="ob-title">¿Por dónde quieres empezar? 🚀</div>
-      <div class="ob-desc">Elige una opción y te llevamos directo:</div>
-      <div class="ob-shortcuts">
-        <button class="ob-shortcut" onclick="closeOb();showView('propuestas');selectType('clase')">
-          <span class="ob-sh-icon">🎓</span><div><strong>Crear una clase completa</strong><span>Ideal si enseñas o capacitas equipos</span></div>
-        </button>
-        <button class="ob-shortcut" onclick="closeOb();showView('asesor')">
-          <span class="ob-sh-icon">💼</span><div><strong>Diseñar un plan de negocio</strong><span>Ideal si quieres emprender o diversificar ingresos</span></div>
-        </button>
-        <button class="ob-shortcut" onclick="closeOb();showView('propuestas');selectType('propuesta')">
-          <span class="ob-sh-icon">📄</span><div><strong>Crear una propuesta comercial</strong><span>Ideal si tienes un cliente y necesitas venderle</span></div>
-        </button>
-      </div>
-      <div class="ob-nav">
-        <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
-        <div class="ob-btns">
-          <button class="ob-skip" onclick="obGo(2)">← Atrás</button>
-          <button class="primary-btn" onclick="closeOb()">¡Empezar! ⚡</button>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</dialog>
-</body></html>`);
-  win.document.close();
-  showToast('📄 Abriendo vista de impresión / PDF…', 'ok');
-}
-
-function renderAsesorSaved() {
-  const saved = JSON.parse(localStorage.getItem('ll_asesor') || '[]');
-  const list  = document.getElementById('asesorSavedList');
-  const count = document.getElementById('asesorSavedCount');
-  if (!list) return;
-  count.textContent = saved.length;
-  if (!saved.length) { list.innerHTML = '<p class="empty-msg">Aún no has guardado planes.</p>'; return; }
-  list.innerHTML = saved.map(i => `
-    <div class="saved-item" onclick="loadAsesorSaved(${i.id})">
-      <div class="s-icon">💼</div>
-      <div class="s-info">
-        <div class="s-topic">Plan de negocio</div>
-        <div class="s-meta">${i.date}</div>
-      </div>
-    </div>`).join('');
-}
-
-function loadAsesorSaved(id) {
-  const saved = JSON.parse(localStorage.getItem('ll_asesor') || '[]');
-  const item  = saved.find(x => x.id === id);
-  if (!item) return;
-  asesorOutput = item.content;
-  const panel  = document.getElementById('asesorOutput');
-  panel.innerHTML = `
-    <div class="output-header">
-      <h4>Plan de Negocio Guardado</h4>
-      <div class="output-actions" style="display:flex">
-        <button class="icon-btn" onclick="copyAsesor()">📋 Copiar</button>
-        <button class="icon-btn amber" onclick="exportAsesor()">📥 Exportar</button>
-      </div>
-    </div>
-    <div class="output-body">${mdToHtml(item.content)}</div>`;
-}
-
 // ── API CALL WITH STREAMING ──────────────────────────────────
 async function generateResource() {
   if (isGenerating) return;
@@ -2013,10 +1184,9 @@ async function generateResource() {
       <div class="output-header">
         <h4 id="outTitle">${TYPE_LABELS[activeType]}: ${topic}</h4>
         <div class="output-actions" id="outActions" style="display:none">
-          <button class="icon-btn" onclick="copyOutput()">📋 Copiar</button>
-          <button class="icon-btn amber" onclick="exportOutput('recurso')">📥 .txt</button>
-          <button class="icon-btn pink" onclick="exportPDF()">📄 PDF</button>
-          <span id="connectBtns"></span>
+          <button class="icon-btn" onclick="copyOutput()">📋 Copiar todo</button>
+          <button class="icon-btn green" onclick="saveOutput('${activeType}','${topic.replace(/'/g,"\\'")}')">💾 Guardar</button>
+          <button class="icon-btn amber" onclick="exportOutput('${topic.replace(/'/g,"\\'")}')">📥 Exportar .txt</button>
         </div>
       </div>
       <div class="output-body" id="outBody"></div>`;
@@ -2052,11 +1222,7 @@ async function generateResource() {
     // Final render without cursor
     bodyEl.innerHTML = mdToHtml(currentOutput);
     document.getElementById('outActions').style.display = 'flex';
-    // AUTO-SAVE
-    autoSaveResource(activeType, topic);
-    // CONNECT BUTTONS
-    renderConnectButtons(activeType, topic);
-    showToast(`✅ ${TYPE_LABELS[activeType]} generada y guardada`, 'ok');
+    showToast(`✅ ${TYPE_LABELS[activeType]} generada con éxito`, 'ok');
 
   } catch (err) {
     panel.innerHTML = `
@@ -2108,58 +1274,14 @@ function copyOutput() {
 
 function saveOutput(type, topic) {
   if (!currentOutput) return;
-  const item = { id: uid(), type, topic, content: currentOutput, date: new Date().toISOString(), fav: false, tags: [] };
+  const item = { id: uid(), type, topic, content: currentOutput, date: new Date().toISOString() };
   db.add(SK.resources, item);
   renderSaved();
   renderDashboard();
   showToast('💾 Guardado en tu biblioteca', 'ok');
 }
 
-function exportOutput(topic) {
-  if (!currentOutput) return;
-  const blob = new Blob([currentOutput], { type: 'text/plain;charset=utf-8' });
-  const a = Object.assign(document.createElement('a'), {
-    href: URL.createObjectURL(blob),
-    download: `LillyTech_${topic.slice(0,30).replace(/[^a-zA-Z0-9áéíóúñ ]/g,'').replace(/ /g,'_')}_${Date.now()}.txt`
-  });
-  a.click(); URL.revokeObjectURL(a.href);
-  showToast('📥 Exportado como .txt', 'ok');
-}
-
-function exportPDF() {
-  if (!currentOutput) return;
-  // Open print dialog — browser saves as PDF
-  const win = window.open('', '_blank');
-  const html = mdToHtml(currentOutput);
-  win.document.write(`<!DOCTYPE html><html lang="es"><head>
-    <meta charset="UTF-8">
-    <title>LillyTech — Recurso</title>
-    
-  </head><body>
-    <div class="header">
-      <div class="logo">⚡ LillyTech</div>
-      <div class="date">${new Date().toLocaleDateString('es-CR',{year:'numeric',month:'long',day:'numeric'})}</div>
-    </div>
-    ${html}
-    <script>window.onload=()=>{window.print();window.onafterprint=()=>window.close();}<\/script>
-  
-
-;
-  const q = query.toLowerCase();
-  const filtered = q ? resources.filter(r => r.topic.toLowerCase().includes(q) || (r.type||'').toLowerCase().includes(q)) : resources;
-  const list = document.getElementById('savedList');
-  if (!list) return;
-  if (!filtered.length) { list.innerHTML = '<p class="empty-msg">Sin resultados para "' + query + '"</p>'; return; }
-  list.innerHTML = filtered.map(i => {
-    const color = TYPE_COLORS[i.type] || '#888';
-    const date = new Date(i.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
-    return `<div class="saved-item" onclick="loadSaved('${i.id}')">
-      <span class="s-dot" style="background:${color}"></span>
-      <div class="s-info"><div class="s-topic">${i.topic}</div>
-      <div class="s-meta">${TYPE_LABELS[i.type]||''} · ${date}</div></div>
-    </div>`;
-  }).join('');
-}
+function exportOutput(topic) { exportTxt(currentOutput, 'LillyTech_' + (topic||'recurso').slice(0,30).replace(/\s+/g,'_')); }
 
 function loadSaved(id) {
   const item = db.get(SK.resources).find(i => i.id === id);
@@ -2182,28 +1304,6 @@ function loadSaved(id) {
     <div class="output-body">${mdToHtml(item.content)}</div>`;
 }
 
-// ── FAVORITES ────────────────────────────────────────────────
-function toggleFav(id) {
-  const resources = db.get(SK.resources);
-  const item = resources.find(r => r.id === id);
-  if (!item) return;
-  item.fav = !item.fav;
-  db.set(SK.resources, resources);
-  renderSaved();
-  renderDashboard();
-  showToast(item.fav ? '⭐ Marcado como favorito' : '☆ Eliminado de favoritos', 'ok');
-}
-
-function addTag(id, tag) {
-  if (!tag || !tag.trim()) return;
-  const resources = db.get(SK.resources);
-  const item = resources.find(r => r.id === id);
-  if (!item) return;
-  if (!item.tags) item.tags = [];
-  const t = tag.trim().toLowerCase();
-  if (!item.tags.includes(t)) { item.tags.push(t); db.set(SK.resources, resources); renderSaved(); }
-}
-
 // ── RENDER SAVED ─────────────────────────────────────────────
 function renderSaved() {
   const list = db.get(SK.resources);
@@ -2212,22 +1312,16 @@ function renderSaved() {
   if (ct) ct.textContent = list.length;
   if (!el) return;
   if (!list.length) { el.innerHTML = '<p class="empty-msg">Aún no has guardado recursos.<br>¡Genera el primero!</p>'; return; }
-  // Sort: favorites first
-  const sorted = [...list].sort((a,b) => (b.fav?1:0)-(a.fav?1:0));
-  el.innerHTML = sorted.map(i => {
+  el.innerHTML = list.map(i => {
     const color = TYPE_COLORS[i.type] || '#888';
     const date = new Date(i.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
-    const tags = (i.tags||[]).map(t => `<span class="resource-tag">${t}</span>`).join('');
     return `<div class="saved-item" onclick="loadSaved('${i.id}')">
       <span class="s-dot" style="background:${color}"></span>
       <div class="s-info">
-        <div class="s-topic">${i.fav ? '⭐ ' : ''}${i.topic}</div>
-        <div class="s-meta">${TYPE_LABELS[i.type]||''} · ${date}${i.client ? ' · <span style="color:var(--green);font-size:10px">👤 '+i.client+'</span>' : ''}${tags ? ' · ' + tags : ''}</div>
+        <div class="s-topic">${i.topic}</div>
+        <div class="s-meta">${TYPE_LABELS[i.type]||''} · ${date}</div>
       </div>
-      <div style="display:flex;gap:4px;flex-shrink:0">
-        <button class="s-fav" onclick="event.stopPropagation();toggleFav('${i.id}')" title="${i.fav ? 'Quitar favorito' : 'Favorito'}">${i.fav ? '⭐' : '☆'}</button>
-        <button class="s-del" onclick="event.stopPropagation();delResource('${i.id}')" title="Eliminar">×</button>
-      </div>
+      <button class="s-del" onclick="event.stopPropagation();delResource('${i.id}')" title="Eliminar">×</button>
     </div>`;
   }).join('');
 }
@@ -2241,12 +1335,6 @@ function delResource(id) {
 
 // ── DASHBOARD ────────────────────────────────────────────────
 function renderDashboard() {
-  // Update hero stats
-  const heroTotal = document.getElementById('heroTotal');
-  const heroClients = document.getElementById('heroClients');
-  if (heroTotal) heroTotal.textContent = db.get(SK.resources).length;
-  if (heroClients) heroClients.textContent = db.get(SK.clients).length;
-
   const resources = db.get(SK.resources);
   const content   = db.get(SK.content);
   const classes   = db.get(SK.classes);
@@ -2522,22 +1610,16 @@ function renderClients() {
   if (!el) return;
   if (!items.length) { el.innerHTML = '<p class="empty-msg">Agrega tu primer cliente.</p>'; return; }
   const statusColors = { Prospecto:'#6ea5c8', Contactado:'#7c3aed', Cotizado:'#f59e0b', 'En proceso':'#00c8f0', Finalizado:'#10b981' };
-  el.innerHTML = items.map(c => {
-    const resCount = db.get(SK.resources).filter(r => r.client === c.name).length;
-    return `
-    <div class="client-card" onclick="openClientDetail('${c.id}')" style="cursor:pointer">
+  el.innerHTML = items.map(c => `
+    <div class="client-card" onclick="cliModalOpen('${c.id}')" style="cursor:pointer">
       <div class="cli-head">
         <div class="cli-name">${c.name}</div>
         <span class="badge" style="background:${statusColors[c.status]||'#888'}22;color:${statusColors[c.status]||'#888'}">${c.status}</span>
       </div>
       ${c.needs?`<div class="cli-needs">📋 ${c.needs}</div>`:''}
       ${c.next?`<div class="cli-action">→ ${c.next}</div>`:''}
-      <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:11px;color:var(--text2)">${resCount} recurso${resCount!==1?'s':''} generado${resCount!==1?'s':''}</span>
-        <button class="s-del" onclick="event.stopPropagation();delClient('${c.id}')">× Eliminar</button>
-      </div>
-    </div>`;
-  }).join('');
+      <div style="margin-top:8px"><button class="s-del" onclick="delClient('${c.id}')">× Eliminar</button></div>
+    </div>`).join('');
 }
 
 function saveClient() {
@@ -2557,81 +1639,7 @@ function saveClient() {
   showToast('👤 Cliente guardado', 'ok');
 }
 
-function delClient(id) { db.del(SK.clients,id); renderClients(); renderDashboard(); }
-
-function openClientDetail(id) {
-  const clients = db.get(SK.clients);
-  const c = clients.find(x => x.id === id);
-  if (!c) return;
-  const resources = db.get(SK.resources).filter(function(r){ return r.client === c.name; });
-  const projects  = db.get(SK.projects).filter(function(p){ return p.client === c.name; });
-  const statusColors = { Prospecto:'#6ea5c8', Contactado:'#7c3aed', Cotizado:'#f59e0b', 'En proceso':'#00c8f0', Finalizado:'#10b981' };
-  const sc = statusColors[c.status] || '#888';
-  const propCount = resources.filter(function(r){ return r.type==='propuesta'; }).length;
-
-  // Build resources HTML without nested template literals
-  let resHTML = '';
-  if (resources.length) {
-    let items = '';
-    resources.forEach(function(r) {
-      const iconMap = {clase:'🎓', contenido:'📱', propuesta:'📄', automatizacion:'⚙️', ruta:'🗺️'};
-      const icon = iconMap[r.type] || '📄';
-      const label = TYPE_LABELS[r.type] || '';
-      const date = new Date(r.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
-      items += '<div class="client-resource-item" onclick="closeClientModal();loadSaved('' + r.id + '')">'
-             + '<span style="font-size:15px">' + icon + '</span>'
-             + '<div><div style="font-size:12px;font-weight:600;color:var(--text)">' + r.topic + '</div>'
-             + '<div style="font-size:11px;color:var(--text2)">' + label + ' · ' + date + '</div></div>'
-             + '</div>';
-    });
-    resHTML = '<div class="client-section-title">Recursos generados (' + resources.length + ')</div>'
-            + '<div class="client-resource-list">' + items + '</div>';
-  } else {
-    resHTML = '<p style="font-size:13px;color:var(--muted);margin-top:12px">Aún no hay recursos vinculados a este cliente.</p>';
-  }
-
-  const needsHTML  = c.needs ? '<div class="client-section-title">Necesidades</div><p style="font-size:13px;color:var(--text2);line-height:1.6">' + c.needs + '</p>' : '';
-  const nextHTML   = c.next  ? '<div class="client-section-title">Próxima acción</div><p style="font-size:13px;color:var(--cyan)">→ ' + c.next + '</p>' : '';
-
-  const box = document.getElementById('clientModalBox');
-  box.innerHTML = '<div class="client-modal-head">'
-    + '<div>'
-    + '<p style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Ficha de cliente</p>'
-    + '<div class="client-modal-name">👤 ' + c.name + '</div>'
-    + '<span class="badge" style="background:' + sc + '22;color:' + sc + ';margin-top:6px;display:inline-block">' + c.status + '</span>'
-    + '</div>'
-    + '<div style="display:flex;gap:8px">'
-    + '<button class="primary-btn" style="font-size:12px;padding:6px 12px" onclick="closeClientModal();goGenerateForClient('' + c.name + '')">⚡ Generar recurso</button>'
-    + '<button class="close-x" onclick="closeClientModal()">×</button>'
-    + '</div>'
-    + '</div>'
-    + '<div class="client-modal-body">'
-    + '<div class="client-stat-row">'
-    + '<div class="client-stat"><strong>' + resources.length + '</strong><small>Recursos</small></div>'
-    + '<div class="client-stat"><strong>' + projects.length + '</strong><small>Proyectos</small></div>'
-    + '<div class="client-stat"><strong>' + propCount + '</strong><small>Propuestas</small></div>'
-    + '</div>'
-    + needsHTML + nextHTML + resHTML
-    + '</div>';
-
-  document.getElementById('clientModalOverlay').style.display = 'flex';
-}
-
-
-function goGenerateForClient(clientName) {
-  showView('propuestas');
-  setTimeout(function() {
-    populateClientSelector();
-    var sel = document.getElementById('fClientLink');
-    if (sel) sel.value = clientName;
-    var ev = new Event('change');
-    if (sel) sel.dispatchEvent(ev);
-  }, 150);
-}
-
-function closeClientModal() {
-  document.getElementById('clientModalOverlay').style.display = 'none';
-}
+function delClient(id) { db.del(SK.clients,id); renderClients(); }
 
 // ── SOLUTIONS ────────────────────────────────────────────────
 function renderSolutions() {
@@ -2670,144 +1678,327 @@ function closeForm(id)  { document.getElementById(id)?.classList.remove('on'); }
 
 // ── EVENT LISTENERS ──────────────────────────────────────────
 
+// ─────────────────────────────────────────────────────────────
+// ASESOR DE NEGOCIOS
+// ─────────────────────────────────────────────────────────────
+var asesorOutput = '';
+var asesorRunning = false;
 
-// ── ONBOARDING ────────────────────────────────────────────────
-function initOnboarding() {
-  if (!localStorage.getItem('ll_ob_done')) {
-    document.getElementById('onboardingDialog').showModal();
+var ASESOR_SYSTEM = 'Eres un asesor experto en creación de negocios, marketing digital y estrategia para emprendedores latinoamericanos. Analiza los recursos reales de la persona y diseña el plan de negocio más viable, práctico y rentable. Sé honesto, directo y práctico. Usa español latinoamericano profesional.';
+
+function buildAsesorPrompt(d) {
+  var lines = [
+    'Analiza los recursos de esta persona y diseña su plan de negocio óptimo:',
+    '',
+    'Capital: ' + (d.cash || 'No especificado'),
+    'Tiempo: ' + (d.time || 'No especificado'),
+    'Habilidades: ' + (d.skills || 'No especificado'),
+    'Herramientas: ' + (d.tools || 'No especificado'),
+    'Contactos: ' + (d.network || 'No especificado'),
+    'Ubicacion: ' + (d.location || 'Costa Rica'),
+    'Preferencia: ' + (d.idea || 'Abierto a sugerencias'),
+    'Restricciones: ' + (d.limits || 'Ninguna'),
+    '',
+    'Genera un PLAN DE NEGOCIO COMPLETO con estas secciones:',
+    '',
+    '## TOP 3 IDEAS DE NEGOCIO VIABLES',
+    'Para cada idea: nombre, descripcion, por que es viable con sus recursos, ingreso mensual estimado, dificultad y tiempo para primeros ingresos.',
+    '',
+    '## PLAN DETALLADO: OPCION RECOMENDADA',
+    '### Que es exactamente este negocio?',
+    '### Modelo de negocio y flujo de ingresos',
+    '### Tu cliente ideal',
+    '### Estrategia de marketing 90 dias',
+    '### Proyeccion financiera (mes 1, 3, 6)',
+    '### Plan de accion: primeros 30 dias semana a semana',
+    '### Como conseguir los primeros 5 clientes',
+    '### Herramientas necesarias',
+    '### Riesgos y como mitigarlos',
+    '### Indicadores de que vas por buen camino'
+  ];
+  return lines.join('\n');
+}
+
+async function generateAsesor() {
+  if (asesorRunning) return;
+  var cash = document.getElementById('aCash') ? document.getElementById('aCash').value.trim() : '';
+  var skills = document.getElementById('aSkills') ? document.getElementById('aSkills').value.trim() : '';
+  if (!cash && !skills) { showToast('Completa al menos capital y habilidades', 'err'); return; }
+
+  asesorRunning = true;
+  asesorOutput = '';
+  var btn = document.getElementById('asesorBtn');
+  btn.disabled = true; btn.textContent = '⏳ Analizando tu perfil…';
+
+  var panel = document.getElementById('asesorOutput');
+  panel.innerHTML = '<div class="loading-state"><div class="spinner"></div><div class="loading-label">Diseñando tu plan de negocio…</div></div>';
+
+  var d = {
+    cash: cash,
+    time: document.getElementById('aTime') ? document.getElementById('aTime').value.trim() : '',
+    skills: skills,
+    tools: document.getElementById('aTools') ? document.getElementById('aTools').value.trim() : '',
+    network: document.getElementById('aNetwork') ? document.getElementById('aNetwork').value.trim() : '',
+    location: document.getElementById('aLocation') ? document.getElementById('aLocation').value.trim() : '',
+    idea: document.getElementById('aIdea') ? document.getElementById('aIdea').value.trim() : '',
+    limits: document.getElementById('aLimits') ? document.getElementById('aLimits').value.trim() : ''
+  };
+
+  try {
+    var resp = await fetch('https://lillytech-proxy.lilliana-retana.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'gpt-4o', max_tokens: 4096, stream: true,
+        messages: [{ role: 'system', content: ASESOR_SYSTEM }, { role: 'user', content: buildAsesorPrompt(d) }] })
+    });
+    if (!resp.ok) throw new Error('Error HTTP ' + resp.status);
+
+    panel.innerHTML = '<div class="output-header"><h4>Plan de Negocio Personalizado</h4>'
+      + '<div class="output-actions" id="asesorActs" style="display:none">'
+      + '<button class="icon-btn" onclick="navigator.clipboard.writeText(asesorOutput)">📋 Copiar</button>'
+      + '<button class="icon-btn amber" onclick="exportAsesorTxt()">📥 .txt</button>'
+      + '<button class="icon-btn pink" onclick="exportPDF(asesorOutput)">📄 PDF</button>'
+      + '</div></div><div class="output-body" id="asesorBody"></div>';
+
+    var reader = resp.body.getReader();
+    var decoder = new TextDecoder();
+    var bodyEl = document.getElementById('asesorBody');
+    var buf = '';
+    while (true) {
+      var rd = await reader.read();
+      if (rd.done) break;
+      buf += decoder.decode(rd.value, { stream: true });
+      var lines = buf.split('\n'); buf = lines.pop() || '';
+      for (var i = 0; i < lines.length; i++) {
+        var ln = lines[i];
+        if (!ln.startsWith('data: ')) continue;
+        var raw = ln.slice(6).trim();
+        if (!raw || raw === '[DONE]') continue;
+        try {
+          var p = JSON.parse(raw);
+          var t = p.choices && p.choices[0] && p.choices[0].delta && p.choices[0].delta.content;
+          if (t) { asesorOutput += t; bodyEl.innerHTML = mdToHtml(asesorOutput) + '<span class="cursor"></span>'; panel.scrollTop = panel.scrollHeight; }
+        } catch(e) {}
+      }
+    }
+    bodyEl.innerHTML = mdToHtml(asesorOutput);
+    document.getElementById('asesorActs').style.display = 'flex';
+    db.add(SK.resources, { id: uid(), type: 'propuesta', topic: 'Plan de Negocio', content: asesorOutput, date: new Date().toISOString(), fav: false });
+    showToast('✅ Plan listo y guardado', 'ok');
+  } catch(err) {
+    panel.innerHTML = '<div class="output-empty"><div class="big-icon">⚠️</div><h3>Error</h3><p>' + err.message + '</p></div>';
+    showToast('Error: ' + err.message, 'err');
+  } finally {
+    asesorRunning = false; btn.disabled = false; btn.textContent = '🚀 Generar plan de negocio';
   }
 }
 
-function obGo(n) {
-  [1,2,3].forEach(i => {
-    const el = document.getElementById('obs'+i);
-    if (el) el.style.display = i===n ? 'block' : 'none';
-  });
+// ─────────────────────────────────────────────────────────────
+// EXPORT FUNCTIONS
+// ─────────────────────────────────────────────────────────────
+function exportTxt(content, name) {
+  if (!content) return;
+  var blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (name || 'lillytech') + '.txt';
+  a.click(); URL.revokeObjectURL(a.href);
+  showToast('📥 Exportado como .txt', 'ok');
 }
 
-function closeOb() {
-  const d = document.getElementById('onboardingDialog');
-  if (d) d.close();
-  localStorage.setItem('ll_ob_done','1');
+function exportPDF(content) {
+  if (!content) return;
+  var html = mdToHtml(content);
+  var d = new Date().toLocaleDateString('es-CR', { year: 'numeric', month: 'long', day: 'numeric' });
+  var win = window.open('', '_blank');
+  var doc = '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>LillyTech</title>'
+    + '<style>body{font-family:Segoe UI,Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}'
+    + 'h1,h2{color:#005f9e}h2{border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:24px 0 10px}'
+    + 'h3{color:#333;margin:16px 0 6px}ul,ol{padding-left:22px}li{margin-bottom:4px}'
+    + 'strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}'
+    + '.hdr{display:flex;justify-content:space-between;margin-bottom:28px;padding-bottom:14px;border-bottom:2px solid #e0eef8}'
+    + '.logo{font-size:17px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}'
+    + '@media print{body{padding:20px}}</style></head><body>'
+    + '<div class="hdr"><div class="logo">&#9889; LillyTech</div><div class="date">' + d + '</div></div>'
+    + html
+    + '<scr' + 'ipt>window.onload=function(){window.print();window.onafterprint=function(){window.close();};};<' + '/script>'
+    + '</body></html>';
+  win.document.write(doc);
+  win.document.close();
+  showToast('📄 Abriendo PDF…', 'ok');
 }
 
-// ── GLOBAL SEARCH ─────────────────────────────────────────────
-let searchSelectedIdx = -1;
+// ─────────────────────────────────────────────────────────────
+// GLOBAL SEARCH
+// ─────────────────────────────────────────────────────────────
+var searchIdx = -1;
 
 function openSearch() {
   document.getElementById('searchOverlay').style.display = 'flex';
-  setTimeout(() => document.getElementById('globalSearchInput').focus(), 50);
+  setTimeout(function() { var el = document.getElementById('searchInput'); if (el) el.focus(); }, 50);
 }
 
 function closeSearch() {
   document.getElementById('searchOverlay').style.display = 'none';
-  document.getElementById('globalSearchInput').value = '';
-  document.getElementById('searchResults').innerHTML = '<div class="search-empty">Escribe para buscar en toda tu biblioteca</div>';
-  searchSelectedIdx = -1;
+  var el = document.getElementById('searchInput'); if (el) el.value = '';
+  var res = document.getElementById('searchResults');
+  if (res) res.innerHTML = '<div class="search-empty">Escribe para buscar en toda tu biblioteca</div>';
+  searchIdx = -1;
 }
 
-function runGlobalSearch(q) {
-  const el = document.getElementById('searchResults');
-  if (!q || q.length < 2) {
-    el.innerHTML = '<div class="search-empty">Escribe para buscar en toda tu biblioteca</div>';
-    return;
-  }
-  const ql = q.toLowerCase();
-  let html = '';
+function doSearch(q) {
+  var el = document.getElementById('searchResults');
+  if (!q || q.length < 2) { el.innerHTML = '<div class="search-empty">Escribe para buscar…</div>'; return; }
+  var ql = q.toLowerCase();
+  var html = '';
 
-  // Resources
-  const resources = db.get(SK.resources).filter(r =>
-    r.topic?.toLowerCase().includes(ql) || (TYPE_LABELS[r.type]||'').toLowerCase().includes(ql)
-  );
+  var resources = db.get(SK.resources).filter(function(r) { return r.topic && r.topic.toLowerCase().indexOf(ql) >= 0; });
   if (resources.length) {
-    html += '<div class="search-section-label">Recursos generados</div>';
-    html += resources.slice(0,5).map(r => {
-      const date = new Date(r.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
-      return `<div class="search-result-item" onclick="closeSearch();loadSaved('${r.id}')">
-        <span class="search-result-icon">${r.type==='clase'?'🎓':r.type==='contenido'?'📱':r.type==='propuesta'?'📄':r.type==='automatizacion'?'⚙️':'🗺️'}</span>
-        <div><div class="search-result-title">${r.topic}</div>
-        <div class="search-result-meta">${TYPE_LABELS[r.type]||''} · ${date}${r.fav?' · ⭐':''}</div></div>
-      </div>`;
-    }).join('');
+    html += '<div class="search-grp">Recursos</div>';
+    resources.slice(0, 5).forEach(function(r) {
+      var icons = { clase: '🎓', contenido: '📱', propuesta: '📄', automatizacion: '⚙️', ruta: '🗺️' };
+      var ic = icons[r.type] || '📄';
+      var dt = new Date(r.date).toLocaleDateString('es-CR', { day: '2-digit', month: 'short' });
+      html += '<div class="search-item" onclick="closeSearch();loadSaved(\'" + r.id + "\')">'
+        + '<span style="font-size:16px;width:22px;text-align:center">' + ic + '</span>'
+        + '<div><div class="search-item-title">' + r.topic + '</div>'
+        + '<div class="search-item-meta">' + (TYPE_LABELS[r.type] || '') + ' · ' + dt + '</div></div></div>';
+    });
   }
 
-  // Clients
-  const clients = db.get(SK.clients).filter(c =>
-    c.name?.toLowerCase().includes(ql) || c.needs?.toLowerCase().includes(ql)
-  );
+  var clients = db.get(SK.clients).filter(function(c) { return c.name && c.name.toLowerCase().indexOf(ql) >= 0; });
   if (clients.length) {
-    html += '<div class="search-section-label">Clientes</div>';
-    html += clients.slice(0,3).map(c =>
-      `<div class="search-result-item" onclick="closeSearch();showView('clientes')">
-        <span class="search-result-icon">👤</span>
-        <div><div class="search-result-title">${c.name}</div>
-        <div class="search-result-meta">${c.status}${c.next?' · → '+c.next:''}</div></div>
-      </div>`
-    ).join('');
+    html += '<div class="search-grp">Clientes</div>';
+    clients.slice(0, 3).forEach(function(cl) {
+      html += '<div class="search-item" data-goto="clientes" onclick="closeSearch();showView(this.dataset.goto)">'
+        + '<span style="font-size:16px;width:22px;text-align:center">&#128100;</span>'
+        + '<div><div class="search-item-title">' + cl.name + '</div>'
+        + '<div class="search-item-meta">' + cl.status + '</div></div></div>';
+    });
   }
 
-  // Projects
-  const projects = db.get(SK.projects).filter(p =>
-    p.name?.toLowerCase().includes(ql) || p.client?.toLowerCase().includes(ql)
-  );
-  if (projects.length) {
-    html += '<div class="search-section-label">Proyectos</div>';
-    html += projects.slice(0,3).map(p =>
-      `<div class="search-result-item" onclick="closeSearch();showView('proyectos')">
-        <span class="search-result-icon">📊</span>
-        <div><div class="search-result-title">${p.name}</div>
-        <div class="search-result-meta">${p.client||''} · ${p.status||''}</div></div>
-      </div>`
-    ).join('');
-  }
-
-  // Classes
-  const classes = db.get(SK.classes).filter(c =>
-    c.title?.toLowerCase().includes(ql) || c.topic?.toLowerCase().includes(ql)
-  );
-  if (classes.length) {
-    html += '<div class="search-section-label">Clases</div>';
-    html += classes.slice(0,3).map(c =>
-      `<div class="search-result-item" onclick="closeSearch();showView('clases')">
-        <span class="search-result-icon">📅</span>
-        <div><div class="search-result-title">${c.title||c.topic}</div>
-        <div class="search-result-meta">${c.date||''} · ${c.audience||''}</div></div>
-      </div>`
-    ).join('');
-  }
-
-  el.innerHTML = html || '<div class="search-empty">Sin resultados para "<strong>' + q + '</strong>"</div>';
+  el.innerHTML = html || '<div class="search-empty">Sin resultados para "' + q + '"</div>';
 }
 
-function searchKeyNav(e) {
+function searchNav(e) {
   if (e.key === 'Escape') { closeSearch(); return; }
-  const items = document.querySelectorAll('.search-result-item');
+  var items = document.querySelectorAll('.search-item');
   if (!items.length) return;
-  if (e.key === 'ArrowDown') {
-    e.preventDefault();
-    searchSelectedIdx = Math.min(searchSelectedIdx + 1, items.length - 1);
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault();
-    searchSelectedIdx = Math.max(searchSelectedIdx - 1, 0);
-  } else if (e.key === 'Enter' && searchSelectedIdx >= 0) {
-    items[searchSelectedIdx].click();
-    return;
-  }
-  items.forEach((el, i) => el.style.background = i === searchSelectedIdx ? 'var(--cyan-d)' : '');
+  if (e.key === 'ArrowDown') { e.preventDefault(); searchIdx = Math.min(searchIdx + 1, items.length - 1); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); searchIdx = Math.max(searchIdx - 1, 0); }
+  else if (e.key === 'Enter' && searchIdx >= 0) { items[searchIdx].click(); return; }
+  items.forEach(function(el, i) { el.classList.toggle('sel', i === searchIdx); });
 }
 
+// ─────────────────────────────────────────────────────────────
+// ONBOARDING
+// ─────────────────────────────────────────────────────────────
+function obInit() {
+  if (!localStorage.getItem('ll_ob')) {
+    var d = document.getElementById('obDialog');
+    if (d && d.showModal) d.showModal();
+  }
+}
 
+function obGo(n) {
+  [1, 2, 3].forEach(function(i) {
+    var el = document.getElementById('ob' + i);
+    if (el) el.style.display = i === n ? 'block' : 'none';
+  });
+}
 
+function obClose() {
+  var d = document.getElementById('obDialog');
+  if (d) d.close();
+  localStorage.setItem('ll_ob', '1');
+}
 
+// ─────────────────────────────────────────────────────────────
+// CLIENT DETAIL MODAL
+// ─────────────────────────────────────────────────────────────
+function cliModalOpen(id) {
+  var clients = db.get(SK.clients);
+  var cl = null;
+  for (var i = 0; i < clients.length; i++) { if (clients[i].id === id) { cl = clients[i]; break; } }
+  if (!cl) return;
 
+  var resources = db.get(SK.resources).filter(function(r) { return r.client === cl.name; });
+  var projects = db.get(SK.projects).filter(function(p) { return p.client === cl.name; });
+  var propCount = resources.filter(function(r) { return r.type === 'propuesta'; }).length;
+  var statusColors = { Prospecto: '#6ea5c8', Contactado: '#7c3aed', Cotizado: '#f59e0b', 'En proceso': '#00c8f0', Finalizado: '#10b981' };
+  var sc = statusColors[cl.status] || '#888';
 
+  var resHtml = '';
+  if (resources.length) {
+    var icons2 = { clase: '🎓', contenido: '📱', propuesta: '📄', automatizacion: '⚙️', ruta: '🗺️' };
+    resources.forEach(function(r) {
+      var ic = icons2[r.type] || '📄';
+      var dt = new Date(r.date).toLocaleDateString('es-CR', { day: '2-digit', month: 'short' });
+      resHtml += '<div class="cli-res-item" data-rid="' + r.id + '" onclick="loadSavedItem(this)">'
+        + '<span style="font-size:15px">' + ic + '</span>'
+        + '<div><div style="font-size:12px;font-weight:600;color:var(--text)">' + r.topic + '</div>'
+        + '<div style="font-size:11px;color:var(--text2)">' + (TYPE_LABELS[r.type] || '') + ' · ' + dt + '</div></div>'
+        + '</div>';
+    });
+  }
+
+  var box = document.getElementById('cliModalBox');
+  box.innerHTML = '<div class="cli-modal-head">'
+    + '<div><p style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Ficha de cliente</p>'
+    + '<div class="cli-modal-name">👤 ' + cl.name + '</div>'
+    + '<span class="badge" style="background:' + sc + '22;color:' + sc + ';display:inline-block;margin-top:6px">' + cl.status + '</span></div>'
+    + '<div style="display:flex;gap:8px">'
+    + '<button class="primary-btn" style="font-size:12px;padding:6px 12px" data-cname="' + cl.name + '" onclick="goCreateForClient(this.dataset.cname)">⚡ Generar recurso</button>'
+    + '<button class="close-x" onclick="cliModalClose()">×</button>'
+    + '</div></div>'
+    + '<div class="cli-modal-body">'
+    + '<div class="cli-stats">'
+    + '<div class="cli-stat"><strong>' + resources.length + '</strong><small>Recursos</small></div>'
+    + '<div class="cli-stat"><strong>' + projects.length + '</strong><small>Proyectos</small></div>'
+    + '<div class="cli-stat"><strong>' + propCount + '</strong><small>Propuestas</small></div>'
+    + '</div>'
+    + (cl.needs ? '<div class="cli-sec">Necesidades</div><p style="font-size:13px;color:var(--text2);line-height:1.6">' + cl.needs + '</p>' : '')
+    + (cl.next ? '<div class="cli-sec">Próxima acción</div><p style="font-size:13px;color:var(--cyan)">→ ' + cl.next + '</p>' : '')
+    + (resources.length ? '<div class="cli-sec">Recursos vinculados (' + resources.length + ')</div>' + resHtml : '<p style="font-size:13px;color:var(--muted);margin-top:10px">Sin recursos vinculados aún.</p>')
+    + '</div>';
+
+  document.getElementById('cliModalOverlay').style.display = 'flex';
+}
+
+function exportAsesorTxt() { exportTxt(asesorOutput, 'plan-negocio'); }
+function loadSavedItem(el) { var id = el.getAttribute('data-rid'); cliModalClose(); closeSearch(); loadSaved(id); }
+
+function cliModalClose() {
+  document.getElementById('cliModalOverlay').style.display = 'none';
+}
+
+function goCreateForClient(name) {
+  cliModalClose();
+  showView('propuestas');
+  setTimeout(function() {
+    fillClientSelector();
+    var sel = document.getElementById('fClientLink');
+    if (sel) { sel.value = name; sel.dispatchEvent(new Event('change')); }
+  }, 150);
+}
+
+// ─────────────────────────────────────────────────────────────
+// CLIENT SELECTOR in generator
+// ─────────────────────────────────────────────────────────────
+function fillClientSelector() {
+  var sel = document.getElementById('fClientLink');
+  if (!sel) return;
+  var clients = db.get(SK.clients);
+  var cur = sel.value;
+  sel.innerHTML = '<option value="">— Sin cliente —</option>'
+    + clients.map(function(cl) { return '<option value="' + cl.name + '"' + (cl.name === cur ? ' selected' : '') + '>' + cl.name + '</option>'; }).join('');
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   initDate();
   renderDashboard();
   renderTemplates();
   renderSolutions();
-  initOnboarding();
 
   // Navigation
   document.querySelectorAll('[data-view]').forEach(el => {
@@ -2827,21 +2018,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generate button
   document.getElementById('generateBtn')?.addEventListener('click', generateResource);
+  document.getElementById('asesorBtn')?.addEventListener('click', generateAsesor);
   document.getElementById('fClientLink')?.addEventListener('change', function() {
-    const clients = db.get(SK.clients);
-    const client = clients.find(c => c.name === this.value);
-    if (client && client.needs) {
-      const brief = document.getElementById('fBrief');
-      const audience = document.getElementById('fAudience');
-      if (brief && !brief.value) brief.value = client.needs;
-      if (audience && !audience.value) audience.value = client.name;
-      showToast('👤 Contexto de "' + client.name + '" cargado', 'ok');
+    var clients = db.get(SK.clients);
+    var found = null;
+    for (var i = 0; i < clients.length; i++) { if (clients[i].name === this.value) { found = clients[i]; break; } }
+    if (found) {
+      var brief = document.getElementById('fBrief');
+      var audience = document.getElementById('fAudience');
+      if (brief && !brief.value && found.needs) brief.value = found.needs;
+      if (audience && !audience.value) audience.value = found.name;
+      showToast('👤 Contexto de "' + found.name + '" cargado', 'ok');
     }
   });
-
-  // ASESOR DE NEGOCIOS
-  document.getElementById('asesorBtn')?.addEventListener('click', generateAsesor);
-  renderAsesorSaved();
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Escape') { closeSearch(); cliModalClose(); }
+  });
+  obInit();
 
   // CONTENT form
   document.getElementById('newContentBtn')?.addEventListener('click', () => openForm('contentFormWrap'));
@@ -2870,116 +2064,932 @@ document.addEventListener('DOMContentLoaded', () => {
   // Enter key in forms
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
-      closeSearch();
-      closeClientModal();
       ['contentFormWrap','classFormWrap','projectFormWrap','clientFormWrap'].forEach(id => closeForm(id));
-    }
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault();
-      openSearch();
     }
   });
 });
 </script>
 
-
-
-<!-- CLIENT DETAIL MODAL -->
-<div class="client-modal-overlay" id="clientModalOverlay" style="display:none" onclick="if(event.target===this)closeClientModal()">
-  <div class="client-modal" id="clientModalBox">
-    <!-- filled dynamically -->
-  </div>
-</div>
-<!-- GLOBAL SEARCH -->
+<!-- SEARCH MODAL -->
 <div class="search-overlay" id="searchOverlay" style="display:none" onclick="if(event.target===this)closeSearch()">
   <div class="search-box">
-    <div class="search-input-wrap">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" id="globalSearchInput" placeholder="Buscar en recursos, clientes, proyectos, clases…" 
-        oninput="runGlobalSearch(this.value)" onkeydown="searchKeyNav(event)">
-      <span class="search-kbd" style="cursor:pointer" onclick="closeSearch()">ESC</span>
+    <div class="search-input-row">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="searchInput" placeholder="Buscar en recursos, clientes, proyectos…" oninput="doSearch(this.value)" onkeydown="searchNav(event)">
+      <span style="cursor:pointer;color:var(--muted);font-size:12px" onclick="closeSearch()">ESC</span>
     </div>
-    <div class="search-results" id="searchResults">
-      <div class="search-empty">Escribe para buscar en toda tu biblioteca</div>
-    </div>
-    <div class="search-footer">
-      <span>↑↓ Navegar</span>
-      <span>Enter Abrir</span>
-      <span>ESC Cerrar</span>
-    </div>
+    <div class="search-results" id="searchResults"><div class="search-empty">Escribe para buscar en toda tu biblioteca</div></div>
+    <div class="search-footer"><span>↑↓ Navegar</span><span>Enter Abrir</span><span>ESC Cerrar</span></div>
   </div>
 </div>
-</div>
 
-<!-- ONBOARDING -->
-<dialog id="onboardingDialog">
+<!-- ONBOARDING DIALOG -->
+<dialog id="obDialog">
   <div class="ob-box">
-
-    <!-- STEP 1 -->
-    <div id="obs1">
+    <div id="ob1">
       <div class="ob-logo">⚡ LillyTech<small>Tu asistente estratégica con IA</small></div>
-      <div class="ob-title">Bienvenida a tu sistema operativo personal</div>
-      <div class="ob-desc">LillyTech convierte lo que sabes en recursos listos para usar — con IA, en minutos.</div>
+      <div class="ob-h">Bienvenida a tu sistema operativo personal</div>
+      <div class="ob-p">Convierte lo que sabes en recursos listos para usar — con IA, en minutos.</div>
       <div class="ob-grid">
         <div class="ob-card"><div class="ob-icon">⚡</div><div class="ob-name">Generador IA</div><div class="ob-desc2">Clases, rutas, contenido, automatizaciones y propuestas</div></div>
-        <div class="ob-card"><div class="ob-icon">💼</div><div class="ob-name">Asesor de Negocios</div><div class="ob-desc2">Tu plan de negocio basado en lo que tienes</div></div>
+        <div class="ob-card"><div class="ob-icon">💼</div><div class="ob-name">Asesor de Negocios</div><div class="ob-desc2">Plan de negocio basado en lo que tienes</div></div>
         <div class="ob-card"><div class="ob-icon">👤</div><div class="ob-name">CRM de Clientes</div><div class="ob-desc2">Seguimiento vinculado a tus recursos</div></div>
         <div class="ob-card"><div class="ob-icon">🔍</div><div class="ob-name">Búsqueda Global</div><div class="ob-desc2">Ctrl+K para buscar en todo</div></div>
       </div>
       <div class="ob-nav">
-        <div class="ob-dots"><div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
-        <div class="ob-btns">
-          <button class="ob-skip" onclick="closeOb()">Saltar</button>
-          <button class="primary-btn" onclick="obGo(2)">Siguiente →</button>
-        </div>
+        <div class="ob-dots"><div class="ob-dot on"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+        <div style="display:flex;gap:8px"><button class="ob-skip" onclick="obClose()">Saltar</button><button class="primary-btn" onclick="obGo(2)">Siguiente →</button></div>
       </div>
     </div>
-
-    <!-- STEP 2 -->
-    <div id="obs2" style="display:none">
+    <div id="ob2" style="display:none">
       <div class="ob-logo">⚡ LillyTech</div>
-      <div class="ob-title">¿Cómo funciona?</div>
-      <div class="ob-desc">Tres pasos. Eso es todo lo que necesitas.</div>
+      <div class="ob-h">¿Cómo funciona?</div>
+      <div class="ob-p">Tres pasos simples.</div>
       <div class="ob-steps">
-        <div class="ob-step-row"><span class="ob-step-num">1️⃣</span><div><span class="ob-step-title">Elige el tipo de recurso</span><span class="ob-step-desc">Clase, ruta, contenido, automatización, propuesta o plan de negocio</span></div></div>
-        <div class="ob-step-row"><span class="ob-step-num">2️⃣</span><div><span class="ob-step-title">Describe tu contexto real</span><span class="ob-step-desc">Cuanto más específico seas, mejor es el resultado de la IA</span></div></div>
-        <div class="ob-step-row"><span class="ob-step-num">3️⃣</span><div><span class="ob-step-title">Genera, copia o exporta</span><span class="ob-step-desc">Se guarda automáticamente. Exporta a .txt o PDF, o úsalo para crear algo más</span></div></div>
+        <div class="ob-step"><span style="font-size:18px">1️⃣</span><div><strong>Elige el tipo de recurso</strong><span>Clase, ruta, contenido, automatización, propuesta o plan de negocio</span></div></div>
+        <div class="ob-step"><span style="font-size:18px">2️⃣</span><div><strong>Describe tu contexto real</strong><span>Cuanto más específico seas, mejor es el resultado</span></div></div>
+        <div class="ob-step"><span style="font-size:18px">3️⃣</span><div><strong>Genera, copia o exporta</strong><span>Se guarda automáticamente. Exporta a .txt o PDF</span></div></div>
       </div>
       <div class="ob-nav">
-        <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot active"></div><div class="ob-dot"></div></div>
-        <div class="ob-btns">
-          <button class="ob-skip" onclick="obGo(1)">← Atrás</button>
-          <button class="primary-btn" onclick="obGo(3)">Siguiente →</button>
-        </div>
+        <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot on"></div><div class="ob-dot"></div></div>
+        <div style="display:flex;gap:8px"><button class="ob-skip" onclick="obGo(1)">← Atrás</button><button class="primary-btn" onclick="obGo(3)">Siguiente →</button></div>
       </div>
     </div>
-
-    <!-- STEP 3 -->
-    <div id="obs3" style="display:none">
+    <div id="ob3" style="display:none">
       <div class="ob-logo">⚡ LillyTech</div>
-      <div class="ob-title">¿Por dónde quieres empezar? 🚀</div>
-      <div class="ob-desc">Elige una opción y te llevamos directo:</div>
-      <div class="ob-shortcuts">
-        <button class="ob-shortcut" onclick="closeOb();showView('propuestas');selectType('clase')">
-          <span class="ob-sh-icon">🎓</span><div><strong>Crear una clase completa</strong><span>Ideal si enseñas o capacitas equipos</span></div>
-        </button>
-        <button class="ob-shortcut" onclick="closeOb();showView('asesor')">
-          <span class="ob-sh-icon">💼</span><div><strong>Diseñar un plan de negocio</strong><span>Ideal si quieres emprender o diversificar ingresos</span></div>
-        </button>
-        <button class="ob-shortcut" onclick="closeOb();showView('propuestas');selectType('propuesta')">
-          <span class="ob-sh-icon">📄</span><div><strong>Crear una propuesta comercial</strong><span>Ideal si tienes un cliente y necesitas venderle</span></div>
-        </button>
+      <div class="ob-h">¿Por dónde empezamos? 🚀</div>
+      <div class="ob-p">Elige y te llevamos directo:</div>
+      <div class="ob-actions">
+        <button class="ob-action" onclick="obClose();showView('propuestas');selectType('clase')"><span style="font-size:20px">🎓</span><div><strong>Crear una clase completa</strong><span>Ideal si enseñas o capacitas equipos</span></div></button>
+        <button class="ob-action" onclick="obClose();showView('asesor')"><span style="font-size:20px">💼</span><div><strong>Diseñar un plan de negocio</strong><span>Ideal si quieres emprender o diversificar</span></div></button>
+        <button class="ob-action" onclick="obClose();showView('propuestas');selectType('propuesta')"><span style="font-size:20px">📄</span><div><strong>Crear una propuesta comercial</strong><span>Ideal si tienes un cliente y necesitas venderle</span></div></button>
       </div>
       <div class="ob-nav">
-        <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div></div>
-        <div class="ob-btns">
-          <button class="ob-skip" onclick="obGo(2)">← Atrás</button>
-          <button class="primary-btn" onclick="closeOb()">¡Empezar! ⚡</button>
-        </div>
+        <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot on"></div></div>
+        <div style="display:flex;gap:8px"><button class="ob-skip" onclick="obGo(2)">← Atrás</button><button class="primary-btn" onclick="obClose()">¡Empezar! ⚡</button></div>
       </div>
     </div>
-
   </div>
 </dialog>
+
+<!-- CLIENT DETAIL MODAL -->
+<div class="cli-modal-overlay" id="cliModalOverlay" style="display:none" onclick="if(event.target===this)cliModalClose()">
+  <div class="cli-modal" id="cliModalBox"></div>
+</div>
+</body>
+</html>'<div class="cli-res-item" data-rid="' + r.id + '" onclick="cliModalClose();loadSaved(this.dataset.rid)">'
+        + '<span style="font-size:15px">' + ic + '</span>'
+        + '<div><div style="font-size:12px;font-weight:600;color:var(--text)">' + r.topic + '</div>'
+        + '<div style="font-size:11px;color:var(--text2)">' + (TYPE_LABELS[r.type] || '') + ' · ' + dt + '</div></div>'
+        + '</div>';ml>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LillyTech — Asistente Estratégica IA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #05101f;
+  --bg2:      #081a2e;
+  --card:     #0c2038;
+  --card2:    #0f2848;
+  --border:   rgba(0,190,240,.1);
+  --border2:  rgba(0,190,240,.22);
+  --cyan:     #00c8f0;
+  --cyan-d:   rgba(0,200,240,.12);
+  --cyan-g:   rgba(0,200,240,.22);
+  --violet:   #7c3aed;
+  --violet-d: rgba(124,58,237,.15);
+  --green:    #10b981;
+  --green-d:  rgba(16,185,129,.14);
+  --amber:    #f59e0b;
+  --amber-d:  rgba(245,158,11,.14);
+  --pink:     #e879f9;
+  --pink-d:   rgba(232,121,249,.14);
+  --red:      #ef4444;
+  --text:     #d8eeff;
+  --text2:    #6ea5c8;
+  --muted:    #3a607e;
+  --r:        12px;
+  --rsm:      8px;
+  --side:     244px;
+  --t:        .2s ease;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* NOISE */
+.noise{position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+  opacity:.45}
+
+/* LAYOUT */
+.app-shell{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:var(--side);background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;
+  transition:transform var(--t);overflow-y:auto}
+.brand{display:flex;align-items:center;gap:12px;padding:18px 16px;border-bottom:1px solid var(--border)}
+.brand-mark{width:34px;height:34px;background:linear-gradient(135deg,var(--cyan),var(--violet));
+  border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.brand-mark span{width:14px;height:14px;background:var(--bg);border-radius:50%;display:block}
+.brand h1{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;line-height:1}
+.brand p{font-size:10px;color:var(--text2);margin-top:2px}
+.nav{display:flex;flex-direction:column;padding:10px 0;flex:1;gap:1px}
+.nav-link{display:flex;align-items:center;gap:10px;padding:9px 16px;border:none;background:none;
+  color:var(--text2);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;
+  text-align:left;width:100%;position:relative;transition:all var(--t)}
+.nav-link:hover{color:var(--text);background:var(--cyan-d)}
+.nav-link.active{color:var(--cyan);background:var(--cyan-d)}
+.nav-link.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--cyan);border-radius:0 2px 2px 0}
+.nav-icon{width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.sidebar-foot{padding:12px;margin:8px 12px 12px;border-radius:var(--rsm);
+  background:var(--card);border:1px solid var(--border)}
+.pulse-dot{width:7px;height:7px;background:var(--green);border-radius:50%;
+  display:inline-block;margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{box-shadow:0 0 0 4px rgba(16,185,129,0)}}
+.sidebar-foot small{font-size:10px;color:var(--muted);display:block;margin-bottom:1px}
+.sidebar-foot strong{font-size:12px;color:var(--text);display:block}
+.sidebar-foot span{font-size:10px;color:var(--text2)}
+
+/* WORKSPACE */
+.workspace{margin-left:var(--side);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{position:sticky;top:0;background:rgba(5,16,31,.88);backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border);
+  padding:0 24px;height:58px;display:flex;align-items:center;gap:14px;z-index:50}
+.menu-toggle{display:none;background:none;border:none;color:var(--text);cursor:pointer;font-size:18px;padding:4px}
+.title-area{flex:1}
+.eyebrow{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:1px}
+.topbar h2{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600}
+.top-actions{display:flex;align-items:center;gap:10px}
+.date-chip{padding:4px 12px;background:var(--card);border:1px solid var(--border);
+  border-radius:20px;font-size:11px;color:var(--text2);white-space:nowrap}
+
+/* BUTTONS */
+.primary-btn{padding:8px 16px;background:linear-gradient(135deg,#0095bb,#005f9e);border:none;
+  color:#fff;border-radius:var(--rsm);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all var(--t);white-space:nowrap}
+.primary-btn:hover{background:linear-gradient(135deg,#00aed5,#0070b8);transform:translateY(-1px);
+  box-shadow:0 4px 16px rgba(0,150,200,.3)}
+.primary-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.ghost-btn{padding:8px 16px;background:none;border:1px solid var(--border2);color:var(--text2);
+  border-radius:var(--rsm);font-family:'Inter',sans-serif;font-size:13px;cursor:pointer;transition:all var(--t)}
+.ghost-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.text-btn{background:none;border:none;color:var(--cyan);font-size:12px;cursor:pointer;
+  padding:4px;transition:opacity var(--t)}
+.text-btn:hover{opacity:.7}
+.icon-btn{background:none;border:1px solid var(--border);color:var(--text2);
+  border-radius:var(--rsm);font-size:12px;padding:5px 10px;cursor:pointer;
+  transition:all var(--t);display:flex;align-items:center;gap:5px;white-space:nowrap}
+.icon-btn:hover{border-color:var(--cyan);color:var(--cyan)}
+.icon-btn.green:hover{border-color:var(--green);color:var(--green)}
+.icon-btn.amber:hover{border-color:var(--amber);color:var(--amber)}
+
+/* VIEWS */
+.view{display:none;padding:24px;animation:fadeIn .3s ease}
+.view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* CARDS */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.panel-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px}
+.panel-head h3{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.badge.cyan{background:var(--cyan-d);color:var(--cyan);border:1px solid var(--cyan-g)}
+.badge.green{background:var(--green-d);color:var(--green)}
+.badge.amber{background:var(--amber-d);color:var(--amber)}
+.badge.violet{background:var(--violet-d);color:#a78bfa}
+.badge.pink{background:var(--pink-d);color:var(--pink)}
+
+/* DASHBOARD */
+.hero.card{margin-bottom:20px;background:linear-gradient(135deg,var(--card) 0%,#0d2840 100%);
+  border-color:var(--border2);position:relative;overflow:hidden;padding:28px 28px}
+.hero.card::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;
+  background:radial-gradient(circle,rgba(0,170,230,.09) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero.card::after{content:'';position:absolute;bottom:-40px;left:60px;width:180px;height:180px;
+  background:radial-gradient(circle,rgba(124,58,237,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+.hero-content h3{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;
+  margin:6px 0;background:linear-gradient(135deg,var(--text),var(--cyan));-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text}
+.hero-content > p{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:0}
+.hero-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.metric-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:16px 18px;display:flex;align-items:center;gap:14px;transition:all var(--t)}
+.metric-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.metric-icon{width:42px;height:42px;border-radius:var(--rsm);display:flex;align-items:center;
+  justify-content:center;font-size:20px;flex-shrink:0}
+.mi-cyan{background:var(--cyan-d)} .mi-violet{background:var(--violet-d)}
+.mi-green{background:var(--green-d)} .mi-amber{background:var(--amber-d)}
+.metric-num{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;line-height:1}
+.metric-label{font-size:12px;color:var(--text2);margin-top:2px}
+.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* MODULE HEAD */
+.module-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;gap:16px}
+.module-head h3{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;margin:4px 0}
+.module-head .muted{font-size:13px;color:var(--text2);line-height:1.5}
+
+/* FORMS */
+label{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:600;
+  color:var(--text2);text-transform:uppercase;letter-spacing:.05em}
+input,select,textarea{background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);
+  color:var(--text);font-family:'Inter',sans-serif;font-size:13px;padding:9px 12px;
+  transition:border-color var(--t);width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,200,240,.07)}
+textarea{resize:vertical;min-height:72px;line-height:1.6}
+select{appearance:none;cursor:pointer}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gap-top{margin-top:12px}
+.form-section{display:none}
+.form-section.on{display:block}
+.form-actions{display:flex;gap:10px;margin-top:14px}
+
+/* BUILDER */
+.builder-layout{display:grid;grid-template-columns:380px 1fr;grid-template-rows:1fr auto;
+  gap:16px;align-items:start}
+.builder-form{grid-row:1/3}
+.output-panel{min-height:520px;display:flex;flex-direction:column;overflow:hidden}
+
+/* TYPE SELECTOR */
+.type-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.type-btn{padding:10px 6px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);
+  color:var(--text2);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;cursor:pointer;
+  text-align:center;transition:all var(--t);line-height:1.3}
+.type-btn:hover{border-color:var(--border2);color:var(--text)}
+.type-btn.active{background:var(--cyan-d);border-color:var(--cyan);color:var(--cyan)}
+.type-icon{display:block;font-size:20px;margin-bottom:5px}
+
+/* OUTPUT */
+.output-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;gap:10px;padding:40px;color:var(--text2)}
+.output-empty .big-icon{font-size:52px;margin-bottom:6px}
+.output-empty h3{font-family:'Space Grotesk',sans-serif;font-size:18px;color:var(--text)}
+.output-empty p{font-size:13px;line-height:1.6;max-width:280px}
+.output-header{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.output-header h4{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
+  color:var(--text);flex:1;min-width:0}
+.output-actions{display:flex;gap:6px;flex-wrap:wrap}
+.output-body{flex:1;overflow-y:auto;max-height:calc(100vh - 240px);font-size:13px;line-height:1.75;color:var(--text)}
+.output-body h2{font-family:'Space Grotesk',sans-serif;color:var(--cyan);font-size:15px;
+  font-weight:700;margin:22px 0 8px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.output-body h3{font-family:'Space Grotesk',sans-serif;color:var(--text);font-size:13px;
+  font-weight:700;margin:14px 0 6px}
+.output-body h4{font-size:12px;font-weight:700;color:var(--text2);margin:10px 0 4px;
+  text-transform:uppercase;letter-spacing:.05em}
+.output-body p{margin:6px 0}
+.output-body ul,
+.output-body ol{padding-left:18px;margin:6px 0}
+.output-body li{margin:4px 0}
+.output-body strong{color:var(--text)}
+.output-body em{color:var(--text2)}
+.output-body code{background:rgba(0,200,240,.08);padding:1px 7px;border-radius:4px;
+  font-family:monospace;font-size:12px;color:var(--cyan);border:1px solid var(--border)}
+.output-body hr{border:none;border-top:1px solid var(--border);margin:16px 0}
+.output-body .prompt-block{background:var(--bg2);border:1px solid var(--border2);
+  border-left:3px solid var(--cyan);border-radius:var(--rsm);padding:12px 14px;
+  margin:10px 0;font-family:monospace;font-size:12px;color:var(--text);line-height:1.6}
+
+/* LOADING */
+.loading-state{flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:60px 40px;gap:16px;text-align:center}
+.spinner{width:38px;height:38px;border:3px solid var(--border);border-top-color:var(--cyan);
+  border-radius:50%;animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-label{color:var(--text2);font-size:13px;animation:blink 1.4s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.45}}
+.cursor{display:inline-block;width:2px;height:14px;background:var(--cyan);
+  margin-left:2px;vertical-align:text-bottom;animation:blink 1s infinite}
+
+/* SAVED */
+.saved-list{display:flex;flex-direction:column;gap:7px;max-height:300px;overflow-y:auto}
+.saved-item{padding:10px 12px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--rsm);display:flex;align-items:center;gap:10px;
+  cursor:pointer;transition:all var(--t)}
+.saved-item:hover{border-color:var(--border2)}
+.s-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.s-info{flex:1;min-width:0}
+.s-topic{font-size:12px;font-weight:500;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.s-meta{font-size:10px;color:var(--text2);margin-top:1px}
+.s-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;
+  padding:2px 4px;transition:color var(--t);line-height:1}
+.s-del:hover{color:var(--red)}
+.empty-msg{text-align:center;padding:28px;color:var(--muted);font-size:13px;line-height:1.5}
+
+/* TEMPLATES */
+.template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.tmpl-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:18px;cursor:pointer;transition:all var(--t);position:relative;overflow:hidden}
+.tmpl-card:hover{border-color:var(--border2);transform:translateY(-3px);
+  box-shadow:0 8px 28px rgba(0,0,0,.35)}
+.tmpl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.tc-clase::before{background:linear-gradient(90deg,var(--cyan),transparent)}
+.tc-ruta::before{background:linear-gradient(90deg,var(--violet),transparent)}
+.tc-contenido::before{background:linear-gradient(90deg,var(--green),transparent)}
+.tc-auto::before{background:linear-gradient(90deg,var(--amber),transparent)}
+.tc-propuesta::before{background:linear-gradient(90deg,var(--pink),transparent)}
+.tmpl-icon{font-size:30px;margin-bottom:10px}
+.tmpl-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.tc-clase .tmpl-type{color:var(--cyan)} .tc-ruta .tmpl-type{color:#a78bfa}
+.tc-contenido .tmpl-type{color:var(--green)} .tc-auto .tmpl-type{color:var(--amber)}
+.tc-propuesta .tmpl-type{color:var(--pink)}
+.tmpl-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
+  color:var(--text);margin-bottom:6px}
+.tmpl-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.tmpl-foot{margin-top:12px;padding-top:10px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--muted)}
+.tmpl-foot span{color:var(--cyan);font-weight:600;font-size:11px}
+
+/* KANBAN */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kanban-col{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px}
+.col-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.col-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text2)}
+.col-count{width:18px;height:18px;border-radius:50%;background:var(--border);
+  font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;color:var(--text2)}
+.content-card{background:var(--card);border:1px solid var(--border);border-radius:var(--rsm);
+  padding:10px;margin-bottom:8px;cursor:pointer;transition:border-color var(--t)}
+.content-card:hover{border-color:var(--border2)}
+.cc-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:5px;line-height:1.4}
+.cc-ch{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:600;
+  background:var(--cyan-d);color:var(--cyan)}
+.cc-date{font-size:10px;color:var(--muted);margin-top:5px}
+.cc-del{float:right;background:none;border:none;color:var(--muted);cursor:pointer;
+  font-size:13px;padding:0;line-height:1;transition:color var(--t)}
+.cc-del:hover{color:var(--red)}
+.content-form-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:20px;margin-bottom:20px;display:none}
+.content-form-wrap.on{display:block}
+.inline-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* CLASSES */
+.class-layout{display:grid;grid-template-columns:290px 1fr;gap:16px}
+.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:8px}
+.cal-dname{font-size:10px;font-weight:600;text-align:center;color:var(--muted);padding:4px 2px}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  border-radius:6px;font-size:12px;color:var(--text2);cursor:pointer;transition:all var(--t)}
+.cal-day:hover{background:var(--cyan-d);color:var(--cyan)}
+.cal-day.today{background:var(--cyan);color:var(--bg);font-weight:700}
+.cal-day.has-c{background:var(--cyan-d);color:var(--cyan);font-weight:600}
+.cal-day.empty{cursor:default;pointer-events:none}
+.timeline{display:flex;flex-direction:column;gap:10px}
+.tl-item{display:flex;gap:12px;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm)}
+.tl-dot{width:9px;height:9px;border-radius:50%;background:var(--cyan);flex-shrink:0;margin-top:4px}
+.tl-topic{font-size:13px;font-weight:500;color:var(--text)}
+.tl-meta{font-size:11px;color:var(--text2);margin-top:2px}
+.tl-actions{margin-top:7px;display:flex;gap:6px}
+
+/* PROJECTS */
+.project-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.proj-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.pc-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.pc-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--text)}
+.pc-type{font-size:11px;color:var(--text2);margin-top:1px}
+.prog-bar{height:5px;background:var(--bg2);border-radius:3px;margin-bottom:7px}
+.prog-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--cyan),#0066cc);transition:width .5s}
+.pc-stats{display:flex;justify-content:space-between;font-size:11px;color:var(--text2)}
+
+/* CLIENTS */
+.client-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px}
+.cli-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cli-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--text)}
+.cli-needs{font-size:12px;color:var(--text2);margin:6px 0;line-height:1.5}
+.cli-action{font-size:11px;color:var(--cyan)}
+
+/* SOLUTIONS */
+.solution-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+.sol-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:18px;position:relative;overflow:hidden;transition:all var(--t)}
+.sol-card:hover{border-color:var(--border2);transform:translateY(-2px)}
+.sol-icon{font-size:26px;margin-bottom:10px}
+.sol-name{font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;color:var(--text);margin-bottom:5px}
+.sol-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.sol-st{position:absolute;top:12px;right:12px;font-size:9px;font-weight:700;
+  text-transform:uppercase;padding:2px 8px;border-radius:10px;letter-spacing:.05em}
+.st-active{background:var(--green-d);color:var(--green)}
+.st-dev{background:var(--amber-d);color:var(--amber)}
+.st-idea{background:var(--violet-d);color:#a78bfa}
+
+/* INLINE EDITOR */
+.inline-editor{margin-bottom:20px;display:none}
+.inline-editor.on{display:block}
+.form-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.form-title h3{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600}
+.close-x{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  border-radius:6px;transition:all var(--t);line-height:1}
+.close-x:hover{background:var(--card2);color:var(--text)}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;background:var(--card);
+  border:1px solid var(--border2);border-radius:var(--r);color:var(--text);font-size:13px;
+  font-weight:500;box-shadow:0 8px 24px rgba(0,0,0,.45);transform:translateY(80px);
+  opacity:0;transition:all .3s ease;z-index:1000;max-width:320px}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.ok{border-color:rgba(16,185,129,.4)}
+.toast.err{border-color:rgba(239,68,68,.4)}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text2)}
+
+/* RESPONSIVE */
+@media(max-width:1200px){
+  .metrics-grid{grid-template-columns:repeat(2,1fr)}
+  .builder-layout{grid-template-columns:1fr}
+  .builder-form{grid-row:auto}
+  .dashboard-grid{grid-template-columns:1fr}
+}
+@media(max-width:900px){
+  .kanban{grid-template-columns:repeat(2,1fr)}
+  .class-layout{grid-template-columns:1fr}
+  .inline-grid3{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0);box-shadow:0 0 40px rgba(0,0,0,.55)}
+  .workspace{margin-left:0}
+  .menu-toggle{display:block}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  .type-grid{grid-template-columns:repeat(2,1fr)}
+  .kanban{grid-template-columns:1fr}
+  .field-row,.inline-grid3{grid-template-columns:1fr}
+}
+
+.icon-btn.violet{color:var(--violet);border-color:var(--violet-d)}
+.icon-btn.violet:hover{background:var(--violet-d)}
+.icon-btn.pink{color:var(--pink);border-color:var(--pink-d)}
+.icon-btn.pink:hover{background:var(--pink-d)}
+.s-fav{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 3px;transition:color var(--t);line-height:1}
+.s-fav:hover{color:var(--amber)}
+.resource-tag{display:inline-block;padding:1px 6px;background:var(--cyan-d);color:var(--cyan);border-radius:10px;font-size:9px;font-weight:600;margin-left:3px}
+/* SEARCH MODAL */
+.search-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(5,16,31,.92);z-index:2147483646;display:flex;align-items:flex-start;justify-content:center;padding:80px 20px 20px}
+.search-box{background:var(--card);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:580px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.search-input-row{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.search-input{flex:1;background:none;border:none;outline:none;font-size:15px;color:var(--text)}
+.search-input::placeholder{color:var(--muted)}
+.search-results{max-height:380px;overflow-y:auto;padding:6px}
+.search-grp{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;padding:8px 12px 3px;font-weight:700}
+.search-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;transition:background .15s}
+.search-item:hover,.search-item.sel{background:var(--cyan-d)}
+.search-item-title{font-size:13px;color:var(--text);font-weight:500}
+.search-item-meta{font-size:11px;color:var(--text2)}
+.search-empty{text-align:center;padding:36px 20px;color:var(--text2);font-size:13px}
+.search-footer{padding:8px 16px;border-top:1px solid var(--border);display:flex;gap:14px;font-size:10px;color:var(--muted)}
+/* ONBOARDING DIALOG */
+#obDialog{border:none;border-radius:16px;padding:0;background:var(--card);color:var(--text);max-width:500px;width:calc(100vw - 40px);box-shadow:0 32px 80px rgba(0,0,0,.7)}
+#obDialog::backdrop{background:rgba(5,16,31,.94)}
+.ob-box{padding:30px}
+.ob-logo{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700;color:var(--cyan)}
+.ob-logo small{display:block;font-size:11px;color:var(--text2);font-weight:400;margin-top:2px}
+.ob-h{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:700;margin:18px 0 8px}
+.ob-p{font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:18px}
+.ob-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.ob-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.ob-icon{font-size:22px;margin-bottom:4px}
+.ob-name{font-size:12px;font-weight:600}
+.ob-desc2{font-size:10px;color:var(--text2);margin-top:2px;line-height:1.4}
+.ob-steps{display:grid;gap:8px;margin-bottom:18px}
+.ob-step{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px}
+.ob-step strong{font-size:13px;display:block;margin-bottom:2px}
+.ob-step span{font-size:11px;color:var(--text2)}
+.ob-actions{display:grid;gap:8px;margin-bottom:18px}
+.ob-action{display:flex;gap:12px;align-items:center;padding:12px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s;width:100%}
+.ob-action:hover{border-color:var(--cyan)}
+.ob-action strong{font-size:13px;display:block}
+.ob-action span{font-size:11px;color:var(--text2)}
+.ob-nav{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--border)}
+.ob-dots{display:flex;gap:5px}
+.ob-dot{width:6px;height:6px;border-radius:50%;background:var(--muted);transition:background .2s}
+.ob-dot.on{background:var(--cyan);width:18px;border-radius:3px}
+.ob-skip{background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:4px 8px}
+.ob-skip:hover{color:var(--text2)}
+/* CLIENT DETAIL MODAL */
+.cli-modal-overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(5,16,31,.9);z-index:2147483645;display:flex;align-items:center;justify-content:center;padding:20px}
+.cli-modal{background:var(--card);border:1px solid var(--border2);border-radius:14px;width:100%;max-width:620px;max-height:85vh;overflow-y:auto}
+.cli-modal-head{padding:22px 24px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start}
+.cli-modal-name{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:700}
+.cli-modal-body{padding:18px 24px}
+.cli-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}
+.cli-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center}
+.cli-stat strong{font-family:'Space Grotesk',sans-serif;font-size:20px;color:var(--cyan);display:block}
+.cli-stat small{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em}
+.cli-sec{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin:14px 0 7px}
+.cli-res-item{display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg2);border-radius:8px;cursor:pointer;transition:background .15s;margin-bottom:5px}
+.cli-res-item:hover{background:var(--cyan-d)}
+</style>
+</head>
+<body>
+<div class="noise" aria-hidden="true"></div>
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><span></span></div>
+      <div><h1>LillyTech</h1><p>Asistente Estratégica IA</p></div>
+    </div>
+    <nav class="nav" aria-label="Módulos">
+      <button class="nav-link active" data-view="dashboard">
+        <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard
+      </button>
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted);padding:12px 16px 4px;text-transform:uppercase">CREAR</div>
+      <button class="nav-link" data-view="propuestas">
+        <svg class="nav-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Generador IA
+      </button>
+      <button class="nav-link" data-view="asesor">
+        <svg class="nav-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Asesor de Negocios
+      </button>
+      <button class="nav-link" data-view="plantillas">
+        <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="5" rx="1"/><rect x="3" y="11" width="11" height="10" rx="1"/><rect x="17" y="11" width="4" height="4" rx="1"/><rect x="17" y="18" width="4" height="3" rx="1"/></svg>Plantillas
+      </button>
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted);padding:12px 16px 4px;text-transform:uppercase">OPERAR</div>
+      <button class="nav-link" data-view="contenido">
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Contenido
+      </button>
+      <button class="nav-link" data-view="clases">
+        <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Clases
+      </button>
+      <button class="nav-link" data-view="proyectos">
+        <svg class="nav-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Proyectos
+      </button>
+      <button class="nav-link" data-view="clientes">
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Clientes
+      </button>
+      <div style="font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted);padding:12px 16px 4px;text-transform:uppercase">SISTEMA</div>
+      <button class="nav-link" data-view="soluciones">
+        <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Soluciones
+      </button>
+    </nav>
+    <div class="sidebar-foot">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span class="pulse-dot"></span><small style="color:var(--green)">Sistema activo</small></div><strong style="font-size:11px">LillyTech v2.0</strong><span style="font-size:10px;color:var(--muted);display:block;margin-top:2px">GPT-4o · Cloudflare Proxy</span>
+    </div>
+  </aside>
+
+  <!-- WORKSPACE -->
+  <main class="workspace">
+    <header class="topbar">
+      <button class="menu-toggle" id="menuToggle" aria-label="Menú">☰</button>
+      <div class="title-area">
+        <p class="eyebrow">Asistente estratégica personal</p>
+        <h2 id="viewTitle">Panel de recursos</h2>
+      </div>
+      <div class="top-actions">
+        <button class="ghost-btn" onclick="openSearch()" style="display:flex;align-items:center;gap:6px;font-size:12px;padding:6px 12px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Buscar<span class="search-kbd" style="padding:2px 6px;background:var(--bg2);border:1px solid var(--border);border-radius:4px;font-size:10px;color:var(--text2)">Ctrl+K</span>
+        </button>
+        <div class="date-chip" id="todayLabel"></div>
+        <button class="primary-btn jump-btn" data-view="propuestas">⚡ Crear con IA</button>
+      </div>
+    </header>
+
+    <!-- ====== DASHBOARD ====== -->
+    <section class="view active" id="dashboard" data-title="Panel de recursos">
+      <article class="hero card">
+        <div class="hero-content">
+          <p class="eyebrow">LillyTech Resource Builder</p>
+          <h3>Prepara. Enseña. Automatiza.</h3>
+          <p>Tu asistente estratégica para crear clases, rutas, contenido, automatizaciones y propuestas con IA.</p>
+          <div class="hero-actions">
+            <button class="primary-btn jump-btn" data-view="propuestas">✨ Crear recurso</button>
+            <button class="ghost-btn jump-btn" data-view="plantillas">📚 Usar plantilla</button>
+          </div>
+        </div>
+      </article>
+      <div class="metrics-grid" id="metricsGrid"></div>
+      <div class="dashboard-grid">
+        <article class="card panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Biblioteca personal</p><h3>Recursos recientes</h3></div>
+            <span class="badge cyan" id="totalBadge">0</span>
+          </div>
+          <div id="recentResources"></div>
+        </article>
+        <article class="card panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Generados por tipo</p><h3>Distribución</h3></div>
+          </div>
+          <div id="typeStats"></div>
+        </article>
+        <article class="card panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Publicación</p><h3>Próximos contenidos</h3></div>
+            <button class="text-btn jump-btn" data-view="contenido">Ver todos →</button>
+          </div>
+          <div id="upcomingContent"></div>
+        </article>
+        <article class="card panel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Acceso rápido</p><h3>Plantillas populares</h3></div>
+            <button class="text-btn jump-btn" data-view="plantillas">Ver todas →</button>
+          </div>
+          <div id="quickTemplates"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== RESOURCE BUILDER ====== -->
+    <section class="view" id="propuestas" data-title="Resource Builder">
+      <div class="module-head">
+        <div>
+          <p class="eyebrow">Generador de recursos con IA</p>
+          <h3>Resource Builder</h3>
+          <p class="muted">Clases completas, rutas, contenido, automatizaciones y propuestas listas para usar.</p>
+        </div>
+      </div>
+      <div class="builder-layout">
+        <!-- FORM -->
+        <div class="card builder-form">
+          <p class="eyebrow" style="margin-bottom:10px">Tipo de recurso</p>
+          <div class="type-grid" id="typeGrid">
+            <button class="type-btn active" data-type="clase"><span class="type-icon">🎓</span>Clase completa</button>
+            <button class="type-btn" data-type="ruta"><span class="type-icon">🗺️</span>Ruta de aprendizaje</button>
+            <button class="type-btn" data-type="contenido"><span class="type-icon">📱</span>Contenido y video</button>
+            <button class="type-btn" data-type="automatizacion"><span class="type-icon">⚙️</span>Automatización</button>
+            <button class="type-btn" data-type="propuesta"><span class="type-icon">📄</span>Propuesta</button>
+          </div>
+          <hr style="border:none;border-top:1px solid var(--border);margin:2px 0 14px">
+          <label>Tema o necesidad principal *<input type="text" id="fTopic" placeholder="Ej: Enseñar IA a supervisores que no saben nada"></label>
+          <label class="gap-top">Contexto o descripción del problema *<textarea id="fBrief" rows="3" placeholder="Describe qué necesitas lograr, el caso real, el público o el problema específico"></textarea></label>
+          <div class="form-section on gap-top" id="fs-audience">
+            <label>Público objetivo *<input type="text" id="fAudience" placeholder="Ej: Supervisores de limpieza sin experiencia en IA"></label>
+          </div>
+          <div class="form-section on gap-top" id="fs-level">
+            <div class="field-row">
+              <label>Nivel de conocimiento<select id="fLevel"><option>Sin experiencia</option><option>Básico</option><option>Intermedio</option><option>Avanzado</option></select></label>
+              <label>Duración / horizonte<input type="text" id="fDuration" placeholder="90 min / 2 semanas"></label>
+            </div>
+          </div>
+          <div class="form-section on gap-top" id="fs-objective">
+            <label>Objetivo principal<input type="text" id="fObjective" placeholder="Ej: Que puedan usar ChatGPT en sus reportes"></label>
+          </div>
+          <div class="form-section on gap-top" id="fs-tools">
+            <label id="fToolsLabel">Herramientas a enseñar<input type="text" id="fTools" placeholder="ChatGPT, Excel, Make.com, Canva…"></label>
+          </div>
+          <div class="form-section on gap-top" id="fs-tone">
+            <label>Tono deseado<select id="fTone"><option>Sencillo y motivador</option><option>Profesional y ejecutivo</option><option>Práctico y cercano</option><option>Dinámico para redes</option></select></label>
+          </div>
+          <div style="margin-top:12px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm)">
+            <label style="margin:0;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:8px;cursor:pointer">
+              👤 Vincular a cliente (opcional)
+              <select id="fClientLink" style="flex:1;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 6px;font-size:11px">
+                <option value="">— Sin cliente —</option>
+              </select>
+            </label>
+          </div>
+          <button class="primary-btn" id="generateBtn" style="margin-top:12px;width:100%;padding:12px;font-size:14px">⚡ Generar recurso completo</button>
+          <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:6px">Se guarda automáticamente en tu biblioteca</p>
+        </div>
+        <!-- OUTPUT -->
+        <article class="card output-panel" id="proposalOutput">
+          <div class="output-empty" id="outputEmpty">
+            <div class="big-icon">✨</div>
+            <h3>Lista para construir contigo</h3>
+            <p>Selecciona el tipo, completa el formulario y genera recursos completos listos para usar.</p>
+          </div>
+        </article>
+        <!-- SAVED -->
+        <article class="card" id="savedPanel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Tu biblioteca personal</p><h3>Recursos guardados</h3></div>
+            <span class="badge cyan" id="savedCount">0</span>
+          </div>
+          <div class="saved-list" id="savedList"><p class="empty-msg">Aún no has guardado recursos.<br>¡Genera el primero!</p></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== TEMPLATES ====== -->
+    <section class="view" id="plantillas" data-title="Biblioteca de plantillas">
+      <div class="module-head">
+        <div><p class="eyebrow">Puntos de partida predefinidos</p><h3>Biblioteca de plantillas</h3><p class="muted">Selecciona una plantilla y genera el recurso completo con un clic.</p></div>
+        <button class="primary-btn jump-btn" data-view="propuestas">+ Crear desde cero</button>
+      </div>
+      <div class="template-grid" id="templateGrid"></div>
+    </section>
+
+    <!-- ====== CONTENT ====== -->
+    <section class="view" id="contenido" data-title="Planificador de contenido">
+      <div class="module-head">
+        <div><p class="eyebrow">Autoridad y alcance</p><h3>Contenido estratégico</h3><p class="muted">Ideas para LinkedIn, YouTube, TikTok, clases y más.</p></div>
+        <button class="primary-btn" id="newContentBtn">+ Nueva idea</button>
+      </div>
+      <div class="content-form-wrap" id="contentFormWrap">
+        <div class="form-title"><h3>Nueva idea de contenido</h3><button class="close-x" id="closeContentForm">×</button></div>
+        <div class="inline-grid3">
+          <label>Idea / título<input type="text" id="cfIdea" placeholder="Gancho o título del contenido"></label>
+          <label>Canal<select id="cfChannel"><option>LinkedIn</option><option>YouTube</option><option>TikTok</option><option>Instagram</option><option>Clases</option><option>WhatsApp</option></select></label>
+          <label>Estado<select id="cfStatus"><option>Idea</option><option>Planificado</option><option>En creación</option><option>Publicado</option></select></label>
+          <label>Categoría<input type="text" id="cfCategory" placeholder="IA aplicada…"></label>
+          <label>Fecha<input type="date" id="cfDate"></label>
+          <label>Prioridad<select id="cfPriority"><option>Alta</option><option>Media</option><option>Baja</option></select></label>
+        </div>
+        <label class="gap-top">Notas<textarea id="cfNotes" rows="2" placeholder="CTA, recursos, inspiración, guion…"></textarea></label>
+        <div class="form-actions"><button class="primary-btn" id="saveContentBtn">Guardar idea</button><button class="ghost-btn" id="cancelContentBtn">Cancelar</button></div>
+      </div>
+      <div class="kanban" id="contentBoard"></div>
+    </section>
+
+    <!-- ====== CLASSES ====== -->
+    <section class="view" id="clases" data-title="Clases y asesorías">
+      <div class="module-head">
+        <div><p class="eyebrow">Academia LillyTech</p><h3>Clases y asesorías</h3><p class="muted">Agenda y seguimiento de clases, asesorías y capacitaciones.</p></div>
+        <button class="primary-btn" id="newClassBtn">+ Programar clase</button>
+      </div>
+      <div class="card inline-editor" id="classFormWrap">
+        <div class="form-title"><h3>Programar clase</h3><button class="close-x" id="closeClassForm">×</button></div>
+        <div class="field-row">
+          <label>Tema *<input type="text" id="clTopic" placeholder="Automatiza reportes con IA"></label>
+          <label>Fecha *<input type="date" id="clDate"></label>
+        </div>
+        <div class="field-row gap-top">
+          <label>Duración<input type="text" id="clDuration" placeholder="90 min"></label>
+          <label>Nivel<select id="clLevel"><option>Inicial</option><option>Intermedio</option><option>Avanzado</option></select></label>
+        </div>
+        <label class="gap-top">Materiales<textarea id="clMaterials" rows="2" placeholder="Slides, prompts, plantillas…"></textarea></label>
+        <label class="gap-top">Notas<textarea id="clNotes" rows="2" placeholder="Observaciones y seguimiento"></textarea></label>
+        <div class="form-actions"><button class="primary-btn" id="saveClassBtn">Guardar</button><button class="ghost-btn" id="cancelClassBtn">Cancelar</button></div>
+      </div>
+      <div class="class-layout">
+        <article class="card panel">
+          <div class="panel-head"><div><p class="eyebrow">Calendario</p><h3 id="calMonth"></h3></div></div>
+          <div class="calendar" id="calendar"></div>
+        </article>
+        <article class="card panel">
+          <div class="panel-head"><div><p class="eyebrow">Registro</p><h3>Historial de clases</h3></div></div>
+          <div class="timeline" id="classHistory"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== PROJECTS ====== -->
+    <section class="view" id="proyectos" data-title="Portafolio de proyectos">
+      <div class="module-head">
+        <div><p class="eyebrow">Studio LillyTech</p><h3>Proyectos en ejecución</h3><p class="muted">Automatizaciones, apps, dashboards e iniciativas digitales.</p></div>
+        <button class="primary-btn" id="newProjectBtn">+ Nuevo proyecto</button>
+      </div>
+      <div class="card inline-editor" id="projectFormWrap">
+        <div class="form-title"><h3>Nuevo proyecto</h3><button class="close-x" id="closeProjectForm">×</button></div>
+        <div class="field-row">
+          <label>Proyecto *<input type="text" id="prjName" placeholder="Nombre del proyecto"></label>
+          <label>Tipo<select id="prjType"><option>Automatización</option><option>App HTML</option><option>Dashboard</option><option>Herramienta IA</option><option>Proyecto cliente</option></select></label>
+        </div>
+        <div class="field-row gap-top">
+          <label>Avance (%)<input type="number" id="prjProgress" min="0" max="100" value="10"></label>
+          <label>Estado<select id="prjStatus"><option>Planificado</option><option>En proceso</option><option>En revisión</option><option>Completado</option></select></label>
+        </div>
+        <label class="gap-top">Pendientes<textarea id="prjPending" rows="2" placeholder="Próximos pasos"></textarea></label>
+        <div class="form-actions"><button class="primary-btn" id="saveProjectBtn">Guardar</button><button class="ghost-btn" id="cancelProjectBtn">Cancelar</button></div>
+      </div>
+      <div class="project-grid" id="projectGrid"></div>
+    </section>
+
+    <!-- ====== CLIENTS ====== -->
+    <section class="view" id="clientes" data-title="CRM de clientes">
+      <div class="module-head">
+        <div><p class="eyebrow">CRM operativo</p><h3>Clientes y oportunidades</h3><p class="muted">Seguimiento de clientes, necesidades y próximas acciones.</p></div>
+        <button class="primary-btn" id="newClientBtn">+ Nuevo cliente</button>
+      </div>
+      <div class="card inline-editor" id="clientFormWrap">
+        <div class="form-title"><h3>Ficha del cliente</h3><button class="close-x" id="closeClientForm">×</button></div>
+        <div class="field-row">
+          <label>Cliente / marca *<input type="text" id="cliName" placeholder="Nombre del cliente"></label>
+          <label>Estado<select id="cliStatus"><option>Prospecto</option><option>Contactado</option><option>Cotizado</option><option>En proceso</option><option>Finalizado</option></select></label>
+        </div>
+        <label class="gap-top">Necesidades<textarea id="cliNeeds" rows="2" placeholder="Automatización, IA, formación…"></textarea></label>
+        <label class="gap-top">Próxima acción<input type="text" id="cliNext" placeholder="Enviar propuesta el viernes"></label>
+        <div class="form-actions"><button class="primary-btn" id="saveClientBtn">Guardar</button><button class="ghost-btn" id="cancelClientBtn">Cancelar</button></div>
+      </div>
+      <div class="project-grid" id="clientGrid"></div>
+    </section>
+
+    <!-- ====== SOLUTIONS ====== -->
+    <section class="view" id="soluciones" data-title="Ecosistema LillyTech">
+      <div class="module-head">
+        <div><p class="eyebrow">Ecosistema de herramientas</p><h3>Soluciones LillyTech</h3><p class="muted">Productos y herramientas del ecosistema digital.</p></div>
+      </div>
+      <div class="solution-grid" id="solutionGrid"></div>
+    </section>
+
+
+    <!-- ASESOR DE NEGOCIOS -->
+    <section class="view" id="asesor" data-title="Asesor de Negocios">
+      <div class="module-head"><div>
+        <p class="eyebrow">Tu consejero estratégico personal</p>
+        <h3>Asesor de Negocios con IA</h3>
+        <p class="muted">Dime qué tienes y te diseño el negocio más viable, con estrategia y plan de acción.</p>
+      </div></div>
+      <div class="builder-layout">
+        <div class="card builder-form">
+          <p class="eyebrow" style="margin-bottom:10px">¿Qué tienes disponible?</p>
+          <label>💰 Capital inicial<input type="text" id="aCash" placeholder="Ej: $500, $2000, sin capital…"></label>
+          <label class="gap-top">⏰ Tiempo disponible<input type="text" id="aTime" placeholder="Ej: 2h/día, fines de semana, tiempo completo…"></label>
+          <label class="gap-top">🧠 Habilidades o conocimientos<textarea id="aSkills" rows="3" placeholder="Ej: sé de IA, Excel avanzado, experiencia en limpieza comercial…"></textarea></label>
+          <label class="gap-top">🛠️ Herramientas o recursos que ya tienes<input type="text" id="aTools" placeholder="Ej: laptop, carro, Make.com, ChatGPT, contactos empresariales…"></label>
+          <label class="gap-top">👥 Red de contactos<input type="text" id="aNetwork" placeholder="Ej: conozco dueños de pymes, seguidores en LinkedIn…"></label>
+          <label class="gap-top">📍 País / ciudad<input type="text" id="aLocation" placeholder="Ej: San José, Costa Rica"></label>
+          <label class="gap-top">🎯 Idea o preferencia (opcional)<input type="text" id="aIdea" placeholder="Ej: algo digital, servicios B2B, sin atender público..."></label>
+          <label class="gap-top">⚠️ Restricciones<textarea id="aLimits" rows="2" placeholder="Ej: no puedo dejar mi trabajo actual aún…"></textarea></label>
+          <button class="primary-btn" id="asesorBtn" style="margin-top:18px;width:100%;padding:12px;font-size:14px">🚀 Generar plan de negocio</button>
+        </div>
+        <article class="card output-panel" id="asesorOutput">
+          <div class="output-empty">
+            <div class="big-icon">💼</div>
+            <h3>Tu plan de negocio personalizado</h3>
+            <p style="margin-bottom:14px">Cuéntame qué tienes — tiempo, dinero, habilidades — y te diseño el negocio más viable para ti.</p>
+            <div style="display:grid;gap:7px;text-align:left;max-width:260px;margin:0 auto">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>🏆</span> Top 3 ideas de negocio para tu perfil</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>📊</span> Modelo de negocio y proyección de ingresos</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>🎯</span> Estrategia de marketing para primeros clientes</div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>📅</span> Plan de acción semana a semana (30 días)</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
+
+<!-- SEARCH MODAL -->
+<div class="search-overlay" id="searchOverlay" style="display:none" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-input-row">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="search-input" id="searchInput" placeholder="Buscar en recursos, clientes, proyectos…" oninput="doSearch(this.value)" onkeydown="searchNav(event)">
+      <span style="cursor:pointer;color:var(--muted);font-size:12px" onclick="closeSearch()">ESC</span>
+    </div>
+    <div class="search-results" id="searchResults"><div class="search-empty">Escribe para buscar en toda tu biblioteca</div></div>
+    <div class="search-footer"><span>↑↓ Navegar</span><span>Enter Abrir</span><span>ESC Cerrar</span></div>
+  </div>
+</div>
+
+<!-- ONBOARDING DIALOG -->
+<dialog id="obDialog">
+  <div class="ob-box">
+    <div id="ob1">
+      <div class="ob-logo">⚡ LillyTech<small>Tu asistente estratégica con IA</small></div>
+      <div class="ob-h">Bienvenida a tu sistema operativo personal</div>
+      <div class="ob-p">Convierte lo que sabes en recursos listos para usar — con IA, en minutos.</div>
+      <div class="ob-grid">
+        <div class="ob-card"><div class="ob-icon">⚡</div><div class="ob-name">Generador IA</div><div class="ob-desc2">Clases, rutas, contenido, automatizaciones y propuestas</div></div>
+        <div class="ob-card"><div class="ob-icon">💼</div><div class="ob-name">Asesor de Negocios</div><div class="ob-desc2">Plan de negocio basado en lo que tienes</div></div>
+        <div class="ob-card"><div class="ob-icon">👤</div><div class="ob-name">CRM de Clientes</div><div class="ob-desc2">Seguimiento vinculado a tus recursos</div></div>
+        <div class="ob-card"><div class="ob-icon">🔍</div><div class="ob-name">Búsqueda Global</div><div class="ob-desc2">Ctrl+K para buscar en todo</div></div>
+      </div>
+      <div class="ob-nav">
+        <div class="ob-dots"><div class="ob-dot on"></div><div class="ob-dot"></div><div class="ob-dot"></div></div>
+        <div style="display:flex;gap:8px"><button class="ob-skip" onclick="obClose()">Saltar</button><button class="primary-btn" onclick="obGo(2)">Siguiente →</button></div>
+      </div>
+    </div>
+    <div id="ob2" style="display:none">
+      <div class="ob-logo">⚡ LillyTech</div>
+      <div class="ob-h">¿Cómo funciona?</div>
+      <div class="ob-p">Tres pasos simples.</div>
+      <div class="ob-steps">
+        <div class="ob-step"><span style="font-size:18px">1️⃣</span><div><strong>Elige el tipo de recurso</strong><span>Clase, ruta, contenido, automatización, propuesta o plan de negocio</span></div></div>
+        <div class="ob-step"><span style="font-size:18px">2️⃣</span><div><strong>Describe tu contexto real</strong><span>Cuanto más específico seas, mejor es el resultado</span></div></div>
+        <div class="ob-step"><span style="font-size:18px">3️⃣</span><div><strong>Genera, copia o exporta</strong><span>Se guarda automáticamente. Exporta a .txt o PDF</span></div></div>
+      </div>
+      <div class="ob-nav">
+        <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot on"></div><div class="ob-dot"></div></div>
+        <div style="display:flex;gap:8px"><button class="ob-skip" onclick="obGo(1)">← Atrás</button><button class="primary-btn" onclick="obGo(3)">Siguiente →</button></div>
+      </div>
+    </div>
+    <div id="ob3" style="display:none">
+      <div class="ob-logo">⚡ LillyTech</div>
+      <div class="ob-h">¿Por dónde empezamos? 🚀</div>
+      <div class="ob-p">Elige y te llevamos directo:</div>
+      <div class="ob-actions">
+        <button class="ob-action" onclick="obClose();showView('propuestas');selectType('clase')"><span style="font-size:20px">🎓</span><div><strong>Crear una clase completa</strong><span>Ideal si enseñas o capacitas equipos</span></div></button>
+        <button class="ob-action" onclick="obClose();showView('asesor')"><span style="font-size:20px">💼</span><div><strong>Diseñar un plan de negocio</strong><span>Ideal si quieres emprender o diversificar</span></div></button>
+        <button class="ob-action" onclick="obClose();showView('propuestas');selectType('propuesta')"><span style="font-size:20px">📄</span><div><strong>Crear una propuesta comercial</strong><span>Ideal si tienes un cliente y necesitas venderle</span></div></button>
+      </div>
+      <div class="ob-nav">
+        <div class="ob-dots"><div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot on"></div></div>
+        <div style="display:flex;gap:8px"><button class="ob-skip" onclick="obGo(2)">← Atrás</button><button class="primary-btn" onclick="obClose()">¡Empezar! ⚡</button></div>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- CLIENT DETAIL MODAL -->
+<div class="cli-modal-overlay" id="cliModalOverlay" style="display:none" onclick="if(event.target===this)cliModalClose()">
+  <div class="cli-modal" id="cliModalBox"></div>
+</div>
 </body>
 </html>
