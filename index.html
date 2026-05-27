@@ -1610,17 +1610,17 @@ function renderConnectButtons(type, topic) {
   if (!el) return;
   const map = {
     clase: [
-      { label:'📱 Crear contenido', view:'propuestas', prefill:{ type:'contenido', topic:`Contenido para promover: ${topic}`, brief:`Tengo una clase sobre "${topic}" y necesito crear contenido para redes sociales y video que la promueva.` } },
-      { label:'📄 Crear propuesta', view:'propuestas', prefill:{ type:'propuesta', topic:`Propuesta: ${topic}`, brief:`Quiero vender/ofrecer una capacitación sobre "${topic}".` } }
+      { label:'📱 Crear contenido', view:'propuestas', prefill:{ type:'contenido', topic:'Contenido para promover: '+topic, brief:'Tengo una clase sobre "'+topic+'" y necesito crear contenido para redes sociales.' } },
+      { label:'📄 Crear propuesta', view:'propuestas', prefill:{ type:'propuesta', topic:'Propuesta: '+topic, brief:'Quiero vender/ofrecer una capacitación sobre "'+topic+'".' } }
     ],
     ruta: [
-      { label:'📱 Crear contenido', view:'propuestas', prefill:{ type:'contenido', topic:`Contenido para: ${topic}`, brief:`Ruta de aprendizaje sobre "${topic}". Crear contenido para promoverla.` } }
+      { label:'📱 Crear contenido', view:'propuestas', prefill:{ type:'contenido', topic:'Contenido para: '+topic, brief:'Ruta de aprendizaje sobre "'+topic+'". Crear contenido para promoverla.' } }
     ],
     automatizacion: [
-      { label:'📄 Crear propuesta', view:'propuestas', prefill:{ type:'propuesta', topic:`Propuesta de automatización: ${topic}`, brief:`Diagnóstico y propuesta de automatización para "${topic}".` } }
+      { label:'📄 Crear propuesta', view:'propuestas', prefill:{ type:'propuesta', topic:'Propuesta de automatización: '+topic, brief:'Diagnóstico y propuesta de automatización para "'+topic+'".' } }
     ],
     contenido: [
-      { label:'🎓 Crear clase', view:'propuestas', prefill:{ type:'clase', topic:`Clase sobre: ${topic}`, brief:`Basado en el contenido sobre "${topic}", crear una clase completa.` } }
+      { label:'🎓 Crear clase', view:'propuestas', prefill:{ type:'clase', topic:'Clase sobre: '+topic, brief:'Basado en el contenido sobre "'+topic+'", crear una clase completa.' } }
     ]
   };
   const btns = map[type] || [];
@@ -2563,48 +2563,70 @@ function openClientDetail(id) {
   const clients = db.get(SK.clients);
   const c = clients.find(x => x.id === id);
   if (!c) return;
-  const resources = db.get(SK.resources).filter(r => r.client === c.name);
-  const projects  = db.get(SK.projects).filter(p => p.client === c.name);
+  const resources = db.get(SK.resources).filter(function(r){ return r.client === c.name; });
+  const projects  = db.get(SK.projects).filter(function(p){ return p.client === c.name; });
   const statusColors = { Prospecto:'#6ea5c8', Contactado:'#7c3aed', Cotizado:'#f59e0b', 'En proceso':'#00c8f0', Finalizado:'#10b981' };
-  const statusColor = statusColors[c.status] || '#888';
+  const sc = statusColors[c.status] || '#888';
+  const propCount = resources.filter(function(r){ return r.type==='propuesta'; }).length;
+
+  // Build resources HTML without nested template literals
+  let resHTML = '';
+  if (resources.length) {
+    let items = '';
+    resources.forEach(function(r) {
+      const iconMap = {clase:'🎓', contenido:'📱', propuesta:'📄', automatizacion:'⚙️', ruta:'🗺️'};
+      const icon = iconMap[r.type] || '📄';
+      const label = TYPE_LABELS[r.type] || '';
+      const date = new Date(r.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
+      items += '<div class="client-resource-item" onclick="closeClientModal();loadSaved('' + r.id + '')">'
+             + '<span style="font-size:15px">' + icon + '</span>'
+             + '<div><div style="font-size:12px;font-weight:600;color:var(--text)">' + r.topic + '</div>'
+             + '<div style="font-size:11px;color:var(--text2)">' + label + ' · ' + date + '</div></div>'
+             + '</div>';
+    });
+    resHTML = '<div class="client-section-title">Recursos generados (' + resources.length + ')</div>'
+            + '<div class="client-resource-list">' + items + '</div>';
+  } else {
+    resHTML = '<p style="font-size:13px;color:var(--muted);margin-top:12px">Aún no hay recursos vinculados a este cliente.</p>';
+  }
+
+  const needsHTML  = c.needs ? '<div class="client-section-title">Necesidades</div><p style="font-size:13px;color:var(--text2);line-height:1.6">' + c.needs + '</p>' : '';
+  const nextHTML   = c.next  ? '<div class="client-section-title">Próxima acción</div><p style="font-size:13px;color:var(--cyan)">→ ' + c.next + '</p>' : '';
 
   const box = document.getElementById('clientModalBox');
-  box.innerHTML = `
-    <div class="client-modal-head">
-      <div>
-        <p style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Ficha de cliente</p>
-        <div class="client-modal-name">👤 ${c.name}</div>
-        <span class="badge" style="background:${statusColor}22;color:${statusColor};margin-top:6px;display:inline-block">${c.status}</span>
-      </div>
-      <div style="display:flex;gap:8px">
-        <button class="primary-btn" style="font-size:12px;padding:6px 12px" onclick="closeClientModal();showView('propuestas');document.getElementById('fClientLink').value='${c.name}';populateClientSelector()">⚡ Generar recurso</button>
-        <button class="close-x" onclick="closeClientModal()">×</button>
-      </div>
-    </div>
-    <div class="client-modal-body">
-      <div class="client-stat-row">
-        <div class="client-stat"><strong>${resources.length}</strong><small>Recursos</small></div>
-        <div class="client-stat"><strong>${projects.length}</strong><small>Proyectos</small></div>
-        <div class="client-stat"><strong>${resources.filter(r=>r.type==='propuesta').length}</strong><small>Propuestas</small></div>
-      </div>
-      ${c.needs?`<div class="client-section-title">Necesidades</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${c.needs}</p>`:''}
-      ${c.next?`<div class="client-section-title">Próxima acción</div><p style="font-size:13px;color:var(--cyan)">→ ${c.next}</p>`:''}
-      ${resources.length ? `
-        <div class="client-section-title">Recursos generados (${resources.length})</div>
-        <div class="client-resource-list">
-          ${resources.map(r => {
-            const icon = r.type==='clase'?'🎓':r.type==='contenido'?'📱':r.type==='propuesta'?'📄':r.type==='automatizacion'?'⚙️':'🗺️';
-            const date = new Date(r.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
-            return `<div class="client-resource-item" onclick="closeClientModal();loadSaved('${r.id}')">
-              <span style="font-size:15px">${icon}</span>
-              <div><div style="font-size:12px;font-weight:600;color:var(--text)">${r.topic}</div>
-              <div style="font-size:11px;color:var(--text2)">${TYPE_LABELS[r.type]||''} · ${date}</div></div>
-            </div>`;
-          }).join('')}
-        </div>` : '<p style="font-size:13px;color:var(--muted);margin-top:12px">Aún no hay recursos vinculados a este cliente.</p>'}
-    </div>
-  `;
+  box.innerHTML = '<div class="client-modal-head">'
+    + '<div>'
+    + '<p style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Ficha de cliente</p>'
+    + '<div class="client-modal-name">👤 ' + c.name + '</div>'
+    + '<span class="badge" style="background:' + sc + '22;color:' + sc + ';margin-top:6px;display:inline-block">' + c.status + '</span>'
+    + '</div>'
+    + '<div style="display:flex;gap:8px">'
+    + '<button class="primary-btn" style="font-size:12px;padding:6px 12px" onclick="closeClientModal();goGenerateForClient('' + c.name + '')">⚡ Generar recurso</button>'
+    + '<button class="close-x" onclick="closeClientModal()">×</button>'
+    + '</div>'
+    + '</div>'
+    + '<div class="client-modal-body">'
+    + '<div class="client-stat-row">'
+    + '<div class="client-stat"><strong>' + resources.length + '</strong><small>Recursos</small></div>'
+    + '<div class="client-stat"><strong>' + projects.length + '</strong><small>Proyectos</small></div>'
+    + '<div class="client-stat"><strong>' + propCount + '</strong><small>Propuestas</small></div>'
+    + '</div>'
+    + needsHTML + nextHTML + resHTML
+    + '</div>';
+
   document.getElementById('clientModalOverlay').style.display = 'flex';
+}
+
+
+function goGenerateForClient(clientName) {
+  showView('propuestas');
+  setTimeout(function() {
+    populateClientSelector();
+    var sel = document.getElementById('fClientLink');
+    if (sel) sel.value = clientName;
+    var ev = new Event('change');
+    if (sel) sel.dispatchEvent(ev);
+  }, 150);
 }
 
 function closeClientModal() {
