@@ -245,6 +245,10 @@ select{appearance:none;cursor:pointer}
 .s-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;
   padding:2px 4px;transition:color var(--t);line-height:1}
 .s-del:hover{color:var(--red)}
+.s-fav{background:none;border:none;color:var(--muted);cursor:pointer;font-size:14px;padding:2px 3px;transition:color var(--t);line-height:1}
+.s-fav:hover{color:var(--amber)}
+.resource-tag{display:inline-block;padding:1px 6px;background:var(--cyan-d);color:var(--cyan);border-radius:10px;font-size:9px;font-weight:600;margin-left:3px}
+.s-del:hover{color:var(--red)}
 .empty-msg{text-align:center;padding:28px;color:var(--muted);font-size:13px;line-height:1.5}
 
 /* TEMPLATES */
@@ -387,6 +391,23 @@ select{appearance:none;cursor:pointer}
   .type-grid{grid-template-columns:repeat(2,1fr)}
   .kanban{grid-template-columns:1fr}
   .field-row,.inline-grid3{grid-template-columns:1fr}
+}
+
+/* PRINT / PDF */
+@media print {
+  .sidebar, .topbar, .builder-form, #savedPanel, #asesorSavedPanel,
+  .output-actions, .module-head button, .toast, .noise { display:none!important; }
+  .workspace { margin-left:0!important; }
+  .view { display:block!important; padding:0!important; }
+  .builder-layout { display:block!important; }
+  .output-panel { box-shadow:none!important; border:none!important; background:white!important; color:#111!important; }
+  .output-body { font-size:13px!important; line-height:1.7!important; color:#111!important; }
+  .output-body h2 { color:#005f9e!important; border-bottom:2px solid #005f9e; padding-bottom:4px; margin:20px 0 8px; }
+  .output-body h3 { color:#333!important; margin:14px 0 6px; }
+  .output-body ul, .output-body ol { padding-left:20px; }
+  .output-body strong { color:#000!important; }
+  .output-body code { background:#f0f0f0!important; color:#333!important; }
+  @page { margin:2cm; size:A4; }
 }
 </style>
 </head>
@@ -550,7 +571,16 @@ select{appearance:none;cursor:pointer}
           <div class="form-section on gap-top" id="fs-tone">
             <label>Tono deseado<select id="fTone"><option>Sencillo y motivador</option><option>Profesional y ejecutivo</option><option>Práctico y cercano</option><option>Dinámico para redes</option></select></label>
           </div>
-          <button class="primary-btn" id="generateBtn" style="margin-top:18px;width:100%;padding:12px;font-size:14px">⚡ Generar recurso completo</button>
+          <div style="margin-top:14px;padding:10px 12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm)">
+            <label style="margin:0;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:8px;cursor:pointer">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              Vincular a cliente (opcional)
+              <select id="fClientLink" style="flex:1;background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:4px;padding:3px 6px;font-size:11px">
+                <option value="">— Sin cliente —</option>
+              </select>
+            </label>
+          </div>
+          <button class="primary-btn" id="generateBtn" style="margin-top:14px;width:100%;padding:12px;font-size:14px">⚡ Generar recurso completo</button>
           <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:8px">El resultado se guarda automáticamente en tu biblioteca</p>
         </div>
         <!-- OUTPUT -->
@@ -925,7 +955,7 @@ function showView(name) {
 
 function refreshView(name) {
   if (name === 'dashboard')   renderDashboard();
-  if (name === 'propuestas')  renderSaved();
+  if (name === 'propuestas')  { renderSaved(); populateClientSelector(); }
   if (name === 'plantillas')  renderTemplates();
   if (name === 'contenido')   renderKanban();
   if (name === 'clases')      { renderClasses(); renderCalendar(); }
@@ -1143,6 +1173,16 @@ Cuerpo: [Email completo con saludo personalizado, presentación del problema, pr
 }
 
 
+// ── CLIENT CONTEXT ───────────────────────────────────────────
+function populateClientSelector() {
+  const sel = document.getElementById('fClientLink');
+  if (!sel) return;
+  const clients = db.get(SK.clients);
+  const current = sel.value;
+  sel.innerHTML = '<option value="">— Sin cliente —</option>' + 
+    clients.map(c => `<option value="${c.name}" ${c.name===current?'selected':''}>${c.name} · ${c.status||''}</option>`).join('');
+}
+
 // ── CONNECT MODULES ──────────────────────────────────────────
 function renderConnectButtons(type, topic) {
   const el = document.getElementById('connectBtns');
@@ -1185,7 +1225,8 @@ function autoSaveResource(type, topic) {
   const recent = resources[0];
   if (recent && recent.type === type && recent.topic === topic && 
       (Date.now() - recent.date) < 5000) return;
-  db.add(SK.resources, { type, topic, content: currentOutput });
+  const clientLink = document.getElementById('fClientLink')?.value || '';
+  db.add(SK.resources, { id: uid(), type, topic, content: currentOutput, date: new Date().toISOString(), fav: false, tags: [], client: clientLink });
   renderDashboard();
 }
 
@@ -1303,8 +1344,8 @@ async function generateAsesor() {
         <h4 id="asesorTitle">Plan de Negocio Personalizado</h4>
         <div class="output-actions" id="asesorActions" style="display:none">
           <button class="icon-btn" onclick="copyAsesor()">📋 Copiar</button>
-          <button class="icon-btn green" onclick="saveAsesor()">💾 Guardar</button>
-          <button class="icon-btn amber" onclick="exportAsesor()">📥 Exportar .txt</button>
+          <button class="icon-btn amber" onclick="exportAsesor()">📥 .txt</button>
+          <button class="icon-btn pink" onclick="exportAsesorPDF()">📄 PDF</button>
         </div>
       </div>
       <div class="output-body" id="asesorBody"></div>`;
@@ -1368,6 +1409,34 @@ function exportAsesor() {
   a.href = URL.createObjectURL(blob);
   a.download = 'plan-de-negocio.txt';
   a.click();
+}
+
+function exportAsesorPDF() {
+  if (!asesorOutput) return;
+  const win = window.open('', '_blank');
+  const html = mdToHtml(asesorOutput);
+  win.document.write(`<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <title>LillyTech — Plan de Negocio</title>
+    <style>
+      body{font-family:'Segoe UI',Arial,sans-serif;max-width:800px;margin:0 auto;padding:40px;color:#111;line-height:1.7;font-size:14px}
+      h1{color:#005f9e;border-bottom:3px solid #005f9e;padding-bottom:8px;margin-bottom:24px;font-size:22px}
+      h2{color:#005f9e;border-bottom:1px solid #d0e8f8;padding-bottom:4px;margin:28px 0 10px;font-size:17px}
+      h3{color:#333;margin:18px 0 6px;font-size:15px}
+      ul,ol{padding-left:22px;margin:8px 0}li{margin-bottom:4px}
+      strong{color:#000}code{background:#f0f4f8;padding:2px 6px;border-radius:4px;font-size:12px}
+      .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid #e0eef8}
+      .logo{font-size:18px;font-weight:700;color:#005f9e}.date{font-size:12px;color:#666}
+      @media print{body{padding:20px}}
+    </style>
+  </head><body>
+    <div class="header"><div class="logo">💼 LillyTech · Plan de Negocio</div>
+    <div class="date">${new Date().toLocaleDateString('es-CR',{year:'numeric',month:'long',day:'numeric'})}</div></div>
+    ${html}
+    <script>window.onload=()=>{window.print();window.onafterprint=()=>window.close();}<\/script>
+  </body></html>`);
+  win.document.close();
+  showToast('📄 Abriendo vista de impresión / PDF…', 'ok');
 }
 
 function renderAsesorSaved() {
@@ -1460,7 +1529,8 @@ async function generateResource() {
         <h4 id="outTitle">${TYPE_LABELS[activeType]}: ${topic}</h4>
         <div class="output-actions" id="outActions" style="display:none">
           <button class="icon-btn" onclick="copyOutput()">📋 Copiar</button>
-          <button class="icon-btn amber" onclick="exportOutput('recurso')">📥 Exportar .txt</button>
+          <button class="icon-btn amber" onclick="exportOutput('recurso')">📥 .txt</button>
+          <button class="icon-btn pink" onclick="exportPDF()">📄 PDF</button>
           <span id="connectBtns"></span>
         </div>
       </div>
@@ -1553,7 +1623,7 @@ function copyOutput() {
 
 function saveOutput(type, topic) {
   if (!currentOutput) return;
-  const item = { id: uid(), type, topic, content: currentOutput, date: new Date().toISOString() };
+  const item = { id: uid(), type, topic, content: currentOutput, date: new Date().toISOString(), fav: false, tags: [] };
   db.add(SK.resources, item);
   renderSaved();
   renderDashboard();
@@ -1569,6 +1639,41 @@ function exportOutput(topic) {
   });
   a.click(); URL.revokeObjectURL(a.href);
   showToast('📥 Exportado como .txt', 'ok');
+}
+
+function exportPDF() {
+  if (!currentOutput) return;
+  // Open print dialog — browser saves as PDF
+  const win = window.open('', '_blank');
+  const html = mdToHtml(currentOutput);
+  win.document.write(`<!DOCTYPE html><html lang="es"><head>
+    <meta charset="UTF-8">
+    <title>LillyTech — Recurso</title>
+    <style>
+      body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; color: #111; line-height: 1.7; font-size: 14px; }
+      h1 { color: #005f9e; border-bottom: 3px solid #005f9e; padding-bottom: 8px; margin-bottom: 24px; font-size: 22px; }
+      h2 { color: #005f9e; border-bottom: 1px solid #d0e8f8; padding-bottom: 4px; margin: 28px 0 10px; font-size: 17px; }
+      h3 { color: #333; margin: 18px 0 6px; font-size: 15px; }
+      ul, ol { padding-left: 22px; margin: 8px 0; }
+      li { margin-bottom: 4px; }
+      strong { color: #000; }
+      code { background: #f0f4f8; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #333; }
+      pre { background: #f0f4f8; padding: 12px 16px; border-radius: 8px; overflow-x: auto; }
+      .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid #e0eef8; }
+      .logo { font-size:18px; font-weight:700; color:#005f9e; }
+      .date { font-size:12px; color:#666; }
+      @media print { body { padding: 20px; } }
+    </style>
+  </head><body>
+    <div class="header">
+      <div class="logo">⚡ LillyTech</div>
+      <div class="date">${new Date().toLocaleDateString('es-CR',{year:'numeric',month:'long',day:'numeric'})}</div>
+    </div>
+    ${html}
+    <script>window.onload=()=>{window.print();window.onafterprint=()=>window.close();}<\/script>
+  </body></html>`);
+  win.document.close();
+  showToast('📄 Abriendo vista de impresión / PDF…', 'ok');
 }
 
 function filterSaved(query) {
@@ -1610,6 +1715,28 @@ function loadSaved(id) {
     <div class="output-body">${mdToHtml(item.content)}</div>`;
 }
 
+// ── FAVORITES ────────────────────────────────────────────────
+function toggleFav(id) {
+  const resources = db.get(SK.resources);
+  const item = resources.find(r => r.id === id);
+  if (!item) return;
+  item.fav = !item.fav;
+  db.set(SK.resources, resources);
+  renderSaved();
+  renderDashboard();
+  showToast(item.fav ? '⭐ Marcado como favorito' : '☆ Eliminado de favoritos', 'ok');
+}
+
+function addTag(id, tag) {
+  if (!tag || !tag.trim()) return;
+  const resources = db.get(SK.resources);
+  const item = resources.find(r => r.id === id);
+  if (!item) return;
+  if (!item.tags) item.tags = [];
+  const t = tag.trim().toLowerCase();
+  if (!item.tags.includes(t)) { item.tags.push(t); db.set(SK.resources, resources); renderSaved(); }
+}
+
 // ── RENDER SAVED ─────────────────────────────────────────────
 function renderSaved() {
   const list = db.get(SK.resources);
@@ -1618,16 +1745,22 @@ function renderSaved() {
   if (ct) ct.textContent = list.length;
   if (!el) return;
   if (!list.length) { el.innerHTML = '<p class="empty-msg">Aún no has guardado recursos.<br>¡Genera el primero!</p>'; return; }
-  el.innerHTML = list.map(i => {
+  // Sort: favorites first
+  const sorted = [...list].sort((a,b) => (b.fav?1:0)-(a.fav?1:0));
+  el.innerHTML = sorted.map(i => {
     const color = TYPE_COLORS[i.type] || '#888';
     const date = new Date(i.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
+    const tags = (i.tags||[]).map(t => `<span class="resource-tag">${t}</span>`).join('');
     return `<div class="saved-item" onclick="loadSaved('${i.id}')">
       <span class="s-dot" style="background:${color}"></span>
       <div class="s-info">
-        <div class="s-topic">${i.topic}</div>
-        <div class="s-meta">${TYPE_LABELS[i.type]||''} · ${date}</div>
+        <div class="s-topic">${i.fav ? '⭐ ' : ''}${i.topic}</div>
+        <div class="s-meta">${TYPE_LABELS[i.type]||''} · ${date}${i.client ? ' · <span style="color:var(--green);font-size:10px">👤 '+i.client+'</span>' : ''}${tags ? ' · ' + tags : ''}</div>
       </div>
-      <button class="s-del" onclick="event.stopPropagation();delResource('${i.id}')" title="Eliminar">×</button>
+      <div style="display:flex;gap:4px;flex-shrink:0">
+        <button class="s-fav" onclick="event.stopPropagation();toggleFav('${i.id}')" title="${i.fav ? 'Quitar favorito' : 'Favorito'}">${i.fav ? '⭐' : '☆'}</button>
+        <button class="s-del" onclick="event.stopPropagation();delResource('${i.id}')" title="Eliminar">×</button>
+      </div>
     </div>`;
   }).join('');
 }
@@ -2013,6 +2146,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generate button
   document.getElementById('generateBtn')?.addEventListener('click', generateResource);
+  document.getElementById('fClientLink')?.addEventListener('change', function() {
+    const clients = db.get(SK.clients);
+    const client = clients.find(c => c.name === this.value);
+    if (client && client.needs) {
+      const brief = document.getElementById('fBrief');
+      const audience = document.getElementById('fAudience');
+      if (brief && !brief.value) brief.value = client.needs;
+      if (audience && !audience.value) audience.value = client.name;
+      showToast('👤 Contexto de "' + client.name + '" cargado', 'ok');
+    }
+  });
 
   // ASESOR DE NEGOCIOS
   document.getElementById('asesorBtn')?.addEventListener('click', generateAsesor);
