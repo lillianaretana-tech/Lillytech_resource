@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LillyTech Resource Builder</title>
+  <title>LillyTech — Tu asistente estratégica con IA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -67,6 +67,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   background:var(--cyan);border-radius:0 2px 2px 0}
 .nav-icon{width:15px;height:15px;flex-shrink:0;fill:none;stroke:currentColor;
   stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.85}
+.nav-group-label{font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--muted);
+  padding:12px 16px 4px;text-transform:uppercase}
 .sidebar-foot{padding:12px;margin:8px 12px 12px;border-radius:var(--rsm);
   background:var(--card);border:1px solid var(--border)}
 .pulse-dot{width:7px;height:7px;background:var(--green);border-radius:50%;
@@ -136,6 +138,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
   margin:6px 0;background:linear-gradient(135deg,var(--text),var(--cyan));-webkit-background-clip:text;
   -webkit-text-fill-color:transparent;background-clip:text}
 .hero-content > p{color:var(--text2);font-size:13px;line-height:1.6;margin-bottom:0}
+.hero-stats{display:flex;gap:24px;margin-top:20px;padding-top:18px;border-top:1px solid var(--border)}
+.hero-stat{display:flex;flex-direction:column;gap:2px}
+.hero-stat span{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;color:var(--cyan)}
+.hero-stat small{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em}
 .hero-actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
 .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
 .metric-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);
@@ -392,18 +398,25 @@ select{appearance:none;cursor:pointer}
   <aside class="sidebar" id="sidebar">
     <div class="brand">
       <div class="brand-mark"><span></span></div>
-      <div><h1>LillyTech</h1><p>Resource Builder</p></div>
+      <div><h1>LillyTech</h1><p>Asistente Estratégica IA</p></div>
     </div>
     <nav class="nav" aria-label="Módulos">
       <button class="nav-link active" data-view="dashboard">
         <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard
       </button>
+
+      <div class="nav-group-label">CREAR</div>
       <button class="nav-link" data-view="propuestas">
-        <svg class="nav-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Resource Builder
+        <svg class="nav-icon" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Generador IA
+      </button>
+      <button class="nav-link" data-view="asesor">
+        <svg class="nav-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Asesor de Negocios
       </button>
       <button class="nav-link" data-view="plantillas">
         <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="5" rx="1"/><rect x="3" y="11" width="11" height="10" rx="1"/><rect x="17" y="11" width="4" height="4" rx="1"/><rect x="17" y="18" width="4" height="3" rx="1"/></svg>Plantillas
       </button>
+
+      <div class="nav-group-label">OPERAR</div>
       <button class="nav-link" data-view="contenido">
         <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4z"/></svg>Contenido
       </button>
@@ -416,17 +429,18 @@ select{appearance:none;cursor:pointer}
       <button class="nav-link" data-view="clientes">
         <svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>Clientes
       </button>
+
+      <div class="nav-group-label">SISTEMA</div>
       <button class="nav-link" data-view="soluciones">
         <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Soluciones
       </button>
-      <button class="nav-link" data-view="asesor">
-        <svg class="nav-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Asesor de Negocios
-      </button>
     </nav>
     <div class="sidebar-foot">
-      <span class="pulse-dot"></span><small>Sistema activo</small>
-      <strong>LocalStorage</strong>
-      <span>Listo para Supabase</span>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+        <span class="pulse-dot"></span><small style="color:var(--green)">Sistema activo</small>
+      </div>
+      <strong style="font-size:11px">LillyTech v1.0</strong>
+      <span style="font-size:10px;color:var(--muted);margin-top:2px;display:block">GPT-4o · Cloudflare Proxy</span>
     </div>
   </aside>
 
@@ -435,12 +449,12 @@ select{appearance:none;cursor:pointer}
     <header class="topbar">
       <button class="menu-toggle" id="menuToggle" aria-label="Menú">☰</button>
       <div class="title-area">
-        <p class="eyebrow">Asistente estratégica personal</p>
+        <p class="eyebrow">LillyTech · Asistente IA</p>
         <h2 id="viewTitle">Panel de recursos</h2>
       </div>
       <div class="top-actions">
         <div class="date-chip" id="todayLabel"></div>
-        <button class="primary-btn jump-btn" data-view="propuestas">⚡ Generar recurso</button>
+        <button class="primary-btn jump-btn" data-view="propuestas">⚡ Crear con IA</button>
       </div>
     </header>
 
@@ -448,13 +462,19 @@ select{appearance:none;cursor:pointer}
     <section class="view active" id="dashboard" data-title="Panel de recursos">
       <article class="hero card">
         <div class="hero-content">
-          <p class="eyebrow">LillyTech Resource Builder</p>
-          <h3>Prepara. Enseña. Automatiza.</h3>
-          <p>Tu asistente estratégica para crear clases, rutas, contenido, automatizaciones y propuestas con IA.</p>
+          <p class="eyebrow">Tu sistema operativo con inteligencia artificial</p>
+          <h3>Lo que sabes, convertido en lo que necesitas.</h3>
+          <p>Clases completas, planes de negocio, contenido, automatizaciones y propuestas — generadas con IA en minutos, no en días. Diseñado para profesionales latinoamericanos que operan solos pero piensan en grande.</p>
           <div class="hero-actions">
-            <button class="primary-btn jump-btn" data-view="propuestas">✨ Crear recurso</button>
-            <button class="ghost-btn jump-btn" data-view="plantillas">📚 Usar plantilla</button>
+            <button class="primary-btn jump-btn" data-view="propuestas">⚡ Crear con IA</button>
+            <button class="ghost-btn jump-btn" data-view="asesor">💼 Asesor de negocios</button>
+            <button class="ghost-btn jump-btn" data-view="plantillas">📚 Plantillas</button>
           </div>
+        </div>
+        <div class="hero-stats">
+          <div class="hero-stat"><span id="heroTotal">0</span><small>recursos generados</small></div>
+          <div class="hero-stat"><span id="heroModules">7</span><small>módulos activos</small></div>
+          <div class="hero-stat"><span id="heroClients">0</span><small>clientes</small></div>
         </div>
       </article>
       <div class="metrics-grid" id="metricsGrid"></div>
@@ -494,8 +514,8 @@ select{appearance:none;cursor:pointer}
       <div class="module-head">
         <div>
           <p class="eyebrow">Generador de recursos con IA</p>
-          <h3>Resource Builder</h3>
-          <p class="muted">Clases completas, rutas, contenido, automatizaciones y propuestas listas para usar.</p>
+          <h3>Generador IA</h3>
+          <p class="muted">Clases, rutas, contenido, automatizaciones y propuestas — generadas completas en minutos. Todo se guarda automáticamente.</p>
         </div>
       </div>
       <div class="builder-layout">
@@ -531,13 +551,31 @@ select{appearance:none;cursor:pointer}
             <label>Tono deseado<select id="fTone"><option>Sencillo y motivador</option><option>Profesional y ejecutivo</option><option>Práctico y cercano</option><option>Dinámico para redes</option></select></label>
           </div>
           <button class="primary-btn" id="generateBtn" style="margin-top:18px;width:100%;padding:12px;font-size:14px">⚡ Generar recurso completo</button>
+          <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:8px">El resultado se guarda automáticamente en tu biblioteca</p>
         </div>
         <!-- OUTPUT -->
         <article class="card output-panel" id="proposalOutput">
           <div class="output-empty" id="outputEmpty">
-            <div class="big-icon">✨</div>
-            <h3>Lista para construir contigo</h3>
-            <p>Selecciona el tipo, completa el formulario y genera recursos completos listos para usar.</p>
+            <div class="big-icon">⚡</div>
+            <h3>Tu recurso aparecerá aquí</h3>
+            <p style="margin-bottom:16px">Selecciona el tipo de recurso, completa los campos y presiona <strong>Generar</strong>. La IA construye el contenido completo en tiempo real.</p>
+            <div style="display:grid;gap:8px;text-align:left;max-width:280px;margin:0 auto">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="color:var(--cyan);font-size:16px">🎓</span> Clases listas para impartir
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="color:var(--violet);font-size:16px">🗺️</span> Rutas de aprendizaje paso a paso
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="color:var(--green);font-size:16px">📱</span> Contenido para redes y video
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="color:var(--amber);font-size:16px">⚙️</span> Diagnósticos de automatización
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="color:var(--pink);font-size:16px">📄</span> Propuestas y materiales de venta
+              </div>
+            </div>
           </div>
         </article>
         <!-- SAVED -->
@@ -546,7 +584,12 @@ select{appearance:none;cursor:pointer}
             <div><p class="eyebrow">Tu biblioteca personal</p><h3>Recursos guardados</h3></div>
             <span class="badge cyan" id="savedCount">0</span>
           </div>
-          <div class="saved-list" id="savedList"><p class="empty-msg">Aún no has guardado recursos.<br>¡Genera el primero!</p></div>
+          <div style="padding:0 0 8px">
+            <input type="text" id="savedSearch" placeholder="🔍 Buscar en recursos guardados…" 
+              style="width:100%;padding:7px 10px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--rsm);color:var(--text);font-size:12px"
+              oninput="filterSaved(this.value)">
+          </div>
+          <div class="saved-list" id="savedList"><p class="empty-msg">Genera tu primer recurso — se guardará automáticamente.</p></div>
         </article>
       </div>
     </section>
@@ -718,7 +761,21 @@ select{appearance:none;cursor:pointer}
           <div class="output-empty" id="asesorEmpty">
             <div class="big-icon">💼</div>
             <h3>Tu plan de negocio personalizado</h3>
-            <p>Completa el formulario con lo que tienes disponible y la IA te diseñará el negocio más viable para ti.</p>
+            <p style="margin-bottom:16px">Cuéntame qué tienes — tiempo, dinero, habilidades, herramientas — y te diseño el negocio más viable y rentable para tu perfil real.</p>
+            <div style="display:grid;gap:8px;text-align:left;max-width:280px;margin:0 auto">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="font-size:16px">🏆</span> Top 3 ideas de negocio para ti
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="font-size:16px">📊</span> Modelo de negocio y proyección de ingresos
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="font-size:16px">🎯</span> Estrategia de marketing para primeros clientes
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)">
+                <span style="font-size:16px">📅</span> Plan de acción semana a semana (30 días)
+              </div>
+            </div>
           </div>
         </article>
 
@@ -1086,6 +1143,52 @@ Cuerpo: [Email completo con saludo personalizado, presentación del problema, pr
 }
 
 
+// ── CONNECT MODULES ──────────────────────────────────────────
+function renderConnectButtons(type, topic) {
+  const el = document.getElementById('connectBtns');
+  if (!el) return;
+  const map = {
+    clase: [
+      { label:'📱 Crear contenido', view:'propuestas', prefill:{ type:'contenido', topic:`Contenido para promover: ${topic}`, brief:`Tengo una clase sobre "${topic}" y necesito crear contenido para redes sociales y video que la promueva.` } },
+      { label:'📄 Crear propuesta', view:'propuestas', prefill:{ type:'propuesta', topic:`Propuesta: ${topic}`, brief:`Quiero vender/ofrecer una capacitación sobre "${topic}".` } }
+    ],
+    ruta: [
+      { label:'📱 Crear contenido', view:'propuestas', prefill:{ type:'contenido', topic:`Contenido para: ${topic}`, brief:`Ruta de aprendizaje sobre "${topic}". Crear contenido para promoverla.` } }
+    ],
+    automatizacion: [
+      { label:'📄 Crear propuesta', view:'propuestas', prefill:{ type:'propuesta', topic:`Propuesta de automatización: ${topic}`, brief:`Diagnóstico y propuesta de automatización para "${topic}".` } }
+    ],
+    contenido: [
+      { label:'🎓 Crear clase', view:'propuestas', prefill:{ type:'clase', topic:`Clase sobre: ${topic}`, brief:`Basado en el contenido sobre "${topic}", crear una clase completa.` } }
+    ]
+  };
+  const btns = map[type] || [];
+  el.innerHTML = btns.map(b => 
+    `<button class="icon-btn violet" onclick='prefillAndGo(${JSON.stringify(b.prefill)})'>${b.label}</button>`
+  ).join('');
+}
+
+function prefillAndGo(data) {
+  showView('propuestas');
+  selectType(data.type);
+  setTimeout(() => {
+    if (data.topic) document.getElementById('fTopic').value = data.topic;
+    if (data.brief) document.getElementById('fBrief').value = data.brief;
+    showToast('Formulario prellenado — revisa y genera ⚡', 'ok');
+  }, 100);
+}
+
+// ── AUTO-SAVE ────────────────────────────────────────────────
+function autoSaveResource(type, topic) {
+  const resources = db.get(SK.resources);
+  // Avoid duplicate if same topic+type was just saved
+  const recent = resources[0];
+  if (recent && recent.type === type && recent.topic === topic && 
+      (Date.now() - recent.date) < 5000) return;
+  db.add(SK.resources, { type, topic, content: currentOutput });
+  renderDashboard();
+}
+
 // ── ASESOR DE NEGOCIOS ───────────────────────────────────────
 const ASESOR_SYSTEM = `Eres un asesor experto en creación de negocios, con especialización en marketing digital, modelos de negocio viables y estrategia para emprendedores latinoamericanos. Tu misión es analizar los recursos reales que tiene una persona y diseñarle el plan de negocio más viable, práctico y rentable posible. Eres honesto, directo y práctico. No vendes sueños — das pasos concretos. Usas español latinoamericano profesional pero cercano. Incluyes ejemplos y cifras reales del mercado costarricense y latinoamericano cuando es posible.`;
 
@@ -1356,9 +1459,9 @@ async function generateResource() {
       <div class="output-header">
         <h4 id="outTitle">${TYPE_LABELS[activeType]}: ${topic}</h4>
         <div class="output-actions" id="outActions" style="display:none">
-          <button class="icon-btn" onclick="copyOutput()">📋 Copiar todo</button>
-          <button class="icon-btn green" onclick="saveOutput('${activeType}','${topic.replace(/'/g,"\\'")}')">💾 Guardar</button>
-          <button class="icon-btn amber" onclick="exportOutput('${topic.replace(/'/g,"\\'")}')">📥 Exportar .txt</button>
+          <button class="icon-btn" onclick="copyOutput()">📋 Copiar</button>
+          <button class="icon-btn amber" onclick="exportOutput('recurso')">📥 Exportar .txt</button>
+          <span id="connectBtns"></span>
         </div>
       </div>
       <div class="output-body" id="outBody"></div>`;
@@ -1394,7 +1497,11 @@ async function generateResource() {
     // Final render without cursor
     bodyEl.innerHTML = mdToHtml(currentOutput);
     document.getElementById('outActions').style.display = 'flex';
-    showToast(`✅ ${TYPE_LABELS[activeType]} generada con éxito`, 'ok');
+    // AUTO-SAVE
+    autoSaveResource(activeType, topic);
+    // CONNECT BUTTONS
+    renderConnectButtons(activeType, topic);
+    showToast(`✅ ${TYPE_LABELS[activeType]} generada y guardada`, 'ok');
 
   } catch (err) {
     panel.innerHTML = `
@@ -1464,6 +1571,24 @@ function exportOutput(topic) {
   showToast('📥 Exportado como .txt', 'ok');
 }
 
+function filterSaved(query) {
+  const resources = db.get(SK.resources);
+  const q = query.toLowerCase();
+  const filtered = q ? resources.filter(r => r.topic.toLowerCase().includes(q) || (r.type||'').toLowerCase().includes(q)) : resources;
+  const list = document.getElementById('savedList');
+  if (!list) return;
+  if (!filtered.length) { list.innerHTML = '<p class="empty-msg">Sin resultados para "' + query + '"</p>'; return; }
+  list.innerHTML = filtered.map(i => {
+    const color = TYPE_COLORS[i.type] || '#888';
+    const date = new Date(i.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
+    return `<div class="saved-item" onclick="loadSaved('${i.id}')">
+      <span class="s-dot" style="background:${color}"></span>
+      <div class="s-info"><div class="s-topic">${i.topic}</div>
+      <div class="s-meta">${TYPE_LABELS[i.type]||''} · ${date}</div></div>
+    </div>`;
+  }).join('');
+}
+
 function loadSaved(id) {
   const item = db.get(SK.resources).find(i => i.id === id);
   if (!item) return;
@@ -1516,6 +1641,12 @@ function delResource(id) {
 
 // ── DASHBOARD ────────────────────────────────────────────────
 function renderDashboard() {
+  // Update hero stats
+  const heroTotal = document.getElementById('heroTotal');
+  const heroClients = document.getElementById('heroClients');
+  if (heroTotal) heroTotal.textContent = db.get(SK.resources).length;
+  if (heroClients) heroClients.textContent = db.get(SK.clients).length;
+
   const resources = db.get(SK.resources);
   const content   = db.get(SK.content);
   const classes   = db.get(SK.classes);
