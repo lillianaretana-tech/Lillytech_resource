@@ -474,6 +474,14 @@ select{appearance:none;cursor:pointer}
         <h2 id="viewTitle">Panel de recursos</h2>
       </div>
       <div class="top-actions">
+        <button class="ghost-btn" id="searchTrigger" onclick="openSearch()" 
+          style="display:flex;align-items:center;gap:6px;font-size:12px;padding:6px 12px">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Buscar
+          <span class="search-kbd">Ctrl+K</span>
+        </button>
         <div class="date-chip" id="todayLabel"></div>
         <button class="primary-btn jump-btn" data-view="propuestas">⚡ Crear con IA</button>
       </div>
@@ -1434,7 +1442,147 @@ function exportAsesorPDF() {
     <div class="date">${new Date().toLocaleDateString('es-CR',{year:'numeric',month:'long',day:'numeric'})}</div></div>
     ${html}
     <script>window.onload=()=>{window.print();window.onafterprint=()=>window.close();}<\/script>
-  </body></html>`);
+  
+
+
+<!-- CLIENT DETAIL MODAL -->
+<div class="client-modal-overlay" id="clientModalOverlay" style="display:none" onclick="if(event.target===this)closeClientModal()">
+  <div class="client-modal" id="clientModalBox">
+    <!-- filled dynamically -->
+  </div>
+</div>
+<!-- GLOBAL SEARCH -->
+<div class="search-overlay" id="searchOverlay" style="display:none" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="globalSearchInput" placeholder="Buscar en recursos, clientes, proyectos, clases…" 
+        oninput="runGlobalSearch(this.value)" onkeydown="searchKeyNav(event)">
+      <span class="search-kbd" style="cursor:pointer" onclick="closeSearch()">ESC</span>
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="search-empty">Escribe para buscar en toda tu biblioteca</div>
+    </div>
+    <div class="search-footer">
+      <span>↑↓ Navegar</span>
+      <span>Enter Abrir</span>
+      <span>ESC Cerrar</span>
+    </div>
+  </div>
+</div>
+<!-- ONBOARDING MODAL -->
+<div class="onboarding-overlay" id="onboardingOverlay" style="display:none">
+  <div class="onboarding-box">
+    <!-- STEP 1 -->
+    <div class="onboarding-step active" id="obs1">
+      <div class="onboarding-logo">⚡ LillyTech<span>Tu asistente estratégica con IA</span></div>
+      <div class="onboarding-title">Bienvenida a tu sistema operativo personal</div>
+      <div class="onboarding-desc">LillyTech convierte lo que sabes en recursos listos para usar — clases, propuestas, planes de negocio, contenido y más. Todo con IA, en minutos.</div>
+      <div class="onboarding-cards">
+        <div class="onboarding-card">
+          <div class="oc-icon">⚡</div>
+          <div class="oc-title">Generador IA</div>
+          <div class="oc-desc">Clases, rutas, contenido, automatizaciones y propuestas completas</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">💼</div>
+          <div class="oc-title">Asesor de Negocios</div>
+          <div class="oc-desc">Tu plan de negocio personalizado basado en lo que tienes</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">👤</div>
+          <div class="oc-title">CRM de Clientes</div>
+          <div class="oc-desc">Seguimiento de clientes vinculado a tus recursos</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">📚</div>
+          <div class="oc-title">Biblioteca Personal</div>
+          <div class="oc-desc">Todo lo que generas, guardado y buscable al instante</div>
+        </div>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot active"></div>
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="closeOnboarding()">Saltar</button>
+          <button class="primary-btn" onclick="obStep(2)">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+    <!-- STEP 2 -->
+    <div class="onboarding-step" id="obs2">
+      <div class="onboarding-logo">⚡ LillyTech</div>
+      <div class="onboarding-title">¿Cómo funciona?</div>
+      <div class="onboarding-desc">Es muy simple. Elige qué quieres crear, llena el formulario con tu contexto real, y la IA genera el recurso completo. Se guarda automáticamente en tu biblioteca.</div>
+      <div style="display:grid;gap:12px;margin-bottom:24px">
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">1️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Elige el tipo de recurso</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">Clase, ruta, contenido, automatización, propuesta o plan de negocio</p></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">2️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Describe tu contexto real</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">Cuanto más específico seas, mejor es el resultado</p></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">3️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Genera, copia o exporta</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">El resultado aparece en tiempo real. Cópialo, exporta a .txt o PDF, o úsalo para crear algo más</p></div>
+        </div>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot active"></div>
+          <div class="onboarding-dot"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="obStep(1)">← Atrás</button>
+          <button class="primary-btn" onclick="obStep(3)">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+    <!-- STEP 3 -->
+    <div class="onboarding-step" id="obs3">
+      <div class="onboarding-logo">⚡ LillyTech</div>
+      <div class="onboarding-title">Listo para empezar 🚀</div>
+      <div class="onboarding-desc">Te recomendamos empezar con una de estas opciones según lo que necesites hoy:</div>
+      <div style="display:grid;gap:10px;margin-bottom:24px">
+        <button onclick="closeOnboarding();showView('propuestas');selectType('clase')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">🎓</span>
+          <div><strong style="font-size:13px;display:block">Crear una clase</strong><span style="font-size:11px;color:var(--text2)">Ideal si enseñas o capacitas equipos</span></div>
+        </button>
+        <button onclick="closeOnboarding();showView('asesor')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">💼</span>
+          <div><strong style="font-size:13px;display:block">Diseñar un negocio</strong><span style="font-size:11px;color:var(--text2)">Ideal si quieres emprender o diversificar ingresos</span></div>
+        </button>
+        <button onclick="closeOnboarding();showView('propuestas');selectType('propuesta')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">📄</span>
+          <div><strong style="font-size:13px;display:block">Crear una propuesta</strong><span style="font-size:11px;color:var(--text2)">Ideal si tienes un cliente y necesitas venderle</span></div>
+        </button>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot active"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="obStep(2)">← Atrás</button>
+          <button class="primary-btn" onclick="closeOnboarding()">¡Empezar! ⚡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>`);
   win.document.close();
   showToast('📄 Abriendo vista de impresión / PDF…', 'ok');
 }
@@ -1663,7 +1811,82 @@ function exportPDF() {
       .logo { font-size:18px; font-weight:700; color:#005f9e; }
       .date { font-size:12px; color:#666; }
       @media print { body { padding: 20px; } }
-    </style>
+    
+/* ONBOARDING */
+.onboarding-overlay{position:fixed;inset:0;background:rgba(5,16,31,.92);z-index:9000;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  animation:fadeIn .3s ease}
+.onboarding-box{background:var(--card);border:1px solid var(--border2);border-radius:16px;
+  max-width:520px;width:100%;padding:36px;position:relative}
+.onboarding-step{display:none}
+.onboarding-step.active{display:block}
+.onboarding-logo{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:700;
+  color:var(--cyan);margin-bottom:6px}
+.onboarding-logo span{color:var(--text2);font-size:13px;font-weight:400;display:block;margin-top:2px}
+.onboarding-title{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700;
+  margin:20px 0 8px;color:var(--text)}
+.onboarding-desc{font-size:14px;color:var(--text2);line-height:1.7;margin-bottom:24px}
+.onboarding-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.onboarding-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:14px;text-align:center}
+.onboarding-card .oc-icon{font-size:24px;margin-bottom:6px}
+.onboarding-card .oc-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
+.onboarding-card .oc-desc{font-size:11px;color:var(--text2)}
+.onboarding-nav{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.onboarding-dots{display:flex;gap:6px}
+.onboarding-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:background .2s}
+.onboarding-dot.active{background:var(--cyan)}
+.onboarding-skip{background:none;border:none;color:var(--muted);font-size:12px;cursor:pointer;padding:4px 8px}
+.onboarding-skip:hover{color:var(--text2)}
+
+/* GLOBAL SEARCH */
+.search-overlay{position:fixed;inset:0;background:rgba(5,16,31,.85);z-index:8000;
+  display:flex;align-items:flex-start;justify-content:center;padding:80px 20px 20px;
+  animation:fadeIn .2s ease}
+.search-box{background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  width:100%;max-width:600px;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.search-input-wrap{display:flex;align-items:center;gap:12px;padding:16px 20px;
+  border-bottom:1px solid var(--border)}
+.search-icon{color:var(--text2);font-size:16px;flex-shrink:0}
+.search-input{flex:1;background:none;border:none;outline:none;font-size:16px;
+  color:var(--text);font-family:'Inter',sans-serif}
+.search-input::placeholder{color:var(--muted)}
+.search-kbd{padding:2px 6px;background:var(--bg2);border:1px solid var(--border);
+  border-radius:4px;font-size:10px;color:var(--text2)}
+.search-results{max-height:400px;overflow-y:auto;padding:8px}
+.search-section-label{font-size:10px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.1em;padding:10px 12px 4px;font-weight:700}
+.search-result-item{display:flex;align-items:center;gap:10px;padding:10px 12px;
+  border-radius:8px;cursor:pointer;transition:background .15s}
+.search-result-item:hover{background:var(--cyan-d)}
+.search-result-icon{font-size:16px;flex-shrink:0;width:24px;text-align:center}
+.search-result-title{font-size:13px;color:var(--text);font-weight:500}
+.search-result-meta{font-size:11px;color:var(--text2);margin-top:1px}
+.search-empty{text-align:center;padding:40px 20px;color:var(--text2);font-size:13px}
+.search-footer{padding:10px 16px;border-top:1px solid var(--border);
+  display:flex;gap:16px;font-size:11px;color:var(--muted)}
+
+/* CLIENT DETAIL MODAL */
+.client-modal-overlay{position:fixed;inset:0;background:rgba(5,16,31,.88);z-index:7000;
+  display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .2s ease}
+.client-modal{background:var(--card);border:1px solid var(--border2);border-radius:14px;
+  width:100%;max-width:640px;max-height:85vh;overflow-y:auto}
+.client-modal-head{padding:24px 24px 16px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:flex-start}
+.client-modal-name{font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:700}
+.client-modal-body{padding:20px 24px}
+.client-stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.client-stat{background:var(--bg2);border:1px solid var(--border);border-radius:10px;
+  padding:14px;text-align:center}
+.client-stat strong{font-family:'Space Grotesk',sans-serif;font-size:22px;color:var(--cyan);display:block}
+.client-stat small{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em}
+.client-section-title{font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;
+  letter-spacing:.1em;margin:16px 0 8px}
+.client-resource-list{display:grid;gap:6px}
+.client-resource-item{display:flex;align-items:center;gap:10px;padding:8px 10px;
+  background:var(--bg2);border-radius:8px;cursor:pointer;transition:background .15s}
+.client-resource-item:hover{background:var(--cyan-d)}
+</style>
   </head><body>
     <div class="header">
       <div class="logo">⚡ LillyTech</div>
@@ -1671,7 +1894,147 @@ function exportPDF() {
     </div>
     ${html}
     <script>window.onload=()=>{window.print();window.onafterprint=()=>window.close();}<\/script>
-  </body></html>`);
+  
+
+
+<!-- CLIENT DETAIL MODAL -->
+<div class="client-modal-overlay" id="clientModalOverlay" style="display:none" onclick="if(event.target===this)closeClientModal()">
+  <div class="client-modal" id="clientModalBox">
+    <!-- filled dynamically -->
+  </div>
+</div>
+<!-- GLOBAL SEARCH -->
+<div class="search-overlay" id="searchOverlay" style="display:none" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="globalSearchInput" placeholder="Buscar en recursos, clientes, proyectos, clases…" 
+        oninput="runGlobalSearch(this.value)" onkeydown="searchKeyNav(event)">
+      <span class="search-kbd" style="cursor:pointer" onclick="closeSearch()">ESC</span>
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="search-empty">Escribe para buscar en toda tu biblioteca</div>
+    </div>
+    <div class="search-footer">
+      <span>↑↓ Navegar</span>
+      <span>Enter Abrir</span>
+      <span>ESC Cerrar</span>
+    </div>
+  </div>
+</div>
+<!-- ONBOARDING MODAL -->
+<div class="onboarding-overlay" id="onboardingOverlay" style="display:none">
+  <div class="onboarding-box">
+    <!-- STEP 1 -->
+    <div class="onboarding-step active" id="obs1">
+      <div class="onboarding-logo">⚡ LillyTech<span>Tu asistente estratégica con IA</span></div>
+      <div class="onboarding-title">Bienvenida a tu sistema operativo personal</div>
+      <div class="onboarding-desc">LillyTech convierte lo que sabes en recursos listos para usar — clases, propuestas, planes de negocio, contenido y más. Todo con IA, en minutos.</div>
+      <div class="onboarding-cards">
+        <div class="onboarding-card">
+          <div class="oc-icon">⚡</div>
+          <div class="oc-title">Generador IA</div>
+          <div class="oc-desc">Clases, rutas, contenido, automatizaciones y propuestas completas</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">💼</div>
+          <div class="oc-title">Asesor de Negocios</div>
+          <div class="oc-desc">Tu plan de negocio personalizado basado en lo que tienes</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">👤</div>
+          <div class="oc-title">CRM de Clientes</div>
+          <div class="oc-desc">Seguimiento de clientes vinculado a tus recursos</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">📚</div>
+          <div class="oc-title">Biblioteca Personal</div>
+          <div class="oc-desc">Todo lo que generas, guardado y buscable al instante</div>
+        </div>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot active"></div>
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="closeOnboarding()">Saltar</button>
+          <button class="primary-btn" onclick="obStep(2)">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+    <!-- STEP 2 -->
+    <div class="onboarding-step" id="obs2">
+      <div class="onboarding-logo">⚡ LillyTech</div>
+      <div class="onboarding-title">¿Cómo funciona?</div>
+      <div class="onboarding-desc">Es muy simple. Elige qué quieres crear, llena el formulario con tu contexto real, y la IA genera el recurso completo. Se guarda automáticamente en tu biblioteca.</div>
+      <div style="display:grid;gap:12px;margin-bottom:24px">
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">1️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Elige el tipo de recurso</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">Clase, ruta, contenido, automatización, propuesta o plan de negocio</p></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">2️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Describe tu contexto real</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">Cuanto más específico seas, mejor es el resultado</p></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">3️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Genera, copia o exporta</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">El resultado aparece en tiempo real. Cópialo, exporta a .txt o PDF, o úsalo para crear algo más</p></div>
+        </div>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot active"></div>
+          <div class="onboarding-dot"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="obStep(1)">← Atrás</button>
+          <button class="primary-btn" onclick="obStep(3)">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+    <!-- STEP 3 -->
+    <div class="onboarding-step" id="obs3">
+      <div class="onboarding-logo">⚡ LillyTech</div>
+      <div class="onboarding-title">Listo para empezar 🚀</div>
+      <div class="onboarding-desc">Te recomendamos empezar con una de estas opciones según lo que necesites hoy:</div>
+      <div style="display:grid;gap:10px;margin-bottom:24px">
+        <button onclick="closeOnboarding();showView('propuestas');selectType('clase')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">🎓</span>
+          <div><strong style="font-size:13px;display:block">Crear una clase</strong><span style="font-size:11px;color:var(--text2)">Ideal si enseñas o capacitas equipos</span></div>
+        </button>
+        <button onclick="closeOnboarding();showView('asesor')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">💼</span>
+          <div><strong style="font-size:13px;display:block">Diseñar un negocio</strong><span style="font-size:11px;color:var(--text2)">Ideal si quieres emprender o diversificar ingresos</span></div>
+        </button>
+        <button onclick="closeOnboarding();showView('propuestas');selectType('propuesta')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">📄</span>
+          <div><strong style="font-size:13px;display:block">Crear una propuesta</strong><span style="font-size:11px;color:var(--text2)">Ideal si tienes un cliente y necesitas venderle</span></div>
+        </button>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot active"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="obStep(2)">← Atrás</button>
+          <button class="primary-btn" onclick="closeOnboarding()">¡Empezar! ⚡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>`);
   win.document.close();
   showToast('📄 Abriendo vista de impresión / PDF…', 'ok');
 }
@@ -2055,16 +2418,22 @@ function renderClients() {
   if (!el) return;
   if (!items.length) { el.innerHTML = '<p class="empty-msg">Agrega tu primer cliente.</p>'; return; }
   const statusColors = { Prospecto:'#6ea5c8', Contactado:'#7c3aed', Cotizado:'#f59e0b', 'En proceso':'#00c8f0', Finalizado:'#10b981' };
-  el.innerHTML = items.map(c => `
-    <div class="client-card">
+  el.innerHTML = items.map(c => {
+    const resCount = db.get(SK.resources).filter(r => r.client === c.name).length;
+    return `
+    <div class="client-card" onclick="openClientDetail('${c.id}')" style="cursor:pointer">
       <div class="cli-head">
         <div class="cli-name">${c.name}</div>
         <span class="badge" style="background:${statusColors[c.status]||'#888'}22;color:${statusColors[c.status]||'#888'}">${c.status}</span>
       </div>
       ${c.needs?`<div class="cli-needs">📋 ${c.needs}</div>`:''}
       ${c.next?`<div class="cli-action">→ ${c.next}</div>`:''}
-      <div style="margin-top:8px"><button class="s-del" onclick="delClient('${c.id}')">× Eliminar</button></div>
-    </div>`).join('');
+      <div style="margin-top:10px;display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:11px;color:var(--text2)">${resCount} recurso${resCount!==1?'s':''} generado${resCount!==1?'s':''}</span>
+        <button class="s-del" onclick="event.stopPropagation();delClient('${c.id}')">× Eliminar</button>
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function saveClient() {
@@ -2084,7 +2453,59 @@ function saveClient() {
   showToast('👤 Cliente guardado', 'ok');
 }
 
-function delClient(id) { db.del(SK.clients,id); renderClients(); }
+function delClient(id) { db.del(SK.clients,id); renderClients(); renderDashboard(); }
+
+function openClientDetail(id) {
+  const clients = db.get(SK.clients);
+  const c = clients.find(x => x.id === id);
+  if (!c) return;
+  const resources = db.get(SK.resources).filter(r => r.client === c.name);
+  const projects  = db.get(SK.projects).filter(p => p.client === c.name);
+  const statusColors = { Prospecto:'#6ea5c8', Contactado:'#7c3aed', Cotizado:'#f59e0b', 'En proceso':'#00c8f0', Finalizado:'#10b981' };
+  const statusColor = statusColors[c.status] || '#888';
+
+  const box = document.getElementById('clientModalBox');
+  box.innerHTML = `
+    <div class="client-modal-head">
+      <div>
+        <p style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px">Ficha de cliente</p>
+        <div class="client-modal-name">👤 ${c.name}</div>
+        <span class="badge" style="background:${statusColor}22;color:${statusColor};margin-top:6px;display:inline-block">${c.status}</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="primary-btn" style="font-size:12px;padding:6px 12px" onclick="closeClientModal();showView('propuestas');document.getElementById('fClientLink').value='${c.name}';populateClientSelector()">⚡ Generar recurso</button>
+        <button class="close-x" onclick="closeClientModal()">×</button>
+      </div>
+    </div>
+    <div class="client-modal-body">
+      <div class="client-stat-row">
+        <div class="client-stat"><strong>${resources.length}</strong><small>Recursos</small></div>
+        <div class="client-stat"><strong>${projects.length}</strong><small>Proyectos</small></div>
+        <div class="client-stat"><strong>${resources.filter(r=>r.type==='propuesta').length}</strong><small>Propuestas</small></div>
+      </div>
+      ${c.needs?`<div class="client-section-title">Necesidades</div><p style="font-size:13px;color:var(--text2);line-height:1.6">${c.needs}</p>`:''}
+      ${c.next?`<div class="client-section-title">Próxima acción</div><p style="font-size:13px;color:var(--cyan)">→ ${c.next}</p>`:''}
+      ${resources.length ? `
+        <div class="client-section-title">Recursos generados (${resources.length})</div>
+        <div class="client-resource-list">
+          ${resources.map(r => {
+            const icon = r.type==='clase'?'🎓':r.type==='contenido'?'📱':r.type==='propuesta'?'📄':r.type==='automatizacion'?'⚙️':'🗺️';
+            const date = new Date(r.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
+            return `<div class="client-resource-item" onclick="closeClientModal();loadSaved('${r.id}')">
+              <span style="font-size:15px">${icon}</span>
+              <div><div style="font-size:12px;font-weight:600;color:var(--text)">${r.topic}</div>
+              <div style="font-size:11px;color:var(--text2)">${TYPE_LABELS[r.type]||''} · ${date}</div></div>
+            </div>`;
+          }).join('')}
+        </div>` : '<p style="font-size:13px;color:var(--muted);margin-top:12px">Aún no hay recursos vinculados a este cliente.</p>'}
+    </div>
+  `;
+  document.getElementById('clientModalOverlay').style.display = 'flex';
+}
+
+function closeClientModal() {
+  document.getElementById('clientModalOverlay').style.display = 'none';
+}
 
 // ── SOLUTIONS ────────────────────────────────────────────────
 function renderSolutions() {
@@ -2122,11 +2543,137 @@ function openForm(id)   { document.getElementById(id)?.classList.add('on'); }
 function closeForm(id)  { document.getElementById(id)?.classList.remove('on'); }
 
 // ── EVENT LISTENERS ──────────────────────────────────────────
+
+// ── GLOBAL SEARCH ─────────────────────────────────────────────
+let searchSelectedIdx = -1;
+
+function openSearch() {
+  document.getElementById('searchOverlay').style.display = 'flex';
+  setTimeout(() => document.getElementById('globalSearchInput').focus(), 50);
+}
+
+function closeSearch() {
+  document.getElementById('searchOverlay').style.display = 'none';
+  document.getElementById('globalSearchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '<div class="search-empty">Escribe para buscar en toda tu biblioteca</div>';
+  searchSelectedIdx = -1;
+}
+
+function runGlobalSearch(q) {
+  const el = document.getElementById('searchResults');
+  if (!q || q.length < 2) {
+    el.innerHTML = '<div class="search-empty">Escribe para buscar en toda tu biblioteca</div>';
+    return;
+  }
+  const ql = q.toLowerCase();
+  let html = '';
+
+  // Resources
+  const resources = db.get(SK.resources).filter(r =>
+    r.topic?.toLowerCase().includes(ql) || (TYPE_LABELS[r.type]||'').toLowerCase().includes(ql)
+  );
+  if (resources.length) {
+    html += '<div class="search-section-label">Recursos generados</div>';
+    html += resources.slice(0,5).map(r => {
+      const date = new Date(r.date).toLocaleDateString('es-CR',{day:'2-digit',month:'short'});
+      return `<div class="search-result-item" onclick="closeSearch();loadSaved('${r.id}')">
+        <span class="search-result-icon">${r.type==='clase'?'🎓':r.type==='contenido'?'📱':r.type==='propuesta'?'📄':r.type==='automatizacion'?'⚙️':'🗺️'}</span>
+        <div><div class="search-result-title">${r.topic}</div>
+        <div class="search-result-meta">${TYPE_LABELS[r.type]||''} · ${date}${r.fav?' · ⭐':''}</div></div>
+      </div>`;
+    }).join('');
+  }
+
+  // Clients
+  const clients = db.get(SK.clients).filter(c =>
+    c.name?.toLowerCase().includes(ql) || c.needs?.toLowerCase().includes(ql)
+  );
+  if (clients.length) {
+    html += '<div class="search-section-label">Clientes</div>';
+    html += clients.slice(0,3).map(c =>
+      `<div class="search-result-item" onclick="closeSearch();showView('clientes')">
+        <span class="search-result-icon">👤</span>
+        <div><div class="search-result-title">${c.name}</div>
+        <div class="search-result-meta">${c.status}${c.next?' · → '+c.next:''}</div></div>
+      </div>`
+    ).join('');
+  }
+
+  // Projects
+  const projects = db.get(SK.projects).filter(p =>
+    p.name?.toLowerCase().includes(ql) || p.client?.toLowerCase().includes(ql)
+  );
+  if (projects.length) {
+    html += '<div class="search-section-label">Proyectos</div>';
+    html += projects.slice(0,3).map(p =>
+      `<div class="search-result-item" onclick="closeSearch();showView('proyectos')">
+        <span class="search-result-icon">📊</span>
+        <div><div class="search-result-title">${p.name}</div>
+        <div class="search-result-meta">${p.client||''} · ${p.status||''}</div></div>
+      </div>`
+    ).join('');
+  }
+
+  // Classes
+  const classes = db.get(SK.classes).filter(c =>
+    c.title?.toLowerCase().includes(ql) || c.topic?.toLowerCase().includes(ql)
+  );
+  if (classes.length) {
+    html += '<div class="search-section-label">Clases</div>';
+    html += classes.slice(0,3).map(c =>
+      `<div class="search-result-item" onclick="closeSearch();showView('clases')">
+        <span class="search-result-icon">📅</span>
+        <div><div class="search-result-title">${c.title||c.topic}</div>
+        <div class="search-result-meta">${c.date||''} · ${c.audience||''}</div></div>
+      </div>`
+    ).join('');
+  }
+
+  el.innerHTML = html || '<div class="search-empty">Sin resultados para "<strong>' + q + '</strong>"</div>';
+}
+
+function searchKeyNav(e) {
+  if (e.key === 'Escape') { closeSearch(); return; }
+  const items = document.querySelectorAll('.search-result-item');
+  if (!items.length) return;
+  if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    searchSelectedIdx = Math.min(searchSelectedIdx + 1, items.length - 1);
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    searchSelectedIdx = Math.max(searchSelectedIdx - 1, 0);
+  } else if (e.key === 'Enter' && searchSelectedIdx >= 0) {
+    items[searchSelectedIdx].click();
+    return;
+  }
+  items.forEach((el, i) => el.style.background = i === searchSelectedIdx ? 'var(--cyan-d)' : '');
+}
+
+// ── ONBOARDING ────────────────────────────────────────────────
+function initOnboarding() {
+  const seen = localStorage.getItem('ll_onboarding_done');
+  if (!seen) {
+    document.getElementById('onboardingOverlay').style.display = 'flex';
+  }
+}
+
+function obStep(n) {
+  document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
+  const step = document.getElementById('obs' + n);
+  if (step) step.classList.add('active');
+}
+
+function closeOnboarding() {
+  document.getElementById('onboardingOverlay').style.display = 'none';
+  localStorage.setItem('ll_onboarding_done', '1');
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initDate();
   renderDashboard();
   renderTemplates();
   renderSolutions();
+  initOnboarding();
 
   // Navigation
   document.querySelectorAll('[data-view]').forEach(el => {
@@ -2189,10 +2736,156 @@ document.addEventListener('DOMContentLoaded', () => {
   // Enter key in forms
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
+      closeSearch();
+      closeClientModal();
       ['contentFormWrap','classFormWrap','projectFormWrap','clientFormWrap'].forEach(id => closeForm(id));
+    }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
     }
   });
 });
 </script>
+
+
+
+<!-- CLIENT DETAIL MODAL -->
+<div class="client-modal-overlay" id="clientModalOverlay" style="display:none" onclick="if(event.target===this)closeClientModal()">
+  <div class="client-modal" id="clientModalBox">
+    <!-- filled dynamically -->
+  </div>
+</div>
+<!-- GLOBAL SEARCH -->
+<div class="search-overlay" id="searchOverlay" style="display:none" onclick="if(event.target===this)closeSearch()">
+  <div class="search-box">
+    <div class="search-input-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="globalSearchInput" placeholder="Buscar en recursos, clientes, proyectos, clases…" 
+        oninput="runGlobalSearch(this.value)" onkeydown="searchKeyNav(event)">
+      <span class="search-kbd" style="cursor:pointer" onclick="closeSearch()">ESC</span>
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="search-empty">Escribe para buscar en toda tu biblioteca</div>
+    </div>
+    <div class="search-footer">
+      <span>↑↓ Navegar</span>
+      <span>Enter Abrir</span>
+      <span>ESC Cerrar</span>
+    </div>
+  </div>
+</div>
+<!-- ONBOARDING MODAL -->
+<div class="onboarding-overlay" id="onboardingOverlay" style="display:none">
+  <div class="onboarding-box">
+    <!-- STEP 1 -->
+    <div class="onboarding-step active" id="obs1">
+      <div class="onboarding-logo">⚡ LillyTech<span>Tu asistente estratégica con IA</span></div>
+      <div class="onboarding-title">Bienvenida a tu sistema operativo personal</div>
+      <div class="onboarding-desc">LillyTech convierte lo que sabes en recursos listos para usar — clases, propuestas, planes de negocio, contenido y más. Todo con IA, en minutos.</div>
+      <div class="onboarding-cards">
+        <div class="onboarding-card">
+          <div class="oc-icon">⚡</div>
+          <div class="oc-title">Generador IA</div>
+          <div class="oc-desc">Clases, rutas, contenido, automatizaciones y propuestas completas</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">💼</div>
+          <div class="oc-title">Asesor de Negocios</div>
+          <div class="oc-desc">Tu plan de negocio personalizado basado en lo que tienes</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">👤</div>
+          <div class="oc-title">CRM de Clientes</div>
+          <div class="oc-desc">Seguimiento de clientes vinculado a tus recursos</div>
+        </div>
+        <div class="onboarding-card">
+          <div class="oc-icon">📚</div>
+          <div class="oc-title">Biblioteca Personal</div>
+          <div class="oc-desc">Todo lo que generas, guardado y buscable al instante</div>
+        </div>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot active"></div>
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="closeOnboarding()">Saltar</button>
+          <button class="primary-btn" onclick="obStep(2)">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+    <!-- STEP 2 -->
+    <div class="onboarding-step" id="obs2">
+      <div class="onboarding-logo">⚡ LillyTech</div>
+      <div class="onboarding-title">¿Cómo funciona?</div>
+      <div class="onboarding-desc">Es muy simple. Elige qué quieres crear, llena el formulario con tu contexto real, y la IA genera el recurso completo. Se guarda automáticamente en tu biblioteca.</div>
+      <div style="display:grid;gap:12px;margin-bottom:24px">
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">1️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Elige el tipo de recurso</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">Clase, ruta, contenido, automatización, propuesta o plan de negocio</p></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">2️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Describe tu contexto real</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">Cuanto más específico seas, mejor es el resultado</p></div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--bg2);border-radius:10px;border:1px solid var(--border)">
+          <span style="font-size:20px;flex-shrink:0">3️⃣</span>
+          <div><strong style="font-size:13px;color:var(--text)">Genera, copia o exporta</strong><p style="font-size:12px;color:var(--text2);margin-top:3px">El resultado aparece en tiempo real. Cópialo, exporta a .txt o PDF, o úsalo para crear algo más</p></div>
+        </div>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot active"></div>
+          <div class="onboarding-dot"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="obStep(1)">← Atrás</button>
+          <button class="primary-btn" onclick="obStep(3)">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+    <!-- STEP 3 -->
+    <div class="onboarding-step" id="obs3">
+      <div class="onboarding-logo">⚡ LillyTech</div>
+      <div class="onboarding-title">Listo para empezar 🚀</div>
+      <div class="onboarding-desc">Te recomendamos empezar con una de estas opciones según lo que necesites hoy:</div>
+      <div style="display:grid;gap:10px;margin-bottom:24px">
+        <button onclick="closeOnboarding();showView('propuestas');selectType('clase')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">🎓</span>
+          <div><strong style="font-size:13px;display:block">Crear una clase</strong><span style="font-size:11px;color:var(--text2)">Ideal si enseñas o capacitas equipos</span></div>
+        </button>
+        <button onclick="closeOnboarding();showView('asesor')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">💼</span>
+          <div><strong style="font-size:13px;display:block">Diseñar un negocio</strong><span style="font-size:11px;color:var(--text2)">Ideal si quieres emprender o diversificar ingresos</span></div>
+        </button>
+        <button onclick="closeOnboarding();showView('propuestas');selectType('propuesta')" 
+          style="display:flex;gap:12px;align-items:center;padding:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;cursor:pointer;text-align:left;color:var(--text);transition:border-color .2s"
+          onmouseover="this.style.borderColor='var(--cyan)'" onmouseout="this.style.borderColor='var(--border)'">
+          <span style="font-size:22px">📄</span>
+          <div><strong style="font-size:13px;display:block">Crear una propuesta</strong><span style="font-size:11px;color:var(--text2)">Ideal si tienes un cliente y necesitas venderle</span></div>
+        </button>
+      </div>
+      <div class="onboarding-nav">
+        <div class="onboarding-dots">
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot"></div>
+          <div class="onboarding-dot active"></div>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="onboarding-skip" onclick="obStep(2)">← Atrás</button>
+          <button class="primary-btn" onclick="closeOnboarding()">¡Empezar! ⚡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
