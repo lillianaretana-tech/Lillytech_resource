@@ -2138,8 +2138,7 @@ document.addEventListener('DOMContentLoaded', () => {
 <div class="cli-modal-overlay" id="cliModalOverlay" style="display:none" onclick="if(event.target===this)cliModalClose()">
   <div class="cli-modal" id="cliModalBox"></div>
 </div>
-</body>
-</html>'<div class="cli-res-item" data-rid="' + r.id + '" onclick="cliModalClose();loadSaved(this.dataset.rid)">'
+'<div class="cli-res-item" data-rid="' + r.id + '" onclick="cliModalClose();loadSaved(this.dataset.rid)">'
         + '<span style="font-size:15px">' + ic + '</span>'
         + '<div><div style="font-size:12px;font-weight:600;color:var(--text)">' + r.topic + '</div>'
         + '<div style="font-size:11px;color:var(--text2)">' + (TYPE_LABELS[r.type] || '') + ' · ' + dt + '</div></div>'
