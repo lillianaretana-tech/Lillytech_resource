@@ -1132,6 +1132,7 @@ Cuerpo: [Email completo con saludo personalizado, presentación del problema, pr
 // ── API CALL WITH STREAMING ──────────────────────────────────
 async function generateResource() {
   if (isGenerating) return;
+  console.log('[LillyTech] generateResource fired, activeType:', activeType);
   const topic = document.getElementById('fTopic').value.trim();
   const brief = document.getElementById('fBrief').value.trim();
   if (!topic || !brief) { showToast('Completa al menos el tema y el contexto ✏️', 'err'); return; }
@@ -1151,6 +1152,7 @@ async function generateResource() {
   const btn = document.getElementById('generateBtn');
   btn.disabled = true;
   btn.textContent = '⏳ Generando...';
+  console.log('[LillyTech] Calling worker, type:', activeType, 'topic:', topic);
 
   const panel = document.getElementById('proposalOutput');
   panel.innerHTML = `
@@ -1225,13 +1227,13 @@ async function generateResource() {
     showToast(`✅ ${TYPE_LABELS[activeType]} generada con éxito`, 'ok');
 
   } catch (err) {
-    panel.innerHTML = `
-      <div class="output-empty">
-        <div class="big-icon">⚠️</div>
-        <h3>Error al generar</h3>
-        <p>${err.message}</p>
-        <button class="ghost-btn" onclick="generateResource()" style="margin-top:12px">Reintentar</button>
-      </div>`;
+    console.error('[LillyTech] Generate error:', err);
+    panel.innerHTML = '<div class="output-empty">'
+      + '<div class="big-icon">⚠️</div>'
+      + '<h3>Error al generar</h3>'
+      + '<p>' + (err.message || 'Error desconocido') + '</p>'
+      + '<button class="ghost-btn" onclick="generateResource()" style="margin-top:12px">Reintentar</button>'
+      + '</div>';
     showToast('Error: ' + err.message, 'err');
   } finally {
     isGenerating = false;
