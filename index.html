@@ -419,6 +419,9 @@ select{appearance:none;cursor:pointer}
       <button class="nav-link" data-view="soluciones">
         <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>Soluciones
       </button>
+      <button class="nav-link" data-view="asesor">
+        <svg class="nav-icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Asesor de Negocios
+      </button>
     </nav>
     <div class="sidebar-foot">
       <span class="pulse-dot"></span><small>Sistema activo</small>
@@ -658,6 +661,76 @@ select{appearance:none;cursor:pointer}
         <div><p class="eyebrow">Ecosistema de herramientas</p><h3>Soluciones LillyTech</h3><p class="muted">Productos y herramientas del ecosistema digital.</p></div>
       </div>
       <div class="solution-grid" id="solutionGrid"></div>
+    </section>
+
+
+    <!-- ====== ASESOR DE NEGOCIOS ====== -->
+    <section class="view" id="asesor" data-title="Asesor de Negocios">
+      <div class="module-head">
+        <div>
+          <p class="eyebrow">Tu consejero estratégico personal</p>
+          <h3>Asesor de Negocios con IA</h3>
+          <p class="muted">Dime qué tienes y te digo qué negocio crear, cómo arrancarlo y cómo hacerlo crecer.</p>
+        </div>
+      </div>
+      <div class="builder-layout">
+        <!-- FORM -->
+        <div class="card builder-form">
+          <p class="eyebrow" style="margin-bottom:10px">¿Qué tienes disponible?</p>
+
+          <label>💰 Capital o presupuesto inicial
+            <input type="text" id="aCash" placeholder="Ej: $500, $2000, sin capital inicial…">
+          </label>
+
+          <label class="gap-top">⏰ Tiempo disponible
+            <input type="text" id="aTime" placeholder="Ej: 2 horas al día, fines de semana, tiempo completo…">
+          </label>
+
+          <label class="gap-top">🧠 Habilidades o conocimientos que tienes
+            <textarea id="aSkills" rows="3" placeholder="Ej: sé de IA, manejo Excel avanzado, tengo experiencia en limpieza comercial, sé diseñar en Canva…"></textarea>
+          </label>
+
+          <label class="gap-top">🛠️ Herramientas o recursos que ya tienes
+            <input type="text" id="aTools" placeholder="Ej: laptop, carro, cuenta de Make.com, suscripción ChatGPT, contactos en empresas…">
+          </label>
+
+          <label class="gap-top">👥 Red de contactos o acceso a mercado
+            <input type="text" id="aNetwork" placeholder="Ej: conozco dueños de pymes, tengo 500 seguidores en LinkedIn, trabajo en RRHH…">
+          </label>
+
+          <label class="gap-top">📍 País / ciudad / zona
+            <input type="text" id="aLocation" placeholder="Ej: San José, Costa Rica / Colombia / México…">
+          </label>
+
+          <label class="gap-top">🎯 ¿Tienes alguna idea o preferencia de negocio?
+            <input type="text" id="aIdea" placeholder="Ej: quiero algo digital, prefiero no atender público, me gustan los servicios B2B… (opcional)">
+          </label>
+
+          <label class="gap-top">⚠️ Restricciones o limitaciones importantes
+            <textarea id="aLimits" rows="2" placeholder="Ej: no puedo invertir tiempo en fines de semana, no quiero dejar mi trabajo actual todavía…"></textarea>
+          </label>
+
+          <button class="primary-btn" id="asesorBtn" style="margin-top:18px;width:100%;padding:12px;font-size:14px">🚀 Generar plan de negocio</button>
+        </div>
+
+        <!-- OUTPUT -->
+        <article class="card output-panel" id="asesorOutput">
+          <div class="output-empty" id="asesorEmpty">
+            <div class="big-icon">💼</div>
+            <h3>Tu plan de negocio personalizado</h3>
+            <p>Completa el formulario con lo que tienes disponible y la IA te diseñará el negocio más viable para ti.</p>
+          </div>
+        </article>
+
+        <!-- SAVED -->
+        <article class="card" id="asesorSavedPanel">
+          <div class="panel-head">
+            <div><p class="eyebrow">Planes guardados</p><h3>Mis planes de negocio</h3></div>
+            <span class="badge cyan" id="asesorSavedCount">0</span>
+          </div>
+          <div class="saved-list" id="asesorSavedList"><p class="empty-msg">Aún no has guardado planes.</p></div>
+        </article>
+      </div>
     </section>
 
   </main>
@@ -1010,6 +1083,222 @@ Cuerpo: [Email completo con saludo personalizado, presentación del problema, pr
 
     default: return `Genera un recurso detallado sobre: ${topic}\nContexto: ${brief}`;
   }
+}
+
+
+// ── ASESOR DE NEGOCIOS ───────────────────────────────────────
+const ASESOR_SYSTEM = `Eres un asesor experto en creación de negocios, con especialización en marketing digital, modelos de negocio viables y estrategia para emprendedores latinoamericanos. Tu misión es analizar los recursos reales que tiene una persona y diseñarle el plan de negocio más viable, práctico y rentable posible. Eres honesto, directo y práctico. No vendes sueños — das pasos concretos. Usas español latinoamericano profesional pero cercano. Incluyes ejemplos y cifras reales del mercado costarricense y latinoamericano cuando es posible.`;
+
+function buildAsesorPrompt(d) {
+  return `Analiza los recursos de esta persona y diseña su plan de negocio óptimo:
+
+RECURSOS DISPONIBLES:
+- Capital: ${d.cash || 'No especificado'}
+- Tiempo: ${d.time || 'No especificado'}
+- Habilidades: ${d.skills || 'No especificado'}
+- Herramientas: ${d.tools || 'No especificado'}
+- Red de contactos: ${d.network || 'No especificado'}
+- Ubicación: ${d.location || 'Costa Rica'}
+- Idea o preferencia: ${d.idea || 'Abierto a sugerencias'}
+- Restricciones: ${d.limits || 'Ninguna especificada'}
+
+Genera un PLAN DE NEGOCIO COMPLETO con estas secciones:
+
+## 🏆 TOP 3 IDEAS DE NEGOCIO VIABLES
+Para cada idea: nombre del negocio, descripción en 2 líneas, por qué es viable con los recursos de esta persona, potencial de ingresos mensual estimado, nivel de dificultad (Bajo/Medio/Alto), tiempo para ver primeros ingresos.
+
+## ⭐ PLAN DETALLADO: OPCIÓN RECOMENDADA #1
+[La más viable según sus recursos específicos]
+
+### ¿Qué es exactamente este negocio?
+[Descripción clara: qué vendes, a quién, cómo]
+
+### Modelo de negocio
+[Cómo genera dinero: precio, frecuencia, ticket promedio, cuántos clientes necesita para vivir de esto]
+
+### Tu cliente ideal
+[Perfil detallado: quién es, qué problema tiene, dónde encontrarlo, qué lo convence]
+
+### Estrategia de marketing para los primeros 90 días
+[Canales específicos, mensajes clave, cómo conseguir los primeros 5-10 clientes con 0 presupuesto o bajo presupuesto]
+
+### Estructura de costos y proyección de ingresos
+[Inversión inicial, costos mensuales, ingresos estimados mes 1, mes 3, mes 6]
+
+### Plan de acción: Primeros 30 días
+[Semana 1, 2, 3, 4: acciones concretas, tareas específicas, metas medibles]
+
+### Primeros 5 clientes: ¿Cómo conseguirlos?
+[Estrategia específica para conseguir los primeros clientes, qué decirles, por dónde empezar]
+
+### Herramientas que necesitas
+[Lista con nombre, para qué, si es gratis o de pago, alternativa gratuita]
+
+### Riesgos principales y cómo mitigarlos
+[Top 3 riesgos reales + solución práctica para cada uno]
+
+### Señales de que vas por buen camino
+[Métricas concretas para saber si el negocio va bien en mes 1, 3 y 6]`;
+}
+
+let asesorOutput = '';
+let asesorGenerating = false;
+
+async function generateAsesor() {
+  if (asesorGenerating) return;
+
+  const cash     = document.getElementById('aCash')?.value.trim();
+  const skills   = document.getElementById('aSkills')?.value.trim();
+
+  if (!cash && !skills) {
+    showToast('Completa al menos el capital y tus habilidades ✏️', 'err');
+    return;
+  }
+
+  const d = {
+    cash,
+    time:     document.getElementById('aTime')?.value.trim(),
+    skills,
+    tools:    document.getElementById('aTools')?.value.trim(),
+    network:  document.getElementById('aNetwork')?.value.trim(),
+    location: document.getElementById('aLocation')?.value.trim(),
+    idea:     document.getElementById('aIdea')?.value.trim(),
+    limits:   document.getElementById('aLimits')?.value.trim(),
+  };
+
+  asesorGenerating = true;
+  asesorOutput = '';
+  const btn = document.getElementById('asesorBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Analizando tu perfil...';
+
+  const panel = document.getElementById('asesorOutput');
+  panel.innerHTML = `<div class="loading-state"><div class="spinner"></div><div class="loading-label">Diseñando tu plan de negocio personalizado...</div></div>`;
+
+  try {
+    const response = await fetch('https://lillytech-proxy.lilliana-retana.workers.dev', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'gpt-4o',
+        max_tokens: 4096,
+        stream: true,
+        messages: [
+          { role: 'system', content: ASESOR_SYSTEM },
+          { role: 'user',   content: buildAsesorPrompt(d) }
+        ]
+      })
+    });
+
+    if (!response.ok) {
+      const e = await response.json().catch(()=>({}));
+      throw new Error(e.error?.message || `Error HTTP ${response.status}`);
+    }
+
+    panel.innerHTML = `
+      <div class="output-header">
+        <h4 id="asesorTitle">Plan de Negocio Personalizado</h4>
+        <div class="output-actions" id="asesorActions" style="display:none">
+          <button class="icon-btn" onclick="copyAsesor()">📋 Copiar</button>
+          <button class="icon-btn green" onclick="saveAsesor()">💾 Guardar</button>
+          <button class="icon-btn amber" onclick="exportAsesor()">📥 Exportar .txt</button>
+        </div>
+      </div>
+      <div class="output-body" id="asesorBody"></div>`;
+
+    const reader  = response.body.getReader();
+    const decoder = new TextDecoder();
+    const bodyEl  = document.getElementById('asesorBody');
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const raw = line.slice(6).trim();
+        if (!raw || raw === '[DONE]') continue;
+        try {
+          const parsed = JSON.parse(raw);
+          const text = parsed.choices?.[0]?.delta?.content;
+          if (text) {
+            asesorOutput += text;
+            bodyEl.innerHTML = mdToHtml(asesorOutput) + '<span class="cursor"></span>';
+            panel.scrollTop = panel.scrollHeight;
+          }
+        } catch {}
+      }
+    }
+
+    bodyEl.innerHTML = mdToHtml(asesorOutput);
+    document.getElementById('asesorActions').style.display = 'flex';
+    showToast('✅ Plan de negocio listo', 'ok');
+
+  } catch (err) {
+    panel.innerHTML = `<div class="output-empty"><div class="big-icon">⚠️</div><h3>Error al generar</h3><p>${err.message}</p></div>`;
+    showToast('Error: ' + err.message, 'err');
+  } finally {
+    asesorGenerating = false;
+    btn.disabled = false;
+    btn.textContent = '🚀 Generar plan de negocio';
+  }
+}
+
+function copyAsesor() {
+  navigator.clipboard.writeText(asesorOutput).then(() => showToast('Copiado al portapapeles 📋', 'ok'));
+}
+
+function saveAsesor() {
+  const saved = JSON.parse(localStorage.getItem('ll_asesor') || '[]');
+  saved.unshift({ id: Date.now(), content: asesorOutput, date: new Date().toLocaleDateString('es-CR') });
+  localStorage.setItem('ll_asesor', JSON.stringify(saved));
+  renderAsesorSaved();
+  showToast('Plan guardado 💾', 'ok');
+}
+
+function exportAsesor() {
+  const blob = new Blob([asesorOutput], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'plan-de-negocio.txt';
+  a.click();
+}
+
+function renderAsesorSaved() {
+  const saved = JSON.parse(localStorage.getItem('ll_asesor') || '[]');
+  const list  = document.getElementById('asesorSavedList');
+  const count = document.getElementById('asesorSavedCount');
+  if (!list) return;
+  count.textContent = saved.length;
+  if (!saved.length) { list.innerHTML = '<p class="empty-msg">Aún no has guardado planes.</p>'; return; }
+  list.innerHTML = saved.map(i => `
+    <div class="saved-item" onclick="loadAsesorSaved(${i.id})">
+      <div class="s-icon">💼</div>
+      <div class="s-info">
+        <div class="s-topic">Plan de negocio</div>
+        <div class="s-meta">${i.date}</div>
+      </div>
+    </div>`).join('');
+}
+
+function loadAsesorSaved(id) {
+  const saved = JSON.parse(localStorage.getItem('ll_asesor') || '[]');
+  const item  = saved.find(x => x.id === id);
+  if (!item) return;
+  asesorOutput = item.content;
+  const panel  = document.getElementById('asesorOutput');
+  panel.innerHTML = `
+    <div class="output-header">
+      <h4>Plan de Negocio Guardado</h4>
+      <div class="output-actions" style="display:flex">
+        <button class="icon-btn" onclick="copyAsesor()">📋 Copiar</button>
+        <button class="icon-btn amber" onclick="exportAsesor()">📥 Exportar</button>
+      </div>
+    </div>
+    <div class="output-body">${mdToHtml(item.content)}</div>`;
 }
 
 // ── API CALL WITH STREAMING ──────────────────────────────────
@@ -1593,6 +1882,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Generate button
   document.getElementById('generateBtn')?.addEventListener('click', generateResource);
+
+  // ASESOR DE NEGOCIOS
+  document.getElementById('asesorBtn')?.addEventListener('click', generateAsesor);
+  renderAsesorSaved();
 
   // CONTENT form
   document.getElementById('newContentBtn')?.addEventListener('click', () => openForm('contentFormWrap'));
